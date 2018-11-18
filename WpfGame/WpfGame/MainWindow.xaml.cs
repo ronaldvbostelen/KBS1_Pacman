@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfGame.Controllers;
+using WpfGame.Controllers.Renderer;
 
 namespace WpfGame
 {
@@ -21,18 +22,24 @@ namespace WpfGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Canvas canvas;
+
         public MainWindow()
         {
             InitializeComponent();
+            canvas = GameCanvas;
+
+            Player player = new Player();
+            player.Draw();
 
             Clock clock = new Clock();
             clock.Initialize();
 
-            var score = Score.DrawScore();
+            //var score = Score.DrawScore();
 
-            Canvas.SetTop(score, 0);
-            Canvas.SetRight(score, 0);
-            GameCanvas.Children.Add(score);
+            //Canvas.SetTop(score, 0);
+            //Canvas.SetRight(score, 0);
+            //GameCanvas.Children.Add(score);
         }
     }
 }
