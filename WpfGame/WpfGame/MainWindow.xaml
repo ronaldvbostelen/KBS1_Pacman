@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         Height="500" 
         Width="800">
-    <Grid Name="GameGrid">
-        
-    </Grid>
+    <Canvas Name="GameCanvas">
+
+    </Canvas>
 </Window>
