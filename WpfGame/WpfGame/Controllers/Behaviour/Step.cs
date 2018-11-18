@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfGame.Controllers.Behaviour
 {
-    class Movement
+    class Step
     {
     }
 }
