@@ -63,7 +63,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Behaviour\Step.cs" />
+    <Compile Include="Controllers\Behaviour\Position.cs" />
+    <Compile Include="Controllers\Behaviour\Size.cs" />
     <Compile Include="Controllers\Clock.cs" />
+    <Compile Include="Controllers\Creatures\Enemy.cs" />
+    <Compile Include="Controllers\Creatures\Player.cs" />
+    <Compile Include="Controllers\Creatures\Sprite.cs" />
+    <Compile Include="Controllers\Renderer\SpriteRenderer.cs" />
     <Compile Include="Controllers\Score.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
