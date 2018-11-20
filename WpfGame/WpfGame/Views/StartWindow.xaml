@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfGame.Views.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfGame.Views"
+        mc:Ignorable="d"
+        Title="PacMan"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        Height="500" 
+        Width="800">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/WpfGame;component/Assets/Backgrounds/startwindow.jpg"/>
+        </Grid.Background>
+        <Button x:Name="btnStartGame" Content="Spel starten" Margin="279,156,408,263" BorderThickness="0">
+            <Button.Background>
+                <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnCloseGame" Content="Spel afsluiten" Margin="360,282,327,137" BorderThickness="0">
+            <Button.Background>
+                <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnDesignLevel" Content="Level ontwerpen" Margin="442,156,245,263" BorderThickness="0">
+            <Button.Background>
+                <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Window>
