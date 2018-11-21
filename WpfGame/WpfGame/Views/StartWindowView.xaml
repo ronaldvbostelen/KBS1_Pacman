@@ -1,0 +1,38 @@
+﻿<Page x:Class="WpfGame.Views.StartWindowView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfGame.Views"
+      mc:Ignorable="d" 
+      WindowHeight="500"
+      WindowWidth="800"
+      Height="500"
+      Width="800"
+      ShowsNavigationUI="False"
+      Title="PacMan">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/WpfGame;component/Assets/Backgrounds/startwindow.jpg"/>
+        </Grid.Background>
+        <Button x:Name="btnStartGame" Content="Spel starten" Margin="279,156,421,297" BorderThickness="0" Click="BtnStartGame_Click">
+            <Button.Background>
+                <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnDesignLevel" Content="Level ontwerpen" Margin="442,156,258,297" BorderThickness="0" Click="BtnDesignLevel_Click">
+            <Button.Background>
+                <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnCloseGame" Content="Spel afsluiten" Margin="365,317,335,136" BorderThickness="0" Click="BtnCloseGame_Click" Width="100">
+            <Button.Background>
+                <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
+            </Button.Background>
+        </Button>
+        <DockPanel>
+            <Frame x:Name="_NavigationFrame" NavigationUIVisibility="Hidden" />
+        </DockPanel>
+    </Grid>
+</Page>

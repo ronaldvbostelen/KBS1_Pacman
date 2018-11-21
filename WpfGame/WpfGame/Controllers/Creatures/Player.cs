@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Controllers.Renderer;
+using WpfGame.Views;
 
 namespace WpfGame.Controllers
 {
@@ -27,7 +28,7 @@ namespace WpfGame.Controllers
             Size size = new Size(50, 50);
             image = GetSpriteImage();
 
-            SpriteRenderer.Draw(image, position, size, MainWindow.canvas);
+            SpriteRenderer.Draw(image, position, size, GameView.canvas);
         }
 
         public Image GetSpriteImage()

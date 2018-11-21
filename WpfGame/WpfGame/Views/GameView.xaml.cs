@@ -10,18 +10,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfGame.Controllers;
 
 namespace WpfGame.Views
 {
     /// <summary>
-    /// Interaction logic for StartWindow.xaml
+    /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class GameView : Page
     {
-        public StartWindow()
+        public static Canvas canvas;
+
+        public GameView()
         {
             InitializeComponent();
+            canvas = GameCanvas;
+
+            Player player = new Player();
+            player.Draw();
+
+            Clock clock = new Clock();
+            clock.Initialize();
         }
     }
 }
