@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Creatures;
@@ -14,30 +15,30 @@ namespace WpfGame.Controllers
 {
     class Player : Sprite
     {
-        private Image image;
+        public Image Image { get; set; }
 
         public Player() 
             : base(true)
         {
-            
+            Image = GetSpriteImage();
         }
 
         public void Draw()
         {
             Position position = new Position(50, 50);
             Size size = new Size(50, 50);
-            image = GetSpriteImage();
+            Image = GetSpriteImage();
 
-            SpriteRenderer.Draw(image, position, size, GameView.canvas);
+            SpriteRenderer.Draw(Image, position, size, GameView.Canvas);
         }
 
         public Image GetSpriteImage()
         {
-            image = new Image();
+            Image = new Image();
 
-            image.Source = new BitmapImage(new Uri(@"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png", UriKind.Relative));
+            Image.Source = new BitmapImage(new Uri(@"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png", UriKind.Relative));
 
-            return image;
+            return Image;
         }
     }
 }

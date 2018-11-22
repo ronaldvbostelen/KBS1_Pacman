@@ -6,8 +6,9 @@
       xmlns:local="clr-namespace:WpfGame.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GameView">
-
+      Title="GameView"
+      Loaded="UserControl_Loaded"
+      KeyDown="OnButtonKeyDown">
     <Canvas Name="GameCanvas">
     </Canvas>
 </Page>
