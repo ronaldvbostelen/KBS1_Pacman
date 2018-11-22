@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\Objects\Coin.cs" />
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
@@ -71,12 +72,12 @@
     <Compile Include="Controllers\Behaviour\Step.cs" />
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
-    <Compile Include="Controllers\Clock.cs" />
+    <Compile Include="Controllers\Objects\Clock.cs" />
     <Compile Include="Controllers\Creatures\Enemy.cs" />
     <Compile Include="Controllers\Creatures\Player.cs" />
     <Compile Include="Controllers\Creatures\Sprite.cs" />
-    <Compile Include="Controllers\Renderer\SpriteRenderer.cs" />
-    <Compile Include="Controllers\Score.cs" />
+    <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
+    <Compile Include="Controllers\Objects\Score.cs" />
     <Page Include="Views\EditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +147,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\startwindow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\coin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

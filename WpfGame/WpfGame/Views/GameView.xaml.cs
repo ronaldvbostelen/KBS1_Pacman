@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfGame.Controllers;
+using WpfGame.Controllers.Objects;
 
 namespace WpfGame.Views
 {
@@ -29,10 +30,11 @@ namespace WpfGame.Views
             canvas = GameCanvas;
 
             Player player = new Player();
-            player.Draw();
 
             Clock clock = new Clock();
             clock.Initialize();
+
+            Coin coin = new Coin();
         }
     }
 }
