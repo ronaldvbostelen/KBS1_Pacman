@@ -13,18 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfGame.Controllers;
-using WpfGame.Controllers.Renderer;
 
-namespace WpfGame
+namespace WpfGame.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GameView : Page
     {
         public static Canvas canvas;
 
-        public MainWindow()
+        public GameView()
         {
             InitializeComponent();
             canvas = GameCanvas;
@@ -34,12 +33,6 @@ namespace WpfGame
 
             Clock clock = new Clock();
             clock.Initialize();
-
-            //var score = Score.DrawScore();
-
-            //Canvas.SetTop(score, 0);
-            //Canvas.SetRight(score, 0);
-            //GameCanvas.Children.Add(score);
         }
     }
 }
