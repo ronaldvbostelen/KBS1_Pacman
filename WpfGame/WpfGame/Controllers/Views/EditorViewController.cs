@@ -3,27 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
 {
-    class EditorViewController
+    class EditorViewController : ViewController
     {
-        private Main _main;
         private EditorView _editorView;
 
-        public EditorViewController(Main main)
+        public EditorViewController(Main main) : base (main)
         {
-            _main = main;
             _editorView = new EditorView();
 
-            SetContentOfMain(_main);
-            SetButtonEvents(_editorView);
-        }
-
-        private void SetButtonEvents(EditorView view)
-        {
-            view.ReturnDummy.Click += ReturnDummy_Click;
+            SetContentOfMain(main,_editorView);
+            SetButtonEvents(_editorView.ReturnDummy,ReturnDummy_Click);
         }
 
         private void ReturnDummy_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -31,9 +25,5 @@ namespace WpfGame.Controllers.Views
             new StartWindowViewController(_main);
         }
 
-        private void SetContentOfMain(Main main)
-        {
-            main.Content = _editorView;
-        }
     }
 }

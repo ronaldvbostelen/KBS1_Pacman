@@ -60,6 +60,7 @@
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
+    <Compile Include="Controllers\Views\ViewController.cs" />
     <Compile Include="Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>

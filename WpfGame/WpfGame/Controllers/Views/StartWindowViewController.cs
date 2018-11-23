@@ -8,30 +8,18 @@ using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
 {
-    class StartWindowViewController
+    class StartWindowViewController : ViewController
     {
         private StartWindowView _startWindowView;
-        private Main _main;
 
-        public StartWindowViewController(Main main)
+        public StartWindowViewController(Main main) : base(main)
         {
-            _main = main;
             _startWindowView = new StartWindowView();
 
-            SetContentOfMain(_main);
-            SetButtonEvents(_startWindowView);
-        }
-
-        private void SetContentOfMain(Main main)
-        {
-            main.Content = _startWindowView;
-        }
-
-        private void SetButtonEvents(StartWindowView view)
-        {
-            view.btnCloseGame.Click += BtnCloseGame_Click;
-            view.btnDesignLevel.Click += BtnDesignLevel_Click;
-            view.btnStartGame.Click += BtnStartGameOnClick;
+            SetContentOfMain(main, _startWindowView);
+            SetButtonEvents(_startWindowView.btnCloseGame,BtnCloseGame_Click);
+            SetButtonEvents(_startWindowView.btnDesignLevel,BtnDesignLevel_Click);
+            SetButtonEvents(_startWindowView.btnStartGame,BtnStartGameOnClick);
         }
 
         private void BtnStartGameOnClick(object sender, RoutedEventArgs e)
