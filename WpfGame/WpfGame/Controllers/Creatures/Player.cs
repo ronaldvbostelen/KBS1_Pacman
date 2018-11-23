@@ -28,7 +28,9 @@ namespace WpfGame.Controllers
             Size size = new Size(50, 50);
             image = GetSpriteImage();
 
-            SpriteRenderer.Draw(image, position, size, GameView.canvas);
+                // dit compileerde niet meer
+//            SpriteRenderer.Draw(image, position, size, GameView.canvas);
+
         }
 
         public Image GetSpriteImage()
