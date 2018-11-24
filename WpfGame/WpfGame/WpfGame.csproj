@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\Game\Coin.cs" />
+    <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
@@ -75,7 +77,6 @@
     <Compile Include="Controllers\Creatures\Enemy.cs" />
     <Compile Include="Controllers\Creatures\Player.cs" />
     <Compile Include="Controllers\Creatures\Sprite.cs" />
-    <Compile Include="Controllers\Renderer\SpriteRenderer.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
@@ -87,10 +88,6 @@
       <DependentUpon>StartWindowView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\startwindow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\coin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

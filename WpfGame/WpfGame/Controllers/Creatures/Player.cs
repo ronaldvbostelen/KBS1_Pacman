@@ -14,32 +14,10 @@ namespace WpfGame.Controllers
 {
     class Player : Sprite
     {
-        private Image image;
-
         public Player() 
             : base(true)
         {
-            
-        }
-
-        public void Draw()
-        {
-            Position position = new Position(50, 50);
-            Size size = new Size(50, 50);
-            image = GetSpriteImage();
-
-                // dit compileerde niet meer
-//            SpriteRenderer.Draw(image, position, size, GameView.canvas);
-
-        }
-
-        public Image GetSpriteImage()
-        {
-            image = new Image();
-
-            image.Source = new BitmapImage(new Uri(@"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png", UriKind.Relative));
-
-            return image;
+            SpriteRenderer.Draw(new Position(50, 50), new Size(18, 18), @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png");
         }
     }
 }
