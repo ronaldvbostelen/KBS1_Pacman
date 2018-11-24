@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
+using WpfGame.Controllers.Views;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Renderer
@@ -21,7 +22,7 @@ namespace WpfGame.Controllers.Renderer
 
             Canvas.SetLeft(spriteImage, position.Left - (size.Width / 2));
             Canvas.SetTop(spriteImage, position.Top - (size.Height / 2));
-            GameView.canvas.Children.Add(spriteImage);
+            GameViewController.Canvas.Children.Add(spriteImage);
         }
 
         public static Image GetSpriteImage(string uri)
