@@ -74,7 +74,7 @@
     <Compile Include="Controllers\Behaviour\Step.cs" />
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
-    <Compile Include="Controllers\Game\Clock.cs" />
+    <Compile Include="Controllers\Game\ClockController.cs" />
     <Compile Include="Controllers\Creatures\Enemy.cs" />
     <Compile Include="Controllers\Creatures\Player.cs" />
     <Compile Include="Controllers\Creatures\Sprite.cs" />
