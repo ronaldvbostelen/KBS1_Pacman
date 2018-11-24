@@ -16,6 +16,7 @@ namespace WpfGame.Controllers.Views
             _gameView = new GameView();
             Canvas = _gameView.GameCanvas;
             Player player = new Player();
+            Clock clock = new Clock();
 
             SetContentOfMain(mainWindow, _gameView);
             SetButtonEvents(_gameView.ReturnDummy, ReturnDummy_Click);
