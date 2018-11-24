@@ -61,8 +61,8 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
-    <Compile Include="Main.xaml.cs">
-      <DependentUpon>Main.xaml</DependentUpon>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -86,7 +86,7 @@
     <Compile Include="Views\StartWindowView.xaml.cs">
       <DependentUpon>StartWindowView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Main.xaml">
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

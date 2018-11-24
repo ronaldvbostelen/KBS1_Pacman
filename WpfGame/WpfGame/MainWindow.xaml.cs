@@ -17,11 +17,11 @@ using WpfGame.Views;
 namespace WpfGame
 {
     /// <summary>
-    /// Interaction logic for Main.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Main : Window
+    public partial class MainWindow : Window
     {
-        public Main()
+        public MainWindow()
         {
             InitializeComponent();
             new StartWindowViewController(this);

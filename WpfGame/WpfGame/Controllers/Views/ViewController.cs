@@ -5,11 +5,11 @@ namespace WpfGame.Controllers.Views
 {
     public abstract class ViewController
     {
-        protected Main _main;
+        protected MainWindow _mainWindow;
 
-        protected ViewController(Main main)
+        protected ViewController(MainWindow mainWindow)
         {
-            _main = main;
+            _mainWindow = mainWindow;
         }
         
         protected void SetButtonEvents(Button button, RoutedEventHandler e)
@@ -17,9 +17,9 @@ namespace WpfGame.Controllers.Views
             button.Click += e;
         }
         
-        protected void SetContentOfMain(Main main, UserControl view)
+        protected void SetContentOfMain(MainWindow mainWindow, UserControl view)
         {
-            main.Content = view;
+            mainWindow.Content = view;
         }
     }
 }

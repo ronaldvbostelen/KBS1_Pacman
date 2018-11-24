@@ -1,4 +1,5 @@
-﻿using WpfGame;
+﻿using System.Windows;
+using WpfGame;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
@@ -7,18 +8,18 @@ namespace WpfGame.Controllers.Views
     {
         private GameView _gameView;
 
-        public GameViewController(Main main) : base(main) 
+        public GameViewController(MainWindow mainWindow) : base(mainWindow) 
         {
             _gameView = new GameView();
 
-            SetContentOfMain(main,_gameView);
+            SetContentOfMain(mainWindow,_gameView);
             SetButtonEvents(_gameView.ReturnDummy,ReturnDummy_Click);
         }
 
 
-        private void ReturnDummy_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ReturnDummy_Click(object sender, RoutedEventArgs e)
         {
-            new StartWindowViewController(_main);
+            new StartWindowViewController(_mainWindow);
         }
 
     }

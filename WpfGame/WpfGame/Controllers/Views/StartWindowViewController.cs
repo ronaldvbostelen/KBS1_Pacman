@@ -12,11 +12,11 @@ namespace WpfGame.Controllers.Views
     {
         private StartWindowView _startWindowView;
 
-        public StartWindowViewController(Main main) : base(main)
+        public StartWindowViewController(MainWindow mainWindow) : base(mainWindow)
         {
             _startWindowView = new StartWindowView();
 
-            SetContentOfMain(main, _startWindowView);
+            SetContentOfMain(mainWindow, _startWindowView);
             SetButtonEvents(_startWindowView.btnCloseGame,BtnCloseGame_Click);
             SetButtonEvents(_startWindowView.btnDesignLevel,BtnDesignLevel_Click);
             SetButtonEvents(_startWindowView.btnStartGame,BtnStartGameOnClick);
@@ -24,12 +24,12 @@ namespace WpfGame.Controllers.Views
 
         private void BtnStartGameOnClick(object sender, RoutedEventArgs e)
         {
-            new GameViewController(_main);
+            new GameViewController(_mainWindow);
         }
 
         private void BtnDesignLevel_Click(object sender, RoutedEventArgs e)
         {
-            new EditorViewController(_main);
+            new EditorViewController(_mainWindow);
         }
 
         private void BtnCloseGame_Click(object sender, RoutedEventArgs e)
