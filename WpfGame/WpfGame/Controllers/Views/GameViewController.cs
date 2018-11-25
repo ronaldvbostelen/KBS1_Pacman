@@ -27,9 +27,13 @@ namespace WpfGame.Controllers.Views
             
             _gameView = new GameView();
             _gameValues = new GameValues();
+           
 
-            GameViewController.Canvas = _gameView.GameCanvas;
+            Canvas = _gameView.GameCanvas;
 
+            Player player = new Player(mainWindow);
+
+            SetKeyDownEvents(player.OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _gameView.GameCanvas.KeyDown += GameCanvas_KeyDown;
 
