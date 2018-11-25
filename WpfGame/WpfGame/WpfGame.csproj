@@ -84,14 +84,13 @@
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
     <Compile Include="Controllers\Game\ClockController.cs" />
-    <Compile Include="Controllers\Creatures\Enemy.cs" />
-    <Compile Include="Controllers\Creatures\Player.cs" />
-    <Compile Include="Controllers\Creatures\Sprite.cs" />
+    <Compile Include="Models\Creatures\Enemy.cs" />
+    <Compile Include="Models\Creatures\Player.cs" />
+    <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
     <Compile Include="Models\CoinEdit.cs" />
     <Compile Include="Models\Obstacle.cs" />
     <Compile Include="Models\ObstacleEdit.cs" />
-    <Compile Include="Models\Pacman.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileEdit.cs" />
     <Compile Include="Models\TileMockup.cs" />
