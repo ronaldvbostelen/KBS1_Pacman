@@ -25,7 +25,7 @@ namespace WpfGame.Views
     public partial class GameView : Page
     {
         public static Canvas Canvas;
-        private Player player;
+        private Player _player;
         private double _y, _x;
 
         public GameView()
