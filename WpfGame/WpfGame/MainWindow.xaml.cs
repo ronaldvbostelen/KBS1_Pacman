@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfGame.Controllers;
-using WpfGame.Controllers.Creatures;
 using WpfGame.Controllers.Renderer;
 
 namespace WpfGame
@@ -32,12 +31,6 @@ namespace WpfGame
 
             Player player = new Player();
             player.Draw();
-
-            Enemy enemy = new Enemy(100,100);
-            enemy.Draw();
-
-            Enemy enemy2 = new Enemy(200,200);
-            enemy2.Draw();
 
             Clock clock = new Clock();
             clock.Initialize();
