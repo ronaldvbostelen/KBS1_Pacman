@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfGame.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Canvas Name="GameCanvas" Background="DeepPink">
-            <Button Name="ReturnDummy" Content="return"></Button>
-    </Canvas>
+    <Grid>
+        <Canvas Name="GameCanvas" Background="DeepPink" Focusable="True" />
+    </Grid>
 </UserControl>

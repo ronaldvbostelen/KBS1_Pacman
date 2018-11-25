@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              >
-    <Grid>
+    <Grid Name="Grid" Focusable="True">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -38,6 +38,11 @@
                     <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
                 </Button.Background>
             </Button>
+        </StackPanel>
+        <StackPanel MinHeight="200" MinWidth="75" Name="SelectPlaygroundMenu" Grid.RowSpan="7" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" Visibility="Collapsed">
+            <ListBox MinHeight="100" Margin="5" Name="ListBoxForPlaygroundFiles"/>
+            <Button Margin="5" Name="SelectPlgrnd">Select Playground</Button>
+            <Button Margin="5" Name="CancelSelectPlgrnd">Cancel</Button>
         </StackPanel>
     </Grid>
 </UserControl>

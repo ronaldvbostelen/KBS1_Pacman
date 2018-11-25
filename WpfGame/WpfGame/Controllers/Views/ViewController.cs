@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WpfGame.Controllers.Views
 {
@@ -11,7 +12,12 @@ namespace WpfGame.Controllers.Views
         {
             _mainWindow = mainWindow;
         }
-        
+
+        protected void SetKeyEvents(UIElement element, KeyEventHandler e)
+        {
+            element.KeyDown += e;
+        }
+
         protected void SetButtonEvents(Button button, RoutedEventHandler e)
         {
             button.Click += e;
