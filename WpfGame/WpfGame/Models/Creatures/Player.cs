@@ -19,6 +19,7 @@ namespace WpfGame.Controllers
     {
         public int Y { get; set; }
         public int X { get; set; }
+        public string PlayerImage { get; set; }
 
         public Player() 
             : base(true)

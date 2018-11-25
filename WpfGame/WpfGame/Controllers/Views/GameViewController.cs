@@ -34,7 +34,9 @@ namespace WpfGame.Controllers.Views
             Canvas = _gameView.GameCanvas;
 
             _player = new Player();
-            SpriteRenderer.Draw(new Position(_player.X, _player.Y), new Behaviour.Size(20, 20), @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png");
+            _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
+
+            SpriteRenderer.Draw(new Position(_player.X, _player.Y), new Behaviour.Size(20, 20), _player.PlayerImage);
 
             SetKeyDownEvents(OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
@@ -46,29 +48,27 @@ namespace WpfGame.Controllers.Views
 
         public void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
-            string imageUri = string.Empty;
-
             switch (e.Key)
             {
                 case Key.Down:
                     _player.Y += 25;
-                    imageUri = @"\Assets\Sprites\Pacman\pacman-down-halfopenjaw.png";
+                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-down-halfopenjaw.png";
                     break;
                 case Key.Up:
                     _player.Y -= 25;
-                    imageUri = @"\Assets\Sprites\Pacman\pacman-up-halfopenjaw.png";
+                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-up-halfopenjaw.png";
                     break;
                 case Key.Left:
                     _player.X -= 25;
-                    imageUri = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
+                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
                     break;
                 case Key.Right:
                     _player.X += 25;
-                    imageUri = @"\Assets\Sprites\Pacman\pacman-right-halfopenjaw.png";
+                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-right-halfopenjaw.png";
                     break;
             }
 
-            Image playerImage = SpriteRenderer.GetSpriteImage(imageUri);
+            Image playerImage = SpriteRenderer.GetSpriteImage(_player.PlayerImage);
             Step.SetStep(playerImage, _player.Y, _player.X);
         }
 
