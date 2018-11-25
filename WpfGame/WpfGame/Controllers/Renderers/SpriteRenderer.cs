@@ -19,6 +19,7 @@ namespace WpfGame.Controllers.Renderer
         public static void Draw(Position position, Behaviour.Size size, string spriteUri)
         {
             spriteImage = GetSpriteImage(spriteUri);
+            spriteImage.Tag = "Player";
 
             Canvas.SetLeft(spriteImage, position.Left - (size.Width / 2));
             Canvas.SetTop(spriteImage, position.Top - (size.Height / 2));
@@ -35,5 +36,6 @@ namespace WpfGame.Controllers.Renderer
 
             return spriteImage;
         }
+        
     }
 }

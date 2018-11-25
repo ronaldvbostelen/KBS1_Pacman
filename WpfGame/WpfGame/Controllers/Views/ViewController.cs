@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WpfGame.Controllers.Views
 {
@@ -16,7 +17,12 @@ namespace WpfGame.Controllers.Views
         {
             button.Click += e;
         }
-        
+
+        protected void SetKeyDownEvents(KeyEventHandler e)
+        {
+            _mainWindow.KeyDown += e;
+        }
+
         protected void SetContentOfMain(MainWindow mainWindow, UserControl view)
         {
             mainWindow.Content = view;

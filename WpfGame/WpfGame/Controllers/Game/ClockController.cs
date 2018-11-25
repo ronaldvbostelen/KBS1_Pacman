@@ -20,7 +20,8 @@ namespace WpfGame.Controllers
         private TextBlock _tblTimer;
         private TimeSpan _time;
 
-        public ClockController(MainWindow mainWindow) : base(mainWindow)
+        public ClockController(MainWindow mainWindow) 
+            : base(mainWindow)
         {
             InitializeTimer();
             SetTimerDisplayProperties();

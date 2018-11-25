@@ -10,16 +10,17 @@ namespace WpfGame.Controllers.Views
         private GameView _gameView;
         public static Canvas Canvas;
 
-        public GameViewController(MainWindow mainWindow) 
-            : base(mainWindow) 
+        public GameViewController(MainWindow mainWindow)
+               : base(mainWindow)
         {
             _gameView = new GameView();
             Canvas = _gameView.GameCanvas;
-            Player player = new Player();
+            Player player = new Player(_mainWindow);
             new ClockController(_mainWindow);
 
             SetContentOfMain(mainWindow, _gameView);
             SetButtonEvents(_gameView.ReturnDummy, ReturnDummy_Click);
+            SetKeyDownEvents(player.OnButtonKeyDown);
         }
 
         private void ReturnDummy_Click(object sender, RoutedEventArgs e)
