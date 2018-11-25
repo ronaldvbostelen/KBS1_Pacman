@@ -26,13 +26,13 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _startWindowView);
 
-            SetButtonEvents(_startWindowView.btnCloseGame,BtnCloseGame_Click);
-            SetButtonEvents(_startWindowView.btnDesignLevel,BtnDesignLevel_Click);
-            SetButtonEvents(_startWindowView.btnStartGame,BtnStartGameOnClick);
-            SetButtonEvents(_startWindowView.CancelSelectPlgrnd,BtnCancelSelect_Click);
+            SetButtonEvents(_startWindowView.btnCloseGame, BtnCloseGame_Click);
+            SetButtonEvents(_startWindowView.btnDesignLevel, BtnDesignLevel_Click);
+            SetButtonEvents(_startWindowView.btnStartGame, BtnStartGameOnClick);
+            SetButtonEvents(_startWindowView.CancelSelectPlgrnd, BtnCancelSelect_Click);
             SetButtonEvents(_startWindowView.SelectPlgrnd, BtnConfirmSelect_Click);
 
-            SetKeyEvents(_startWindowView.Grid,Grid_KeyDown);
+            SetKeyEvents(_startWindowView.Grid, Grid_KeyDown);
 
 
             //todo:wrapper

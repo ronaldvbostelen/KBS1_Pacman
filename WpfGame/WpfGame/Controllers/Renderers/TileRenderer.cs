@@ -1,44 +1,38 @@
 ﻿using System.Collections.Generic;
 using WpfGame.Models;
+using WpfGame.Values;
 
 namespace WpfGame.Controllers.Renderer
 {
     public class TileRenderer
     {
-        private List<TileMockup> tileMockups;
+        private List<TileMockup> _tileMockups;
         private List<Tile> tiles;
-        private double tileWidth, tileHeigth;
-        private int amountofXtiles;
-        private double amountofYTiles;
+        private GameValues _gameValues;
 
-        public TileRenderer(List<TileMockup> list, double tileWidth, double tileHeigth, int amountofXTiles, double amountofYTiles)
+        public TileRenderer(List<TileMockup> list, GameValues gameValues)
         {
-            tileMockups = list;
+            _tileMockups = list;
+            _gameValues = gameValues;
             tiles = new List<Tile>();
 
-            this.tileWidth = tileWidth;
-            this.tileHeigth = tileHeigth;
-            this.amountofXtiles = amountofXTiles;
-            this.amountofYTiles = amountofYTiles;
-
-            RenderTiles(tiles, tileMockups);
-
+            RenderTiles(tiles, _tileMockups);
         }
 
         private void RenderTiles(List<Tile> outList, List<TileMockup> inList)
         {
             int counter = 0;
 
-            for (int i = 0; i < amountofYTiles; i++)
+            for (int i = 0; i < _gameValues.AmountofYtiles; i++)
             {
-                for (int j = 0; j < amountofXtiles; j++)
+                for (int j = 0; j < _gameValues.AmountOfXtiles; j++)
                 {
                     var currMockup = inList[counter];
 
-                    var tile = new Tile(tileWidth, tileHeigth, i * tileHeigth, j * tileWidth,
+                    var tile = new Tile(_gameValues.TileWidth, _gameValues.TileHeight, i * _gameValues.TileHeight, j * _gameValues.TileWidth,
                         currMockup.IsWall, currMockup.HasCoin, currMockup.HasObstacle, currMockup.IsStart,
                         currMockup.IsEnd);
-                    tiles.Add(tile);
+                    outList.Add(tile);
 
                     counter++;
                 }

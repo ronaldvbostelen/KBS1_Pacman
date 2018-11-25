@@ -57,17 +57,17 @@ namespace WpfGame.Controllers.Views
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            _gameValues.PlayCanvasHeigth = _gameView.GameCanvas.ActualHeight;
+            _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
             _gameValues.PlayCanvasWidth = _gameView.GameCanvas.ActualWidth;
-            _gameValues.HeigthWidthRatio = _gameValues.PlayCanvasHeigth / _gameValues.PlayCanvasWidth;
+            _gameValues.HeigthWidthRatio = _gameValues.PlayCanvasHeight / _gameValues.PlayCanvasWidth;
             _gameValues.AmountOfXtiles = AmountOfTilesWidth;
             _gameValues.AmountofYtiles =  Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
-            _gameValues.TileWith = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
-            _gameValues.TileHeigth = _gameValues.PlayCanvasHeigth / _gameValues.AmountofYtiles;
+            _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
+            _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
             
             _gameView.GameCanvas.Focus();
 
-            tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(selectedGame).GetOutputList(), _gameValues.TileWith, _gameValues.TileHeigth, _gameValues.AmountOfXtiles, _gameValues.AmountofYtiles).GetRenderdTiles());
+            tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
             LoadTiles(tiles);
         }
 

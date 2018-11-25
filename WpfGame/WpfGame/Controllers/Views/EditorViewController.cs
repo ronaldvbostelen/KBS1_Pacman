@@ -24,7 +24,7 @@ namespace WpfGame.Controllers.Views
         private List<TileEdit> _tileEdits;
         private List<ObstacleEdit> _obstacleEdits;
         private List<CoinEdit> _coinEdits;
-        private SelectedItem SelectedItem;
+        private SelectedItem _selectedItem;
         
 
         public EditorViewController(MainWindow mainWindow) : base (mainWindow)
@@ -38,9 +38,9 @@ namespace WpfGame.Controllers.Views
             _editorView.Loaded += EditorCanvas_Loaded;
             _editorView.MouseDown += EditorView_OnMouseDown;
 
-            SetContentOfMain(mainWindow,_editorView);
-            SetButtonEvents(_editorView.CancelBtn,CancelBtn_Click);
-            SetButtonEvents(_editorView.SaveBtn,SaveBtn_Click);
+            SetContentOfMain(mainWindow, _editorView);
+            SetButtonEvents(_editorView.CancelBtn, CancelBtn_Click);
+            SetButtonEvents(_editorView.SaveBtn, SaveBtn_Click);
 
             _editorView.Focus();
         }
@@ -54,7 +54,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
-                SelectedItem = SelectedItem.Wall;
+                _selectedItem = SelectedItem.Wall;
                 _editorView.CurrentSelectedLabel.Content = "Wall";
             }
 
@@ -66,7 +66,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
-                SelectedItem = SelectedItem.Coin;
+                _selectedItem = SelectedItem.Coin;
                 _editorView.CurrentSelectedLabel.Content = "Coin";
             }
 
@@ -78,7 +78,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Yellow;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
-                SelectedItem = SelectedItem.Obstacle;
+                _selectedItem = SelectedItem.Obstacle;
                 _editorView.CurrentSelectedLabel.Content = "Obstacle";
             }
 
@@ -90,7 +90,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Yellow;
                 _editorView.EndSelect.Stroke = Brushes.Black;
-                SelectedItem = SelectedItem.Start;
+                _selectedItem = SelectedItem.Start;
                 _editorView.CurrentSelectedLabel.Content = "Startpoint";
             }
 
@@ -102,7 +102,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Yellow;
-                SelectedItem = SelectedItem.End;
+                _selectedItem = SelectedItem.End;
                 _editorView.CurrentSelectedLabel.Content = "Endpoint";
             }
 
@@ -115,7 +115,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
                 _editorView.Erase.Stroke = Brushes.Yellow;
-                SelectedItem = SelectedItem.Erase;
+                _selectedItem = SelectedItem.Erase;
                 _editorView.CurrentSelectedLabel.Content = "Erase";
             }
 
@@ -123,7 +123,7 @@ namespace WpfGame.Controllers.Views
             {
                 if (tileEdit.Rectangle.IsMouseOver)
                 {
-                    switch (SelectedItem)
+                    switch (_selectedItem)
                     {
                         case SelectedItem.Wall:
                             if (!tileEdit.HasObstacle && !tileEdit.HasCoin)
@@ -184,7 +184,7 @@ namespace WpfGame.Controllers.Views
             {
                 if (obstacleEdit.Ellipse.IsMouseOver)
                 {
-                    if (SelectedItem == SelectedItem.Erase)
+                    if (_selectedItem == SelectedItem.Erase)
                     {
                         //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt
                         _editorView.EditorCanvas.Children.Remove(obstacleEdit.Ellipse);
@@ -196,7 +196,7 @@ namespace WpfGame.Controllers.Views
             {
                 if (coinEdit.Ellipse.IsMouseOver)
                 {
-                    if (SelectedItem == SelectedItem.Erase)
+                    if (_selectedItem == SelectedItem.Erase)
                     {
                         //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt
                         _editorView.EditorCanvas.Children.Remove(coinEdit.Ellipse);
@@ -227,20 +227,29 @@ namespace WpfGame.Controllers.Views
             }
         }
 
-        private void EditorCanvas_Loaded(object sender, RoutedEventArgs e)
+        private void SetEditorValues()
         {
             _editorValues.PlayCanvasWidth = _editorValues.OriginMainWindowWidth = _mainWindow.ActualWidth;
             _editorValues.PlayCanvasHeigth = _editorView.EditorCanvas.ActualHeight;
             _editorView.ColumnDefinitionOne.Width = new GridLength(_editorValues.PlayCanvasWidth);
             _editorView.ColumnDefinitionTwo.Width = new GridLength(_editorView.EditGrid.Width);
             _mainWindow.Width = _editorValues.PlayCanvasWidth + _editorView.EditGrid.Width;
-            _editorValues.HeigthWidthRatio =  _editorValues.PlayCanvasHeigth / _editorValues.PlayCanvasWidth ;
+            _editorValues.HeigthWidthRatio = _editorValues.PlayCanvasHeigth / _editorValues.PlayCanvasWidth;
             _editorValues.AmountOfXtiles = AmountOfTilesWidth;
-            _editorValues.AmountofYtiles =  _editorValues.AmountOfXtiles * _editorValues.HeigthWidthRatio;
+            _editorValues.AmountofYtiles = _editorValues.AmountOfXtiles * _editorValues.HeigthWidthRatio;
             _editorValues.TileWith = _editorValues.PlayCanvasWidth / _editorValues.AmountOfXtiles;
             _editorValues.TileHeigth = _editorValues.PlayCanvasHeigth / _editorValues.AmountofYtiles;
+        }
 
-            _editorView.EditGrid.Visibility = Visibility.Visible;
+        private void SetEditGridVisibility(Visibility visibility)
+        {
+            _editorView.EditGrid.Visibility = visibility;
+        }
+
+        private void EditorCanvas_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetEditorValues();
+            SetEditGridVisibility(Visibility.Visible);
 
             //dit is niet heel charmant, maar anders zijn de waardes niet geladen voor de aanroep, als iemand het beter weet: doen (en mij vertellen :))
             LoadEditTiles(_tileEdits);
