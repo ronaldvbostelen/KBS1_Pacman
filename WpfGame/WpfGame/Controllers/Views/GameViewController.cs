@@ -14,6 +14,7 @@ namespace WpfGame.Controllers.Views
 {
     public class GameViewController : ViewController
     {
+        public static Canvas Canvas;
         private GameView _gameView;
         private GameValues _gameValues;
         private const int AmountOfTilesWidth = 20;
@@ -23,10 +24,11 @@ namespace WpfGame.Controllers.Views
         public GameViewController(MainWindow mainWindow, string selectedGame) : base(mainWindow)
         {
             this.selectedGame = selectedGame;
-
             
             _gameView = new GameView();
             _gameValues = new GameValues();
+
+            GameViewController.Canvas = _gameView.GameCanvas;
 
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _gameView.GameCanvas.KeyDown += GameCanvas_KeyDown;
