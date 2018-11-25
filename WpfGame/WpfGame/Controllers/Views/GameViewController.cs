@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfGame;
+using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
 using WpfGame.Models;
@@ -20,20 +21,22 @@ namespace WpfGame.Controllers.Views
         private const int AmountOfTilesWidth = 20;
         private string selectedGame;
         private List<Tile> tiles;
+        private Player player;
 
-        public GameViewController(MainWindow mainWindow, string selectedGame) : base(mainWindow)
+        public GameViewController(MainWindow mainWindow, string selectedGame) 
+            : base(mainWindow)
         {
             this.selectedGame = selectedGame;
             
             _gameView = new GameView();
-            _gameValues = new GameValues();
-           
+            _gameValues = new GameValues();       
 
             Canvas = _gameView.GameCanvas;
 
-            Player player = new Player();
+            player = new Player();
+            SpriteRenderer.Draw(new Position(player.X, player.Y), new Behaviour.Size(20, 20), @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png");
 
-            SetKeyDownEvents(player.OnButtonKeyDown);
+            SetKeyDownEvents(OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _gameView.GameCanvas.KeyDown += GameCanvas_KeyDown;
 
@@ -44,6 +47,34 @@ namespace WpfGame.Controllers.Views
         protected void SetKeyDownEvents(KeyEventHandler e)
         {
             _mainWindow.KeyDown += e;
+        }
+
+        public void OnButtonKeyDown(object sender, KeyEventArgs e)
+        {
+            string imageUri = string.Empty;
+
+            switch (e.Key)
+            {
+                case Key.Down:
+                    player.Y += 25;
+                    imageUri = @"\Assets\Sprites\Pacman\pacman-down-halfopenjaw.png";
+                    break;
+                case Key.Up:
+                    player.Y -= 25;
+                    imageUri = @"\Assets\Sprites\Pacman\pacman-up-halfopenjaw.png";
+                    break;
+                case Key.Left:
+                    player.X -= 25;
+                    imageUri = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
+                    break;
+                case Key.Right:
+                    player.X += 25;
+                    imageUri = @"\Assets\Sprites\Pacman\pacman-right-halfopenjaw.png";
+                    break;
+            }
+
+            Image playerImage = SpriteRenderer.GetSpriteImage(imageUri);
+            Step.SetStep(playerImage, player.Y, player.X);
         }
 
         private void LoadTiles(List<Tile> list)

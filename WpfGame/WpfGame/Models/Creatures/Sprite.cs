@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfGame.Controllers.Creatures
 {
-    class Sprite
+    public class Sprite
     {
         private const int SpriteSpeed = 3;
         private bool IsAlive;
