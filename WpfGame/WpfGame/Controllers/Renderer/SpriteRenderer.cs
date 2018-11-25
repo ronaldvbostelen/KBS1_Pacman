@@ -16,8 +16,6 @@ namespace WpfGame.Controllers.Renderer
             Canvas.SetLeft(element, position.Left - (size.Width / 2));
             Canvas.SetTop(element, position.Top - (size.Height / 2));
             canvas.Children.Add(element);
-
-            //test commit Joost
         }
     }
 }
