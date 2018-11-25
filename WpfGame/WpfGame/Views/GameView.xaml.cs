@@ -33,8 +33,8 @@ namespace WpfGame.Views
             InitializeComponent();
             Canvas = GameCanvas;
 
-            player = new Player();
-            player.Draw();
+            _player = new Player();
+            _player.Draw();
 
             Clock clock = new Clock();
             clock.Initialize();
@@ -52,19 +52,19 @@ namespace WpfGame.Views
             {
                 case Key.Down:
                     _y += 25;
-                    Canvas.SetTop(player.Image, _y);
+                    Canvas.SetTop(_player.Image, _y);
                     break;
                 case Key.Up:
                     _y -= 25;
-                    Canvas.SetTop(player.Image, _y);
+                    Canvas.SetTop(_player.Image, _y);
                     break;
                 case Key.Left:
                     _x -= 25;
-                    Canvas.SetLeft(player.Image, _x);
+                    Canvas.SetLeft(_player.Image, _x);
                     break;
                 case Key.Right:
                     _x += 25;
-                    Canvas.SetLeft(player.Image, _x);
+                    Canvas.SetLeft(_player.Image, _x);
                     break;
             }
         }
