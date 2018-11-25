@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using WpfGame.Controllers;
+using WpfGame.Controllers.Behaviour;
+using WpfGame.Controllers.Renderer;
 
 namespace WpfGame.Views
 {
@@ -20,8 +24,6 @@ namespace WpfGame.Views
     /// </summary>
     public partial class GameView : UserControl
     {
-        public static Canvas canvas;
-
         public GameView()
         {
             InitializeComponent();
