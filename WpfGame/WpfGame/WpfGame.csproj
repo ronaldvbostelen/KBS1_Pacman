@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -60,10 +63,16 @@
     <Compile Include="Controllers\Game\Coin.cs" />
     <Compile Include="Controllers\Renderers\ControlRenderer.cs" />
     <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
+    <Compile Include="Controllers\Renderers\TileRenderer.cs" />
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Models\TileCoinEdit.cs" />
+    <Compile Include="Models\TileObstacleEdit.cs" />
+    <Compile Include="Tooling\JsonPlaygroundParser.cs" />
+    <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
+    <Compile Include="Generals\General.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -79,6 +88,16 @@
     <Compile Include="Controllers\Creatures\Player.cs" />
     <Compile Include="Controllers\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
+    <Compile Include="Models\CoinEdit.cs" />
+    <Compile Include="Models\Obstacle.cs" />
+    <Compile Include="Models\ObstacleEdit.cs" />
+    <Compile Include="Models\Pacman.cs" />
+    <Compile Include="Models\Tile.cs" />
+    <Compile Include="Models\TileEdit.cs" />
+    <Compile Include="Models\TileMockup.cs" />
+    <Compile Include="Values\EditorValues.cs" />
+    <Compile Include="Values\GameValues.cs" />
+    <Compile Include="Values\SystemValues.cs" />
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
@@ -123,13 +142,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="bin\Debug\Playgrounds\Playgroundv3.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\WpfGame.exe" />
+    <Content Include="bin\Debug\WpfGame.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\Enemy\blinky-down-2.png" />

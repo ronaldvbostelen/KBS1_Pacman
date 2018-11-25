@@ -6,7 +6,30 @@
              xmlns:local="clr-namespace:WpfGame.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Canvas Name="EditorCanvas" Background="Blue">
-            <Button Name="ReturnDummy" Content="return"></Button>
-    </Canvas>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Name="ColumnDefinitionOne"/>
+            <ColumnDefinition Name="ColumnDefinitionTwo"/>
+        </Grid.ColumnDefinitions>
+
+        <Canvas Grid.Column="0" Name="EditorCanvas" Background="LightSeaGreen"
+                Focusable="True"/>
+        <Grid Grid.Column="1" Width="150" Background="Purple" Name="EditGrid"
+              HorizontalAlignment="Right"
+              Visibility="Collapsed">
+            <StackPanel Name="EditViewStackpanel" VerticalAlignment="Center">
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center">Current selected:</Label>
+                <Label VerticalAlignment="Top" HorizontalAlignment="Center" Name="CurrentSelectedLabel">None</Label>
+                <Rectangle Name="WallSelect" Fill="Black" Width="50" Height="50" Stroke="Black"/>
+                <Ellipse Margin="0 25 0 0" Name="CoinSelect" Width="50" Height="50" Fill="Gold" Stroke="Black" />
+                <Ellipse Margin="0 25 0 0" Name="ObstSelect" Width="50" Height="50" Fill="White" Stroke="Black"/>
+                <Rectangle Margin="0 25 0 0" Name="StartSelect" Fill="Green" Width="50" Height="50" Stroke="Black"/>
+                <Rectangle Margin="0 25 0 0" Name="EndSelect" Fill="Red" Width="50" Height="50" Stroke="Black"/>
+                <Rectangle Margin="0 25 0 0" Name="Erase" Fill="Pink" Width="25" Height="50" Stroke="Black"/>
+                <Button Margin="0 25 0 0" VerticalAlignment="Bottom" Name="CancelBtn">Cancel</Button>
+                <Button Margin="0 5 0 0" VerticalAlignment="Bottom" Name="SaveBtn">Save</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+    
 </UserControl>
