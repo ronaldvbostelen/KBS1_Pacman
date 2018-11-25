@@ -14,7 +14,6 @@ namespace WpfGame.Controllers.Creatures
 {
     class Enemy : Sprite
     {
-        private Image image;
         int x, y;
 
         public Enemy(int x, int y)
