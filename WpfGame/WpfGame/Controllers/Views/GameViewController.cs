@@ -44,11 +44,6 @@ namespace WpfGame.Controllers.Views
             
         }
 
-        protected void SetKeyDownEvents(KeyEventHandler e)
-        {
-            _mainWindow.KeyDown += e;
-        }
-
         public void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             string imageUri = string.Empty;
