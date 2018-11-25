@@ -22,51 +22,11 @@ namespace WpfGame.Views
     /// <summary>
     /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class GameView : Page
+    public partial class GameView : UserControl
     {
-        public static Canvas Canvas;
-        private Player _player;
-        private double _y, _x;
-
         public GameView()
         {
             InitializeComponent();
-            Canvas = GameCanvas;
-
-            _player = new Player();
-            _player.Draw();
-
-            Clock clock = new Clock();
-            clock.Initialize();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window window = Window.GetWindow(this);
-            if (window != null) window.KeyDown += OnButtonKeyDown;
-        }
-
-        private void OnButtonKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Down:
-                    _y += 25;
-                    Canvas.SetTop(_player.Image, _y);
-                    break;
-                case Key.Up:
-                    _y -= 25;
-                    Canvas.SetTop(_player.Image, _y);
-                    break;
-                case Key.Left:
-                    _x -= 25;
-                    Canvas.SetLeft(_player.Image, _x);
-                    break;
-                case Key.Right:
-                    _x += 25;
-                    Canvas.SetLeft(_player.Image, _x);
-                    break;
-            }
         }
     }
 }

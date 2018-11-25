@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +57,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\Game\Coin.cs" />
+    <Compile Include="Controllers\Renderers\ControlRenderer.cs" />
+    <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
+    <Compile Include="Controllers\Views\EditorViewController.cs" />
+    <Compile Include="Controllers\Views\GameViewController.cs" />
+    <Compile Include="Controllers\Views\StartWindowViewController.cs" />
+    <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\Behaviour\Step.cs" />
+    <Compile Include="Controllers\Behaviour\Position.cs" />
+    <Compile Include="Controllers\Behaviour\Size.cs" />
+    <Compile Include="Controllers\Game\ClockController.cs" />
+    <Compile Include="Controllers\Creatures\Enemy.cs" />
+    <Compile Include="Controllers\Creatures\Player.cs" />
+    <Compile Include="Controllers\Creatures\Sprite.cs" />
+    <Compile Include="Controllers\Game\Score.cs" />
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
@@ -64,22 +88,13 @@
     <Compile Include="Views\StartWindowView.xaml.cs">
       <DependentUpon>StartWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Behaviour\Step.cs" />
-    <Compile Include="Controllers\Behaviour\Position.cs" />
-    <Compile Include="Controllers\Behaviour\Size.cs" />
-    <Compile Include="Controllers\Clock.cs" />
-    <Compile Include="Controllers\Creatures\Enemy.cs" />
-    <Compile Include="Controllers\Creatures\Player.cs" />
-    <Compile Include="Controllers\Creatures\Sprite.cs" />
-    <Compile Include="Controllers\Renderer\SpriteRenderer.cs" />
-    <Compile Include="Controllers\Score.cs" />
-    <Page Include="Views\EditorView.xaml">
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameView.xaml">
       <SubType>Designer</SubType>
@@ -146,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\startwindow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\coin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,19 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfGame.Controllers.Views;
+using WpfGame.Views;
 
-namespace WpfGame.Views
+namespace WpfGame
 {
     /// <summary>
-    /// Interaction logic for EditorView.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class EditorView : UserControl
+    public partial class MainWindow : Window
     {
-        public EditorView()
+        public MainWindow()
         {
             InitializeComponent();
+            new StartWindowViewController(this);
         }
     }
 }
