@@ -31,7 +31,7 @@ namespace WpfGame.Controllers.Views
 
             Canvas = _gameView.GameCanvas;
 
-            Player player = new Player(mainWindow);
+            Player player = new Player();
 
             SetKeyDownEvents(player.OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
@@ -39,6 +39,11 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _gameView);
             
+        }
+
+        protected void SetKeyDownEvents(KeyEventHandler e)
+        {
+            _mainWindow.KeyDown += e;
         }
 
         private void LoadTiles(List<Tile> list)

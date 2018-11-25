@@ -15,12 +15,12 @@ using WpfGame.Views;
 
 namespace WpfGame.Controllers
 {
-    class Player : ViewController
+    class Player : Sprite
     {
         private int _y, _x;
 
-        public Player(MainWindow mainWindow) 
-            : base(mainWindow)
+        public Player() 
+            : base(true)
         {
             _x = 55;
             _y = 55;
