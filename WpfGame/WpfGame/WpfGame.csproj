@@ -67,6 +67,8 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Models\TileCoinEdit.cs" />
+    <Compile Include="Models\TileObstacleEdit.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />

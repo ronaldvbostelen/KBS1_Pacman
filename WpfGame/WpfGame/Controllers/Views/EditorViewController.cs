@@ -24,6 +24,8 @@ namespace WpfGame.Controllers.Views
         private List<TileEdit> _tileEdits;
         private List<ObstacleEdit> _obstacleEdits;
         private List<CoinEdit> _coinEdits;
+        private List<TileObstacleEdit> _tileObstacleEdits;
+        private List<TileCoinEdit> _tileCoinEdits;
         private SelectedItem _selectedItem;
         
 
@@ -34,6 +36,8 @@ namespace WpfGame.Controllers.Views
             _tileEdits = new List<TileEdit>();
             _obstacleEdits = new List<ObstacleEdit>();
             _coinEdits = new List<CoinEdit>();
+            _tileObstacleEdits = new List<TileObstacleEdit>();
+            _tileCoinEdits = new List<TileCoinEdit>();
 
             _editorView.Loaded += EditorCanvas_Loaded;
             _editorView.MouseDown += EditorView_OnMouseDown;
@@ -142,6 +146,7 @@ namespace WpfGame.Controllers.Views
                                 Canvas.SetTop(obs.Ellipse,obs.Y);
                                 Canvas.SetLeft(obs.Ellipse,obs.X);
                                 _editorView.EditorCanvas.Children.Add(obs.Ellipse);
+                                _tileObstacleEdits.Add(new TileObstacleEdit(tileEdit,obs));
                             }
                             break;
                         case SelectedItem.Coin:
@@ -154,6 +159,7 @@ namespace WpfGame.Controllers.Views
                                 Canvas.SetTop(coin.Ellipse, coin.Y);
                                 Canvas.SetLeft(coin.Ellipse, coin.X);
                                 _editorView.EditorCanvas.Children.Add(coin.Ellipse);
+                                _tileCoinEdits.Add(new TileCoinEdit(tileEdit,coin));
                             }
                             break;
                         case SelectedItem.End:
@@ -186,7 +192,14 @@ namespace WpfGame.Controllers.Views
                 {
                     if (_selectedItem == SelectedItem.Erase)
                     {
-                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt
+                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
+                        foreach (var tileObstacleEdit in _tileObstacleEdits)
+                        {
+                            if (obstacleEdit.Equals(tileObstacleEdit.ObstacleEdit))
+                            {
+                                _tileEdits.Find(x => x.Equals(tileObstacleEdit.TileEdit)).HasObstacle = false;
+                            }
+                        }
                         _editorView.EditorCanvas.Children.Remove(obstacleEdit.Ellipse);
                     }
                 }
@@ -198,7 +211,14 @@ namespace WpfGame.Controllers.Views
                 {
                     if (_selectedItem == SelectedItem.Erase)
                     {
-                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt
+                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
+                        foreach (var tileCoinEdit in _tileCoinEdits)
+                        {
+                            if (coinEdit.Equals(tileCoinEdit.CoinEdit))
+                            {
+                                _tileEdits.Find(x => x.Equals(tileCoinEdit.TileEdit)).HasCoin = false;
+                            }
+                        }
                         _editorView.EditorCanvas.Children.Remove(coinEdit.Ellipse);
                     }
                 }
