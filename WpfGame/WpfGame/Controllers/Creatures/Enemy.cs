@@ -16,32 +16,19 @@ namespace WpfGame.Controllers.Creatures
     {
         private Image image;
         int x, y;
-        Position position;
 
         public Enemy(int x, int y)
             : base(true)
         {
             this.x = x;
             this.y = y;
-            position = new Position(x, y);
         }
 
         public void Draw()
         {
-            //Position position = new Position(100, 100);
-            Size size = new Size(50, 50);
-            image = GetSpriteImage();
-
-            SpriteRenderer.Draw(image, position, size, MainWindow.canvas);
+            image = SpriteRenderer.GetSpriteImage(@"\Assets\Sprites\Enemy\blinky-right-2.png");
+            SpriteRenderer.Draw(image, new Position(x,y), new Size(50,50), MainWindow.canvas);
         }
 
-        public Image GetSpriteImage()
-        {
-            image = new Image();
-
-            image.Source = new BitmapImage(new Uri(@"\Assets\Sprites\Enemy\blinky-right-2.png", UriKind.Relative));
-
-            return image;
-        }
     }
 }
