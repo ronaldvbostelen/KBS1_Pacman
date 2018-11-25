@@ -20,8 +20,6 @@ namespace WpfGame.Views
     /// </summary>
     public partial class GameView : UserControl
     {
-        public static Canvas canvas;
-
         public GameView()
         {
             InitializeComponent();
