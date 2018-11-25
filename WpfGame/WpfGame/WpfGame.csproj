@@ -143,12 +143,18 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="bin\Debug\Playgrounds\Playgroundv3.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\WpfGame.exe" />
+    <Content Include="bin\Debug\WpfGame.pdb" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\Enemy\blinky-down-2.png" />
     <Resource Include="Assets\Sprites\Enemy\blinky-down.png" />

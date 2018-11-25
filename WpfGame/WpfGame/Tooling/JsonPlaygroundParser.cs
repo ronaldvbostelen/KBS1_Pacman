@@ -20,7 +20,7 @@ namespace WpfGame.Editor
 
         public JsonPlaygroundParser(string fileName)
         {
-            //idem exceptionhandeling is RUKKKK
+            //ToDo: Implement exception handling. You'll get an error now if you don't have the playground
             this.fileName = fileName;
             playgroundJsonPath = System.AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath + fileName;
 
