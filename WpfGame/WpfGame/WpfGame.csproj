@@ -91,7 +91,6 @@
     <Compile Include="Models\CoinEdit.cs" />
     <Compile Include="Models\Obstacle.cs" />
     <Compile Include="Models\ObstacleEdit.cs" />
-    <Compile Include="Models\Pacman.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TileEdit.cs" />
     <Compile Include="Models\TileMockup.cs" />

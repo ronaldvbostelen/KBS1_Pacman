@@ -19,22 +19,22 @@ namespace WpfGame.Controllers.Views
         private GameView _gameView;
         private GameValues _gameValues;
         private const int AmountOfTilesWidth = 20;
-        private string selectedGame;
-        private List<Tile> tiles;
-        private Player player;
+        private string _selectedGame;
+        private List<Tile> _tiles;
+        private Player _player;
 
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
         {
-            this.selectedGame = selectedGame;
+            this._selectedGame = selectedGame;
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
 
             Canvas = _gameView.GameCanvas;
 
-            player = new Player();
-            SpriteRenderer.Draw(new Position(player.X, player.Y), new Behaviour.Size(20, 20), @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png");
+            _player = new Player();
+            SpriteRenderer.Draw(new Position(_player.X, _player.Y), new Behaviour.Size(20, 20), @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png");
 
             SetKeyDownEvents(OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
@@ -56,25 +56,25 @@ namespace WpfGame.Controllers.Views
             switch (e.Key)
             {
                 case Key.Down:
-                    player.Y += 25;
+                    _player.Y += 25;
                     imageUri = @"\Assets\Sprites\Pacman\pacman-down-halfopenjaw.png";
                     break;
                 case Key.Up:
-                    player.Y -= 25;
+                    _player.Y -= 25;
                     imageUri = @"\Assets\Sprites\Pacman\pacman-up-halfopenjaw.png";
                     break;
                 case Key.Left:
-                    player.X -= 25;
+                    _player.X -= 25;
                     imageUri = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
                     break;
                 case Key.Right:
-                    player.X += 25;
+                    _player.X += 25;
                     imageUri = @"\Assets\Sprites\Pacman\pacman-right-halfopenjaw.png";
                     break;
             }
 
             Image playerImage = SpriteRenderer.GetSpriteImage(imageUri);
-            Step.SetStep(playerImage, player.Y, player.X);
+            Step.SetStep(playerImage, _player.Y, _player.X);
         }
 
         private void LoadTiles(List<Tile> list)
@@ -109,8 +109,8 @@ namespace WpfGame.Controllers.Views
             
             _gameView.GameCanvas.Focus();
 
-            tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
-            LoadTiles(tiles);
+            _tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
+            LoadTiles(_tiles);
         }
 
 
