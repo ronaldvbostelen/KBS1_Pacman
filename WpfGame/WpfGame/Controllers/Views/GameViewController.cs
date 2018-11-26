@@ -28,6 +28,7 @@ namespace WpfGame.Controllers.Views
         private string _selectedGame;
         private List<Tile> _tiles;
         private List<Obstacle> _obstacles;
+        private List<Coin> _coins;
         private Player _player;
         private CollisionDetecter _hitTester;
         private Timer _refreshTimer;
@@ -53,6 +54,7 @@ namespace WpfGame.Controllers.Views
             _position = new Position(_gameValues);
             _pacmanAnimation = new PacmanAnimation();
             _obstacles = new List<Obstacle>();
+            _coins = new List<Coin>();
             _random = new Random();
 
             Canvas = _gameView.GameCanvas;
@@ -205,8 +207,13 @@ namespace WpfGame.Controllers.Views
             _tiles.Where(x => x.HasObstacle).ToList().ForEach(x =>
                 _obstacles.Add(new Obstacle(x.X + (x.Rectangle.Width * 0.1), x.Y + (x.Rectangle.Height * 0.1), x.Rectangle.Width * 0.8, x.Rectangle.Height * 0.8)));
 
+            _tiles.Where(x => x.HasCoin).ToList().ForEach(x =>
+                _coins.Add(new Coin(x.X + (x.Rectangle.Width * 0.1), x.Y + (x.Rectangle.Height * 0.1), x.Rectangle.Width * 0.8, x.Rectangle.Height * 0.8)));
+
+
             LoadObjects(_tiles);
             LoadObjects(_obstacles);
+            LoadObjects(_coins);
 
             // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
             // will succeed and pacman doenst get stuck on the playingfield

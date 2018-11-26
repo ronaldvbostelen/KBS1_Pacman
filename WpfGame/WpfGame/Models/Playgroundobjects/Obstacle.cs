@@ -6,13 +6,14 @@ namespace WpfGame.Models
     {
         public bool IsEnabled { get; set; }
 
-        public Obstacle(double x, double y, double width, double height) : base(x, y)
+        public Obstacle(double x, double y, double width, double height) 
+            : base(x, y)
         {
             Rectangle.RadiusX = Rectangle.RadiusY = 50;
             Rectangle.Width = width;
             Rectangle.Height = height;
-            Rectangle.Stroke = Brushes.Black;
-            Rectangle.Fill = Brushes.White;
+            Rectangle.Stroke = Brushes.Pink;
+            Rectangle.Fill = Brushes.Blue;
             IsEnabled = false;
         }
     }
