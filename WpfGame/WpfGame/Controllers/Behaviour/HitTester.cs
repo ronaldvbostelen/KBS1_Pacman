@@ -45,44 +45,7 @@ namespace WpfGame.Controllers.Behaviour
                     return false;
             }
         }
-
-        public bool HitMeBabyHitMeBabyOneMoreTime<T>(List<T> objectList, Player pacman, Move nextMove, Predicate<T> predicate) where T : PlaygroundObject
-        {
-            double addToX = 0;
-            double addToY = 0;
-
-            switch (nextMove)
-            {
-                case Move.Down:
-                    addToY = _gameValues.UpDownMovement;
-                    break;
-                case Move.Up:
-                    addToY = -_gameValues.UpDownMovement;
-                    break;
-                case Move.Left:
-                    addToX = -_gameValues.LeftRightMovement;
-                    break;
-                case Move.Right:
-                    addToX = _gameValues.LeftRightMovement;
-                    break;
-            }
-
-            Rect pacmanRect = new Rect(new Point(pacman.X + addToX, pacman.Y + addToY),
-                new System.Windows.Size(pacman.Image.Width, pacman.Image.Height));
-
-            foreach (var obj in objectList)
-            {
-                Rect tileRect = new Rect(new Point(obj.X, obj.Y), new System.Windows.Size(obj.Rectangle.Width, obj.Rectangle.Width));
-
-                if (pacmanRect.IntersectsWith(tileRect) && predicate(obj))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
+        
         public bool ObstacleHit<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
         {
             double addToX = 0;

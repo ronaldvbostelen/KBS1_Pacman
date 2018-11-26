@@ -58,6 +58,7 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _gameView);
             _pacmanAnimation.LoadPacmanImages();
+
         }
 
         private void _pacmanAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -149,11 +150,14 @@ namespace WpfGame.Controllers.Views
 
             _gameView.GameCanvas.Focus();
 
-            // 0.899991 (sometimes you just try a number because yeah, then it seems to work /0.935 is magic correction number for collision later on
-            _player = new Player(_gameValues.TileWidth * 0.899991, _gameValues.TileHeight * 0.935,0,_gameValues.TileHeight * 1.04);
-
             _tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
             LoadTiles(_tiles);
+
+
+            // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
+            // will succeed and pacman doenst get stuck on the playingfield
+            _player = new Player(Math.Round(_gameValues.TileWidth * 0.89,2), Math.Round(_gameValues.TileHeight * 0.925,2), 0, _gameValues.TileHeight*1.035);
+
 
             SpriteRenderer.Draw(_player.X, _player.Y, new Behaviour.Size(20, 20), _player.Image);
             _refreshTimer.Start();
