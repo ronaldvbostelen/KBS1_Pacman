@@ -8,11 +8,11 @@ using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
 {
-    public class HitTester
+    public class CollisionDetecter
     {
         private GameValues _gameValues;
 
-        public HitTester(GameValues gameValues)
+        public CollisionDetecter(GameValues gameValues)
         {
             _gameValues = gameValues;
         }
