@@ -8,5 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Canvas Name="GameCanvas" Background="DeepPink" Focusable="True" />
+        <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="EndGamePanel">
+            <Image Source="../Assets/Sprites/game-over.png"></Image>
+        </StackPanel>
     </Grid>
 </UserControl>

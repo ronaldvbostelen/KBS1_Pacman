@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,18 +22,21 @@ namespace WpfGame.Controllers.Views
     public class GameViewController : ViewController
     {
         public static Canvas Canvas;
+        private static Random _random;
         private GameView _gameView;
         private GameValues _gameValues;
-        private const int AmountOfTilesWidth = 20;
         private string _selectedGame;
         private List<Tile> _tiles;
+        private List<Obstacle> _obstacles;
         private Player _player;
         private CollisionDetecter _hitTester;
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
+        private Timer _obstacleTimer;
         private Step _step;
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
+        private const int AmountOfTilesWidth = 20;
 
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
@@ -44,9 +48,12 @@ namespace WpfGame.Controllers.Views
             _hitTester = new CollisionDetecter(_gameValues);
             _refreshTimer = new Timer{Interval = 16.6667};
             _pacmanAnimationTimer = new Timer{Interval = 150};
+            _obstacleTimer = new Timer{Interval = 3000};
             _step = new Step();
             _position = new Position(_gameValues);
             _pacmanAnimation = new PacmanAnimation();
+            _obstacles = new List<Obstacle>();
+            _random = new Random();
 
             Canvas = _gameView.GameCanvas;
             
@@ -54,11 +61,34 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _refreshTimer.Elapsed += Refresh_GameCanvas;
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
+            _obstacleTimer.Elapsed += _obstacleTimer_Elapsed;
             _mainWindow.Closing += _mainWindow_Closing;
 
             SetContentOfMain(mainWindow, _gameView);
             _pacmanAnimation.LoadPacmanImages();
 
+        }
+
+        private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _gameView.GameCanvas.Dispatcher.Invoke(() =>
+            {
+
+                foreach (var obstacle in _obstacles)
+                {
+                    if (!obstacle.IsEnabled && _random.NextDouble() > 0.5)
+                    {
+                        obstacle.IsEnabled = true;
+                        obstacle.Rectangle.Fill = Brushes.Black;
+                    }
+                    else
+                    {
+                        obstacle.IsEnabled = false;
+                        obstacle.Rectangle.Fill = Brushes.White;
+                    }
+                }
+            });
+            
         }
 
         private void _pacmanAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -72,6 +102,7 @@ namespace WpfGame.Controllers.Views
 
         private void _mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
         }
@@ -86,8 +117,18 @@ namespace WpfGame.Controllers.Views
                 //if it succeed the hittest, if it fails we stop the movement
                 if (!_hitTester.BorderCollision(_player, _player.NextMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
                 {
-                    _position.UpdatePosition(_player, _player.NextMove);
-                    _player.CurrentMove = _player.NextMove;   
+                    //next we check wether our player has hit an enabled obstacle
+                    if (!_hitTester.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
+                    {
+                        _position.UpdatePosition(_player, _player.NextMove);
+                        _player.CurrentMove = _player.NextMove;
+                    }
+                    else
+                    {
+                        //PLAYER IS DEAD.
+                        EndGame();
+                    }
+
                 }
                 else
                 {
@@ -102,6 +143,14 @@ namespace WpfGame.Controllers.Views
                 }
                 _step.SetStep(_player);
             });
+        }
+
+        private void EndGame()
+        {
+            _gameView.EndGamePanel.Visibility = Visibility.Visible;
+            _obstacleTimer.Stop();
+            _pacmanAnimationTimer.Stop();
+            _refreshTimer.Stop();
         }
 
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
@@ -125,8 +174,8 @@ namespace WpfGame.Controllers.Views
                     break;
             }
         }
-
-        private void LoadTiles(List<Tile> list)
+        
+        private void LoadObjects<T>(List<T> list) where T : PlaygroundObject
         {
             list.ForEach(x =>
             {
@@ -135,7 +184,7 @@ namespace WpfGame.Controllers.Views
                 _gameView.GameCanvas.Children.Add(x.Rectangle);
             });
         }
-        
+
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
@@ -151,19 +200,23 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Focus();
 
             _tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
-            LoadTiles(_tiles);
+            
+            //create obstacleliste based on the tileslist
+            _tiles.Where(x => x.HasObstacle).ToList().ForEach(x =>
+                _obstacles.Add(new Obstacle(x.X + (x.Rectangle.Width * 0.1), x.Y + (x.Rectangle.Height * 0.1), x.Rectangle.Width * 0.8, x.Rectangle.Height * 0.8)));
 
+            LoadObjects(_tiles);
+            LoadObjects(_obstacles);
 
             // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
             // will succeed and pacman doenst get stuck on the playingfield
             _player = new Player(_gameValues.TileWidth * 0.895, _gameValues.TileHeight * 0.935, 0, _gameValues.TileHeight*1.035);
 
-
             SpriteRenderer.Draw(_player.X, _player.Y, new Behaviour.Size(20, 20), _player.Image);
             _refreshTimer.Start();
             _pacmanAnimationTimer.Start();
+            _obstacleTimer.Start();
         }
-
 
     }
 }
