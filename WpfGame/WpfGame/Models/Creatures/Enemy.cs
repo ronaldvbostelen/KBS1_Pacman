@@ -26,7 +26,7 @@ namespace WpfGame.Controllers.Creatures
         public void Draw()
         {
             Image image = SpriteRenderer.GetSpriteImage(@"\Assets\Sprites\Enemy\blinky-right-2.png");
-            SpriteRenderer.Draw(image, new Position(x,y), new Size(50,50), MainWindow.canvas);
+//            SpriteRenderer.Draw(image, new Position(x,y), new Size(50,50), MainWindow.canvas);
         }
 
     }

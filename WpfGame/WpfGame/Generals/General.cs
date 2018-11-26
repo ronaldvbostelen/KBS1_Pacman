@@ -1,6 +1,15 @@
 ﻿namespace WpfGame.Generals
 {
-    
+
+    public enum NextMove
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
+
+
 
     public enum SelectedItem
     {
