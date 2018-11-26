@@ -72,9 +72,8 @@ namespace WpfGame.Controllers.Views
 
         private void BtnStartGameOnClick(object sender, RoutedEventArgs e)
         {
-            
-//            var selectedGameName = "Playgroundv3.json";
-            var selectedGameName = "MyPlayground_20.json";
+            var selectedGameName = "Playgroundv3.json";
+
             if (selectedPlayground)
             {
                 selectedGameName = _startWindowView.ListBoxForPlaygroundFiles.SelectedItem.ToString();
