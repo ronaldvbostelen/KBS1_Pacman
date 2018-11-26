@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using WpfGame;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
+using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Animations;
 using WpfGame.Values;
 using WpfGame.Views;
 
@@ -22,6 +27,12 @@ namespace WpfGame.Controllers.Views
         private string _selectedGame;
         private List<Tile> _tiles;
         private Player _player;
+        private CollisionDetecter _hitTester;
+        private Timer _refreshTimer;
+        private Timer _pacmanAnimationTimer;
+        private Step _step;
+        private Position _position;
+        private PacmanAnimation _pacmanAnimation;
 
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
@@ -30,46 +41,89 @@ namespace WpfGame.Controllers.Views
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
+            _hitTester = new CollisionDetecter(_gameValues);
+            _refreshTimer = new Timer{Interval = 16.6667};
+            _pacmanAnimationTimer = new Timer{Interval = 150};
+            _step = new Step();
+            _position = new Position(_gameValues);
+            _pacmanAnimation = new PacmanAnimation();
 
             Canvas = _gameView.GameCanvas;
-
-            _player = new Player();
-            _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
-
-            SpriteRenderer.Draw(new Position(_player.X, _player.Y), new Behaviour.Size(20, 20), _player.PlayerImage);
-
+            
             SetKeyDownEvents(OnButtonKeyDown);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
-            _gameView.GameCanvas.KeyDown += GameCanvas_KeyDown;
+            _refreshTimer.Elapsed += Refresh_GameCanvas;
+            _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
+            _mainWindow.Closing += _mainWindow_Closing;
 
             SetContentOfMain(mainWindow, _gameView);
-            
+            _pacmanAnimation.LoadPacmanImages();
+
         }
 
-        public void OnButtonKeyDown(object sender, KeyEventArgs e)
+        private void _pacmanAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            //so we have to call the dispatcher to grab authority over the GUI
+            _gameView.GameCanvas.Dispatcher.Invoke(() =>
+            {
+                _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
+            });
+        }
+
+        private void _mainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _pacmanAnimationTimer.Stop();
+            _refreshTimer.Stop();
+        }
+
+        private void Refresh_GameCanvas(object sender, ElapsedEventArgs e)
+        {
+            
+            //so we have to call the dispatcher to grab authority over the GUI
+            _gameView.GameCanvas.Dispatcher.Invoke(() =>
+            {
+                //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
+                //if it succeed the hittest, if it fails we stop the movement
+                if (!_hitTester.BorderCollision(_player, _player.NextMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
+                {
+                    _position.UpdatePosition(_player, _player.NextMove);
+                    _player.CurrentMove = _player.NextMove;   
+                }
+                else
+                {
+                    if (!_hitTester.BorderCollision(_player, _player.CurrentMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsWall))
+                    {
+                        _position.UpdatePosition(_player, _player.CurrentMove);
+                    }
+                    else
+                    {
+                        _player.NextMove = _player.CurrentMove = Move.Stop;
+                    }
+                }
+                _step.SetStep(_player);
+            });
+        }
+
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
-                case Key.Down:
-                    _player.Y += 25;
-                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-down-halfopenjaw.png";
-                    break;
                 case Key.Up:
-                    _player.Y -= 25;
-                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-up-halfopenjaw.png";
+                    _player.NextMove = Move.Up;
+                    break;
+                case Key.Down:
+                    _player.NextMove = Move.Down;
                     break;
                 case Key.Left:
-                    _player.X -= 25;
-                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-left-halfopenjaw.png";
+                    _player.NextMove = Move.Left;
                     break;
                 case Key.Right:
-                    _player.X += 25;
-                    _player.PlayerImage = @"\Assets\Sprites\Pacman\pacman-right-halfopenjaw.png";
+                    _player.NextMove = Move.Right;
+                    break;
+                case Key.Escape:
+                    new StartWindowViewController(_mainWindow);
                     break;
             }
-
-            Image playerImage = SpriteRenderer.GetSpriteImage(_player.PlayerImage);
-            Step.SetStep(playerImage, _player.Y, _player.X);
         }
 
         private void LoadTiles(List<Tile> list)
@@ -81,17 +135,7 @@ namespace WpfGame.Controllers.Views
                 _gameView.GameCanvas.Children.Add(x.Rectangle);
             });
         }
-
-        private void GameCanvas_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Escape:
-                    new StartWindowViewController(_mainWindow);
-                    break;
-            }
-        }
-
+        
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
@@ -101,11 +145,23 @@ namespace WpfGame.Controllers.Views
             _gameValues.AmountofYtiles =  Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
-            
+            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 200;
+            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 200;
+
             _gameView.GameCanvas.Focus();
 
             _tiles = new List<Tile>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).GetRenderdTiles());
             LoadTiles(_tiles);
+
+
+            // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
+            // will succeed and pacman doenst get stuck on the playingfield
+            _player = new Player(_gameValues.TileWidth * 0.895, _gameValues.TileHeight * 0.935, 0, _gameValues.TileHeight*1.035);
+
+
+            SpriteRenderer.Draw(_player.X, _player.Y, new Behaviour.Size(20, 20), _player.Image);
+            _refreshTimer.Start();
+            _pacmanAnimationTimer.Start();
         }
 
 

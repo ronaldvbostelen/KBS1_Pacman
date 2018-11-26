@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\Behaviour\HitTester.cs" />
     <Compile Include="Controllers\Game\Coin.cs" />
     <Compile Include="Controllers\Renderers\ControlRenderer.cs" />
     <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
@@ -68,8 +69,11 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
-    <Compile Include="Models\TileCoinEdit.cs" />
-    <Compile Include="Models\TileObstacleEdit.cs" />
+    <Compile Include="Models\Animations\PacmanAnimation.cs" />
+    <Compile Include="Models\EditModels\TileCoinEdit.cs" />
+    <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
+    <Compile Include="Models\Playgroundobjects\Coin.cs" />
+    <Compile Include="Models\Playgroundobjects\PlaygroundObject.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -88,11 +92,11 @@
     <Compile Include="Models\Creatures\Player.cs" />
     <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
-    <Compile Include="Models\CoinEdit.cs" />
-    <Compile Include="Models\Obstacle.cs" />
-    <Compile Include="Models\ObstacleEdit.cs" />
-    <Compile Include="Models\Tile.cs" />
-    <Compile Include="Models\TileEdit.cs" />
+    <Compile Include="Models\EditModels\CoinEdit.cs" />
+    <Compile Include="Models\Playgroundobjects\Obstacle.cs" />
+    <Compile Include="Models\EditModels\ObstacleEdit.cs" />
+    <Compile Include="Models\Playgroundobjects\Tile.cs" />
+    <Compile Include="Models\EditModels\TileEdit.cs" />
     <Compile Include="Models\TileMockup.cs" />
     <Compile Include="Values\EditorValues.cs" />
     <Compile Include="Values\GameValues.cs" />

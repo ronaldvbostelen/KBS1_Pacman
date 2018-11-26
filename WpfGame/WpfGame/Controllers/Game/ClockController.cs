@@ -26,7 +26,8 @@ namespace WpfGame.Controllers
             InitializeTimer();
             SetTimerDisplayProperties();
 
-            ControlRenderer.Draw(new Position(800, 30), _tblTimer);
+            //srry heb dit gesloopt
+//            ControlRenderer.Draw(new Position(800, 30), _tblTimer);
         }
 
         /**

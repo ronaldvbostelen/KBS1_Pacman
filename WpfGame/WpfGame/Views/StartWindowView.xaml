@@ -40,7 +40,9 @@
             </Button>
         </StackPanel>
         <StackPanel MinHeight="200" MinWidth="75" Name="SelectPlaygroundMenu" Grid.RowSpan="7" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" Visibility="Collapsed">
-            <ListBox MinHeight="100" Margin="5" Name="ListBoxForPlaygroundFiles"/>
+            <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" >
+                <ListBox MinHeight="100" MaxHeight="200" Margin="5" Name="ListBoxForPlaygroundFiles"/>
+            </ScrollViewer>
             <Button Margin="5" Name="SelectPlgrnd">Select Playground</Button>
             <Button Margin="5" Name="CancelSelectPlgrnd">Cancel</Button>
         </StackPanel>

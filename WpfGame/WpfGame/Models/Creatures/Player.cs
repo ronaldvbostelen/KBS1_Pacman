@@ -11,21 +11,23 @@ using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Controllers.Views;
+using WpfGame.Generals;
+using WpfGame.Properties;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers
 {
     public class Player : Sprite
     {
-        public int Y { get; set; }
-        public int X { get; set; }
-        public string PlayerImage { get; set; }
 
-        public Player() 
-            : base(true)
+        public Player(double imageWidth, double imageHeight, double x, double y) 
+            : base(x, y, true)
         {
-            X = 55;
-            Y = 55;
+            Image =  new Image
+            {
+                Source = new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png")),
+                Width = imageWidth, Height = imageHeight
+            };
         }
     }
 }

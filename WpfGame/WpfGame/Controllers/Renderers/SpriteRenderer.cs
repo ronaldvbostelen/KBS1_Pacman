@@ -15,14 +15,14 @@ namespace WpfGame.Controllers.Renderer
     static class SpriteRenderer
     {
         private static Image spriteImage;
-
-        public static void Draw(Position position, Behaviour.Size size, string spriteUri)
+        
+        public static void Draw(double x, double y, Behaviour.Size size, Image image)
         {
-            spriteImage = GetSpriteImage(spriteUri);
+            spriteImage = image;
             spriteImage.Tag = "Player";
-
-            Canvas.SetLeft(spriteImage, position.Left - (size.Width / 2));
-            Canvas.SetTop(spriteImage, position.Top - (size.Height / 2));
+            
+            Canvas.SetLeft(spriteImage, x);
+            Canvas.SetTop(spriteImage, y);
             GameViewController.Canvas.Children.Add(spriteImage);
         }
 
