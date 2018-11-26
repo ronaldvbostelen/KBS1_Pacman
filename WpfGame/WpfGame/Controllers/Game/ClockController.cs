@@ -31,7 +31,7 @@ namespace WpfGame.Controllers
         {
             _timer = new DispatcherTimer();
 
-            _time = TimeSpan.FromSeconds(60); // Count down from 60 seconds
+            _time = TimeSpan.FromSeconds(5); // Count down from 60 seconds
             
 
             // Call this every 1 second
@@ -58,17 +58,16 @@ namespace WpfGame.Controllers
         private void Timer_Elapsed()
         {
             _timer.Stop();
-            
             PlaytimeIsOVer();
-
-            //ToDo: fill in the total score // persoonlij zou ik een pannel in de xamel inbouwen met buttons van return enzo en dispay score enzo die op visibilty visible zetten 
-            // als de tijd om is, maar ver jouw feesie.
-            MessageBox.Show("Time's up! Total score: ***", "", MessageBoxButton.OK);
         }
 
         protected virtual void PlaytimeIsOVer()
         {
             PlaytimeIsOVerEventHander?.Invoke(this,EventArgs.Empty);
+
+            //ToDo: fill in the total score // persoonlij zou ik een pannel in de xamel inbouwen met buttons van return enzo en dispay score enzo die op visibilty visible zetten 
+            // als de tijd om is, maar ver jouw feesie. // dunno maar dit ging een paar keer random af ?? dunno volgens mij is dit een beter plek.
+            MessageBox.Show("Time's up! Total score: ***", "", MessageBoxButton.OK);
         }
     }
 }
