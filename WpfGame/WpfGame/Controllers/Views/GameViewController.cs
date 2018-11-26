@@ -156,7 +156,7 @@ namespace WpfGame.Controllers.Views
 
             // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
             // will succeed and pacman doenst get stuck on the playingfield
-            _player = new Player(Math.Round(_gameValues.TileWidth * 0.89,2), Math.Round(_gameValues.TileHeight * 0.925,2), 0, _gameValues.TileHeight*1.035);
+            _player = new Player(_gameValues.TileWidth * 0.895, _gameValues.TileHeight * 0.95, 0, _gameValues.TileHeight*1.035);
 
 
             SpriteRenderer.Draw(_player.X, _player.Y, new Behaviour.Size(20, 20), _player.Image);
