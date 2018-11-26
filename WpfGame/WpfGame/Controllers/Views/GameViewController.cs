@@ -36,6 +36,7 @@ namespace WpfGame.Controllers.Views
         private Step _step;
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
+        private ClockController _clockController;
         private const int AmountOfTilesWidth = 20;
 
         public GameViewController(MainWindow mainWindow, string selectedGame) 
@@ -54,6 +55,8 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimation = new PacmanAnimation();
             _obstacles = new List<Obstacle>();
             _random = new Random();
+            _clockController = new ClockController();
+            
 
             Canvas = _gameView.GameCanvas;
             
@@ -63,6 +66,7 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
             _obstacleTimer.Elapsed += _obstacleTimer_Elapsed;
             _mainWindow.Closing += _mainWindow_Closing;
+            _clockController.PlaytimeIsOVerEventHander += On_PlaytimeIsOver;
 
             SetContentOfMain(mainWindow, _gameView);
             _pacmanAnimation.LoadPacmanImages();
@@ -113,6 +117,9 @@ namespace WpfGame.Controllers.Views
             //so we have to call the dispatcher to grab authority over the GUI
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
+                //updateclock
+                _gameView.GameClockHolder.Text = _clockController.Display;
+
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
                 if (!_hitTester.BorderCollision(_player, _player.NextMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
@@ -143,6 +150,12 @@ namespace WpfGame.Controllers.Views
                 }
                 _step.SetStep(_player);
             });
+        }
+
+        public void On_PlaytimeIsOver(object sender, EventArgs e)
+        {
+            _gameView.GameClockHolder.Text = _clockController.Display;
+            EndGame();
         }
 
         private void EndGame()
@@ -211,8 +224,10 @@ namespace WpfGame.Controllers.Views
             // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
             // will succeed and pacman doenst get stuck on the playingfield
             _player = new Player(_gameValues.TileWidth * 0.895, _gameValues.TileHeight * 0.935, 0, _gameValues.TileHeight*1.035);
-
+            
             SpriteRenderer.Draw(_player.X, _player.Y, new Behaviour.Size(20, 20), _player.Image);
+
+            _clockController.InitializeTimer();
             _refreshTimer.Start();
             _pacmanAnimationTimer.Start();
             _obstacleTimer.Start();

@@ -11,63 +11,44 @@ using System.Windows.Threading;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Controllers.Views;
+using WpfGame.Generals;
 
 namespace WpfGame.Controllers
 {
-    class ClockController : ViewController
-    {
+    class ClockController 
+    {   
+        public string Display { get; set; }
         private DispatcherTimer _timer;
-        private TextBlock _tblTimer;
         private TimeSpan _time;
-
-        public ClockController(MainWindow mainWindow) 
-            : base(mainWindow)
-        {
-            InitializeTimer();
-            SetTimerDisplayProperties();
-
-            //srry heb dit gesloopt
-//            ControlRenderer.Draw(new Position(800, 30), _tblTimer);
-        }
+        public event PlaytimeIsOVerEventHandeler PlaytimeIsOVerEventHander;
 
         /**
          * Initializes a new timer with a delegate event
          * which executes every second in order to display
          * a realtime clock for the player
          **/
-        private void InitializeTimer()
+        public void InitializeTimer()
         {
             _timer = new DispatcherTimer();
 
             _time = TimeSpan.FromSeconds(60); // Count down from 60 seconds
+            
 
             // Call this every 1 second
             _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
-                _tblTimer.Text = _time.ToString("mm':'ss"); // Display the time in the timers textblock with this format: "00:00"
+                Display = _time.ToString("mm':'ss"); // Display the time in the timers textblock with this format: "00:00"
+
                 if (_time == TimeSpan.Zero) // Execute when the timer has reached zero
                 {
                     Timer_Elapsed();
                 }
 
                 _time = _time.Add(TimeSpan.FromSeconds(-1)); // Remove one second from the timers timespan
+
             }, Application.Current.Dispatcher);
 
             _timer.Start();
-        }
-
-        /**
-         *  This sets the properties of the textblock in which
-         *  the countdown of the timer will be displayed
-         **/
-        private void SetTimerDisplayProperties()
-        {
-            _tblTimer = new TextBlock();
-            _tblTimer.Height = 50;
-            _tblTimer.Width = 200;
-            _tblTimer.Visibility = Visibility.Visible;
-            _tblTimer.FontSize = 20;
-            _tblTimer.Foreground = new SolidColorBrush(Colors.White);
         }
 
         /**
@@ -77,10 +58,17 @@ namespace WpfGame.Controllers
         private void Timer_Elapsed()
         {
             _timer.Stop();
-            //ToDo: fill in the total score
-            MessageBox.Show("Time's up! Total score: ***", "", MessageBoxButton.OK);
+            
+            PlaytimeIsOVer();
 
-            new StartWindowViewController(_mainWindow); // Return to start window
+            //ToDo: fill in the total score // persoonlij zou ik een pannel in de xamel inbouwen met buttons van return enzo en dispay score enzo die op visibilty visible zetten 
+            // als de tijd om is, maar ver jouw feesie.
+            MessageBox.Show("Time's up! Total score: ***", "", MessageBoxButton.OK);
+        }
+
+        protected virtual void PlaytimeIsOVer()
+        {
+            PlaytimeIsOVerEventHander?.Invoke(this,EventArgs.Empty);
         }
     }
 }

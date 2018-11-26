@@ -1,5 +1,9 @@
-﻿namespace WpfGame.Generals
+﻿using System;
+
+namespace WpfGame.Generals
 {
+
+    public delegate void PlaytimeIsOVerEventHandeler(object sender, EventArgs e);
 
     public enum Move
     {
