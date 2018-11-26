@@ -31,7 +31,7 @@ namespace WpfGame.Controllers
         {
             _timer = new DispatcherTimer();
 
-            _time = TimeSpan.FromSeconds(5); // Count down from 60 seconds
+            _time = TimeSpan.FromSeconds(60); // Count down from 60 seconds
             
 
             // Call this every 1 second
