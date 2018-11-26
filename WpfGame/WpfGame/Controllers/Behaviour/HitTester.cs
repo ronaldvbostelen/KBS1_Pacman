@@ -46,7 +46,7 @@ namespace WpfGame.Controllers.Behaviour
             }
         }
         
-        public bool ObstacleHit<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
+        public bool ObjectHit<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
         {
             double addToX = 0;
             double addToY = 0;
