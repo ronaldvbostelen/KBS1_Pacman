@@ -103,8 +103,8 @@ namespace WpfGame.Controllers.Views
                 _step.SetStep(_player);
             });
         }
-        
-        public void OnButtonKeyDown(object sender, KeyEventArgs e)
+
+        private void OnButtonKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
