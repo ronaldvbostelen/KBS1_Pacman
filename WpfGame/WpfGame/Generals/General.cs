@@ -1,15 +1,26 @@
 ﻿namespace WpfGame.Generals
 {
 
-    public enum NextMove
+    public enum Move
     {
+        Stop,
         Left,
         Right,
         Up,
         Down
     }
 
-
+    public enum PacmanFacing
+    {
+        Left,
+        LeftOpen,
+        Right,
+        RightOpen,
+        Up,
+        UpOpen,
+        Down,
+        DownOpen
+    }
 
     public enum SelectedItem
     {

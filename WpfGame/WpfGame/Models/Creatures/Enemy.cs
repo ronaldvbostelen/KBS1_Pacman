@@ -17,7 +17,7 @@ namespace WpfGame.Controllers.Creatures
         int x, y;
 
         public Enemy(int x, int y)
-            : base(true)
+            : base(x,y,true)
         {
             this.x = x;
             this.y = y;

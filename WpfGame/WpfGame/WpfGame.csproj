@@ -69,6 +69,7 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Models\Animations\PacmanAnimation.cs" />
     <Compile Include="Models\EditModels\TileCoinEdit.cs" />
     <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
     <Compile Include="Models\Playgroundobjects\Coin.cs" />
