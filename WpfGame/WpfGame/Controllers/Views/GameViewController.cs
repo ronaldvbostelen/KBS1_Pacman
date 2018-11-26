@@ -27,7 +27,7 @@ namespace WpfGame.Controllers.Views
         private string _selectedGame;
         private List<Tile> _tiles;
         private Player _player;
-        private CollisionDetecter _hitTester;
+        private CollisionDetecter _collisionDetecter;
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
         private Step _step;
@@ -41,7 +41,7 @@ namespace WpfGame.Controllers.Views
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
-            _hitTester = new CollisionDetecter(_gameValues);
+            _collisionDetecter = new CollisionDetecter(_gameValues);
             _refreshTimer = new Timer{Interval = 16.6667};
             _pacmanAnimationTimer = new Timer{Interval = 150};
             _step = new Step();
@@ -58,7 +58,6 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _gameView);
             _pacmanAnimation.LoadPacmanImages();
-
         }
 
         private void _pacmanAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
