@@ -27,7 +27,7 @@ namespace WpfGame.Controllers.Behaviour
         public bool BottomBorderOfPlaygroundCollision(double playgroundHeight, double objectHeight,
             double yOfObject, double nextMove) => yOfObject + objectHeight + nextMove >= playgroundHeight;
 
-        public bool BorderHit(Sprite sprite, Move move)
+        public bool BorderCollision(Sprite sprite, Move move)
         {   
             switch (move)
             {
@@ -46,7 +46,7 @@ namespace WpfGame.Controllers.Behaviour
             }
         }
         
-        public bool ObjectHit<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
+        public bool ObjectCollision<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
         {
             double addToX = 0;
             double addToY = 0;

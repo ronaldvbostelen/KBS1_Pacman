@@ -84,14 +84,14 @@ namespace WpfGame.Controllers.Views
             {
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
-                if (!_hitTester.BorderHit(_player, _player.NextMove) && !_hitTester.ObjectHit(_tiles, _player, _player.NextMove, x => x.IsWall))
+                if (!_hitTester.BorderCollision(_player, _player.NextMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
                 {
                     _position.UpdatePosition(_player, _player.NextMove);
                     _player.CurrentMove = _player.NextMove;   
                 }
                 else
                 {
-                    if (!_hitTester.BorderHit(_player, _player.CurrentMove) && !_hitTester.ObjectHit(_tiles, _player, _player.CurrentMove, x => x.IsWall))
+                    if (!_hitTester.BorderCollision(_player, _player.CurrentMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsWall))
                     {
                         _position.UpdatePosition(_player, _player.CurrentMove);
                     }
