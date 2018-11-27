@@ -9,7 +9,7 @@ using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
 {
-    class Position
+    public class Position
     {
         public int Left { get; set; }
         public int Top { get; set; }
@@ -20,25 +20,23 @@ namespace WpfGame.Controllers.Behaviour
             _gameValues = gameValues;
         }
 
-        public void UpdatePosition(Sprite sprite, Move move)
+        public double? UpdatePosition(Sprite sprite, Move move)
         {
             switch (move)
             {
                 case Move.Stop:
-                    break;
+                    return null;
                 case Move.Up:
-                    sprite.Y -= _gameValues.UpDownMovement;
-                    break;
+                    return sprite.Y -= _gameValues.UpDownMovement;
                 case Move.Down:
-                    sprite.Y += _gameValues.UpDownMovement;
-                    break;
+                    return sprite.Y += _gameValues.UpDownMovement;
                 case Move.Left:
-                    sprite.X -= _gameValues.LeftRightMovement;
-                    break;
+                    return sprite.X -= _gameValues.LeftRightMovement;
                 case Move.Right:
-                    sprite.X += _gameValues.LeftRightMovement;
-                    break;
+                    return sprite.X += _gameValues.LeftRightMovement;
             }
+
+            return null;
         }
     }
 }
