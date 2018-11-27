@@ -14,6 +14,16 @@
             
         </StackPanel>
 
+        <StackPanel Name="GameTimeIsOVerPanel" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 150 0 0">
+            <Border Margin="5" Padding="3" BorderThickness="1" BorderBrush="DarkRed" Background="DarkRed" CornerRadius="10">
+                <TextBlock Name="TimeIsUpTextBlock"
+                       FontSize="30" Foreground="DarkRed"
+                           FontFamily="STENCIL"
+                       Background="Black"
+                       Padding="10"/>
+            </Border>
+        </StackPanel>
+
         <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="EndGamePanel">
             <Image Source="../Assets/Sprites/game-over.png"></Image>
         </StackPanel>

@@ -156,7 +156,10 @@ namespace WpfGame.Controllers.Views
 
         public void On_PlaytimeIsOver(object sender, EventArgs e)
         {
+            var totalscore = 10000;
             _gameView.GameClockHolder.Text = _clockController.Display;
+            _gameView.TimeIsUpTextBlock.Text = $"Time's up! Total score: {totalscore}";
+            _gameView.GameTimeIsOVerPanel.Visibility = Visibility.Visible;
             EndGame();
         }
 
