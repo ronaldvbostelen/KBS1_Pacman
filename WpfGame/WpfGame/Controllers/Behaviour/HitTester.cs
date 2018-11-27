@@ -28,9 +28,9 @@ namespace WpfGame.Controllers.Behaviour
         public bool BottomBorderOfPlaygroundCollision(double playgroundHeight, double objectHeight,
             double yOfObject, double nextMove) => yOfObject + objectHeight + nextMove >= playgroundHeight;
 
-        private bool BorderCollision(MovableObject movable)
+        private bool BorderCollision(MovableObject movable, Move move)
         {
-            switch (movable.NextMove)
+            switch (move)
             {
                 case Move.Up:
                     return TopBorderOfPlaygroundCollision(movable.Y, _gameValues.UpDownMovement);
@@ -108,7 +108,7 @@ namespace WpfGame.Controllers.Behaviour
                     }
                 }
             }
-            return BorderCollision(movable) ? NextStep.Border : NextStep.Clear;
+            return BorderCollision(movable,move) ? NextStep.Border : NextStep.Clear;
         }
     }
 }

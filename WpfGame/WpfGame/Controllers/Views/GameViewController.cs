@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xaml;
 using WpfGame;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
@@ -104,7 +105,6 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
                 _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
-                //                _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
             });
         }
 
@@ -128,13 +128,6 @@ namespace WpfGame.Controllers.Views
                 //if it succeed the hittest, if it fails we stop the movement
                 switch (_hitTester.ObjectCollision(_playgroundObjects,_player,_player.NextMove))
                 {
-                    case NextStep.Border:
-                    case NextStep.Wall:
-                        if (_hitTester.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) != NextStep.Clear)
-                        {
-                            _player.CurrentMove = Move.Stop;
-                        }
-                        break;
                     case NextStep.Endpoint:
                         hitEndSpotCounter++;
                         if (hitEndSpotCounter > 15)
@@ -149,6 +142,13 @@ namespace WpfGame.Controllers.Views
                     case NextStep.Coin:
                     case NextStep.Clear:
                         _player.CurrentMove = _player.NextMove;
+                        break;
+                    case NextStep.Border:
+                    case NextStep.Wall:
+                        if (_hitTester.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) != NextStep.Clear)
+                        {
+                            _player.CurrentMove = Move.Stop;
+                        }
                         break;
                 }
                 _position.UpdatePosition(_player);
@@ -216,7 +216,6 @@ namespace WpfGame.Controllers.Views
             _refreshTimer.Start();
             _pacmanAnimationTimer.Start();
             _obstacleTimer.Start();
-            
         }
 
         private void LoadObjects(List<IPlaygroundObject> list)
@@ -237,10 +236,12 @@ namespace WpfGame.Controllers.Views
             },
                 // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
                 // will succeed and pacman doenst get stuck on the playingfield
-                _gameValues.TileWidth * 0.91, _gameValues.TileHeight * 0.935,0, _gameValues.TileHeight * 3.035);
+                _playgroundObjects.Average(x => x.Image.Width), _playgroundObjects.Average(x => x.Image.Height) * 1.055, 0, _gameValues.TileHeight * 3.035);
             Canvas.SetTop(_player.Image, _player.Y);
             Canvas.SetLeft(_player.Image, _player.X);
             _gameView.GameCanvas.Children.Add(_player.Image);
+
+                
         }
 
         private void SetGameVales()
@@ -252,8 +253,8 @@ namespace WpfGame.Controllers.Views
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
-            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 225;
-            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 225;
+            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 235;
+            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 235;
         }
 
     }

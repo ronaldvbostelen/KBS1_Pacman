@@ -109,8 +109,8 @@ namespace WpfGame.Controllers.Renderer
                                 Source = new BitmapImage(
                                     new Uri("pack://application:,,,/Assets/Sprites/Objects/ObstacleOff.png"))
                             },
-                            _gameValues.TileWidth, _gameValues.TileHeight, j * _gameValues.TileWidth,
-                            i * _gameValues.TileHeight,false));
+                            _gameValues.TileWidth, _gameValues.TileHeight * 0.60, j * _gameValues.TileWidth,
+                            i * _gameValues.TileHeight + (_gameValues.TileHeight * 0.2),false));
                     }
                     else
                     {
