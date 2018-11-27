@@ -122,6 +122,10 @@ namespace WpfGame.Controllers.Views
                     //next we check wether our player has hit an enabled obstacle
                     if (!_hitTester.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
                     {
+                        if (_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsEnd))
+                        {
+                            FinishGame();
+                        }
                         _position.UpdatePosition(_player, _player.NextMove);
                         _player.CurrentMove = _player.NextMove;
                     }
@@ -150,6 +154,14 @@ namespace WpfGame.Controllers.Views
         private void EndGame()
         {
             _gameView.EndGamePanel.Visibility = Visibility.Visible;
+            _obstacleTimer.Stop();
+            _pacmanAnimationTimer.Stop();
+            _refreshTimer.Stop();
+        }
+
+        private void FinishGame()
+        {
+            _gameView.FinishGamePanel.Visibility = Visibility.Visible;
             _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
