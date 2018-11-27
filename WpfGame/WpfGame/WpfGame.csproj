@@ -185,5 +185,8 @@
   <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\coin.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Backgrounds\level-complete.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

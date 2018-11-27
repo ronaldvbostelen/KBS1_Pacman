@@ -8,5 +8,27 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Canvas Name="GameCanvas" Background="DeepPink" Focusable="True" />
+        <StackPanel Width="800" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <TextBlock HorizontalAlignment="Right" Name="GameClockHolder"
+                       FontSize="20" Foreground="White" Margin="0 0 5 0"/>
+            
+        </StackPanel>
+
+        <StackPanel Name="GameTimeIsOVerPanel" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 150 0 0">
+            <Border Margin="5" Padding="3" BorderThickness="1" BorderBrush="DarkRed" Background="DarkRed" CornerRadius="10">
+                <TextBlock Name="TimeIsUpTextBlock"
+                       FontSize="30" Foreground="DarkRed"
+                           FontFamily="STENCIL"
+                       Background="Black"
+                       Padding="10"/>
+            </Border>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="EndGamePanel">
+            <Image Source="../Assets/Sprites/game-over.png"></Image>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="FinishGamePanel">
+            <Image Source="../Assets/Backgrounds/level-complete.jpg"></Image>
+        </StackPanel>
     </Grid>
 </UserControl>
