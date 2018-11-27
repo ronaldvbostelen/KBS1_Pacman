@@ -61,7 +61,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\Behaviour\CollisionDetecter.cs" />
-    <Compile Include="Controllers\Game\Coin.cs" />
     <Compile Include="Controllers\Renderers\ControlRenderer.cs" />
     <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
     <Compile Include="Controllers\Renderers\TileRenderer.cs" />

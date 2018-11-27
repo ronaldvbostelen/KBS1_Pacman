@@ -126,9 +126,9 @@ namespace WpfGame.Controllers.Views
                 if (!_collisionDetecter.BorderCollision(_player, _player.NextMove) && !_collisionDetecter.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
                 {
                     //next we check wether our player has hit an enabled obstacle
-                    if (!_hitTester.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
+                    if (!_collisionDetecter.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
                     {
-                        if (_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsEnd))
+                        if (_collisionDetecter.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsEnd))
                         {
                             FinishGame();
                         }
