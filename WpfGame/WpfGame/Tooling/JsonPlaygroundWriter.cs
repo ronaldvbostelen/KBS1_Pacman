@@ -55,6 +55,8 @@ namespace WpfGame.Editor
                 writer.WriteValue(list[i].IsStart ? 1 : 0);
                 writer.WritePropertyName("isEnd");
                 writer.WriteValue(list[i].IsEnd ? 1 : 0);
+                writer.WritePropertyName("isSpawn");
+                writer.WriteValue(list[i].IsSpawn ? 1 : 0);
                 writer.WriteEndObject();
             }
 

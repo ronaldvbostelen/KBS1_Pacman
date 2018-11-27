@@ -58,6 +58,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.Wall;
                 _editorView.CurrentSelectedLabel.Content = "Wall";
             }
@@ -70,6 +71,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.Coin;
                 _editorView.CurrentSelectedLabel.Content = "Coin";
             }
@@ -82,6 +84,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Yellow;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.Obstacle;
                 _editorView.CurrentSelectedLabel.Content = "Obstacle";
             }
@@ -94,6 +97,7 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Yellow;
                 _editorView.EndSelect.Stroke = Brushes.Black;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.Start;
                 _editorView.CurrentSelectedLabel.Content = "Startpoint";
             }
@@ -106,11 +110,12 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Yellow;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.End;
                 _editorView.CurrentSelectedLabel.Content = "Endpoint";
             }
 
-            if (_editorView.Erase.IsMouseOver)
+            if (_editorView.SpawnSelect.IsMouseOver)
             {
 
                 _editorView.WallSelect.Stroke = Brushes.Black;
@@ -118,10 +123,26 @@ namespace WpfGame.Controllers.Views
                 _editorView.ObstSelect.Stroke = Brushes.Black;
                 _editorView.StartSelect.Stroke = Brushes.Black;
                 _editorView.EndSelect.Stroke = Brushes.Black;
+                _editorView.Erase.Stroke = Brushes.Black;
+                _editorView.SpawnSelect.Stroke = Brushes.Yellow;
+                _selectedItem = SelectedItem.Spawn;
+                _editorView.CurrentSelectedLabel.Content = "SpawnPoint";
+            }
+
+            if (_editorView.Erase.IsMouseOver)
+            {
+                _editorView.WallSelect.Stroke = Brushes.Black;
+                _editorView.CoinSelect.Stroke = Brushes.Black;
+                _editorView.ObstSelect.Stroke = Brushes.Black;
+                _editorView.StartSelect.Stroke = Brushes.Black;
+                _editorView.EndSelect.Stroke = Brushes.Black;
                 _editorView.Erase.Stroke = Brushes.Yellow;
+                _editorView.SpawnSelect.Stroke = Brushes.Black;
                 _selectedItem = SelectedItem.Erase;
                 _editorView.CurrentSelectedLabel.Content = "Erase";
             }
+
+        
 
             foreach (var tileEdit in _tileEdits)
             {
@@ -130,14 +151,12 @@ namespace WpfGame.Controllers.Views
                     switch (_selectedItem)
                     {
                         case SelectedItem.Wall:
-                            if (!tileEdit.HasObstacle && !tileEdit.HasCoin)
-                            { 
                                 tileEdit.IsWall = true;
+                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsStart = tileEdit.IsSpawn = false;
                                 tileEdit.Rectangle.Fill = Brushes.Black;
-                            }
                             break;
                         case SelectedItem.Obstacle:
-                            if (!tileEdit.IsWall && !tileEdit.HasCoin)
+                            if (!tileEdit.IsWall && !tileEdit.HasCoin && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
                             {
                                 tileEdit.HasObstacle = true;
                                 var obs = new ObstacleEdit(tileEdit.Rectangle.Width*.8,tileEdit.Rectangle.Height*.8,tileEdit.X + (tileEdit.Rectangle.Width*.1) ,
@@ -150,7 +169,7 @@ namespace WpfGame.Controllers.Views
                             }
                             break;
                         case SelectedItem.Coin:
-                            if (!tileEdit.IsWall && !tileEdit.HasObstacle)
+                            if (!tileEdit.IsWall && !tileEdit.HasObstacle && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
                             {
                                 tileEdit.HasCoin = true;
                                 var coin = new CoinEdit(tileEdit.Rectangle.Width * .6, tileEdit.Rectangle.Height * .75, tileEdit.X + (tileEdit.Rectangle.Width * .2),
@@ -163,22 +182,23 @@ namespace WpfGame.Controllers.Views
                             }
                             break;
                         case SelectedItem.End:
-                            if (!tileEdit.IsWall)
-                            {
                                 tileEdit.IsEnd = true;
+                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
                                 tileEdit.Rectangle.Fill = Brushes.Red;
-                            }
                             break;
                         case SelectedItem.Start:
-                            if (!tileEdit.IsWall)
-                            {
-                                tileEdit.IsEnd = true;
+                                tileEdit.IsStart = true;
+                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
                                 tileEdit.Rectangle.Fill = Brushes.Blue;
-                            }
+                            break;
+                        case SelectedItem.Spawn:
+                                tileEdit.IsSpawn = true;
+                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
+                                tileEdit.Rectangle.Fill = Brushes.SaddleBrown;
                             break;
                         case SelectedItem.Erase:
                             tileEdit.HasCoin = tileEdit.HasObstacle =
-                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
+                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Green;
                             break;
                     }
@@ -241,7 +261,7 @@ namespace WpfGame.Controllers.Views
             {
                 for (int j = 0; j < _editorValues.AmountOfXtiles; j++)
                 {
-                    tileEdits.Add(new TileEdit(_editorValues.TileWith,_editorValues.TileHeigth,i*_editorValues.TileHeigth,j*_editorValues.TileWith, false, false, false, false, false));
+                    tileEdits.Add(new TileEdit(_editorValues.TileWith,_editorValues.TileHeigth,i*_editorValues.TileHeigth,j*_editorValues.TileWith, false, false, false, false, false,false));
                 }
             }
         }

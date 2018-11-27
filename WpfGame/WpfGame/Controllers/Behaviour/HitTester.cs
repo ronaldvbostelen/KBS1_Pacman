@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
 using WpfGame.Models;
@@ -27,26 +28,27 @@ namespace WpfGame.Controllers.Behaviour
         public bool BottomBorderOfPlaygroundCollision(double playgroundHeight, double objectHeight,
             double yOfObject, double nextMove) => yOfObject + objectHeight + nextMove >= playgroundHeight;
 
-        public bool BorderCollision(Sprite sprite, Move move)
-        {   
-            switch (move)
+        private bool BorderCollision(MovableObject movable)
+        {
+            switch (movable.NextMove)
             {
                 case Move.Up:
-                    return TopBorderOfPlaygroundCollision(sprite.Y, _gameValues.UpDownMovement);
+                    return TopBorderOfPlaygroundCollision(movable.Y, _gameValues.UpDownMovement);
                 case Move.Down:
-                    return BottomBorderOfPlaygroundCollision(_gameValues.PlayCanvasHeight, sprite.Image.Height, sprite.Y,
+                    return BottomBorderOfPlaygroundCollision(_gameValues.PlayCanvasHeight, movable.Image.Height,
+                        movable.Y,
                         _gameValues.UpDownMovement);
                 case Move.Left:
-                    return LeftBorderOfPlaygroundCollision(sprite.X, _gameValues.LeftRightMovement);
+                    return LeftBorderOfPlaygroundCollision(movable.X, _gameValues.LeftRightMovement);
                 case Move.Right:
-                    return RightBorderOfPlaygroundCollision(_gameValues.PlayCanvasWidth, sprite.Image.Width, sprite.X,
+                    return RightBorderOfPlaygroundCollision(_gameValues.PlayCanvasWidth, movable.Image.Width, movable.X,
                         _gameValues.LeftRightMovement);
                 default:
                     return false;
             }
         }
-        
-        public bool ObjectCollision<T>(List<T> objectList, Player pacman, Move move, Predicate<T> predicate) where T : PlaygroundObject
+
+        public NextStep ObjectCollision(List<IPlaygroundObject> objectList, MovableObject movable, Move move)
         {
             double addToX = 0;
             double addToY = 0;
@@ -67,20 +69,46 @@ namespace WpfGame.Controllers.Behaviour
                     break;
             }
 
-            Rect pacmanRect = new Rect(new Point(pacman.X + addToX, pacman.Y + addToY),
-                new System.Windows.Size(pacman.Image.Width, pacman.Image.Height));
+            Rect moveObject = new Rect(new Point(movable.X + addToX, movable.Y + addToY),
+                new System.Windows.Size(movable.Image.Width, movable.Image.Height));
 
             foreach (var obj in objectList)
             {
-                Rect tileRect = new Rect(new Point(obj.X, obj.Y), new System.Windows.Size(obj.Rectangle.Width, obj.Rectangle.Width));
+                Rect tileRect = new Rect(new Point(obj.X, obj.Y),
+                    new System.Windows.Size(obj.Image.Width, obj.Image.Height));
 
-                if (pacmanRect.IntersectsWith(tileRect) && predicate(obj))
+                if (moveObject.IntersectsWith(tileRect))
                 {
-                    return true;
+                    switch (obj.ObjectType)
+                    {
+                        case ObjectType.Player:
+                            return NextStep.Player;
+                        case ObjectType.Enemy:
+                            return NextStep.Enemy;
+                        case ObjectType.EndPoint:
+                            return NextStep.Endpoint;
+                        case ObjectType.Obstacle:
+                            var obstacle = (ImmovableObject) obj;
+                            if (obstacle.State)
+                            {
+                                return NextStep.Obstacle;
+                            }
+                            break;
+                        case ObjectType.SpawnPoint:
+                        case ObjectType.Wall:
+                            return NextStep.Wall;
+                        case ObjectType.Coin:
+                            var coin = (ImmovableObject) obj;
+                            if (coin.State)
+                            {
+                                coin.State = false;
+                                return NextStep.Coin;
+                            }
+                            break;
+                    }
                 }
             }
-
-            return false;
+            return BorderCollision(movable) ? NextStep.Border : NextStep.Clear;
         }
     }
 }

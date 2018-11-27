@@ -40,6 +40,7 @@ namespace WpfGame.Editor
             bool obstacle = false;
             bool start = false;
             bool end = false;
+            bool spawn = false;
 
             while (reader.Read())
             {
@@ -49,8 +50,8 @@ namespace WpfGame.Editor
                     {
                         if (tileTag)
                         {
-                            list.Add(new TileMockup(wall, coin, obstacle, start, end));
-                            tileTag = wall = coin = obstacle = start = end = false;
+                            list.Add(new TileMockup(wall, coin, obstacle, start, end, spawn));
+                            tileTag = wall = coin = obstacle = start = end = spawn = false;
                         }
                     }
                     
@@ -82,13 +83,18 @@ namespace WpfGame.Editor
                     {
                         reader.Read();
                         end = (long)reader.Value == 1;
-                        tileTag = true;
+                        
                     }
 
-
+                    if (reader.Value.Equals("isSpawn"))
+                    {
+                        reader.Read();
+                        spawn = (long)reader.Value == 1;
+                        tileTag = true;
+                    }
                 }
             }
-            list.Add(new TileMockup(wall, coin, obstacle, start, end));
+            list.Add(new TileMockup(wall, coin, obstacle, start, end,spawn));
         }
 
 
