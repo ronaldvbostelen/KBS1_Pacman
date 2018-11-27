@@ -12,8 +12,8 @@ namespace WpfGame.Models
             Rectangle.RadiusX = Rectangle.RadiusY = 50;
             Rectangle.Width = width;
             Rectangle.Height = height;
-            Rectangle.Stroke = Brushes.Pink;
-            Rectangle.Fill = Brushes.Blue;
+            Rectangle.Stroke = Brushes.Black;
+            Rectangle.Fill = Brushes.White;
             IsEnabled = false;
         }
     }
