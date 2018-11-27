@@ -172,7 +172,7 @@ namespace WpfGame.Controllers.Views
                         case SelectedItem.Start:
                             if (!tileEdit.IsWall)
                             {
-                                tileEdit.IsEnd = true;
+                                tileEdit.IsStart = true;
                                 tileEdit.Rectangle.Fill = Brushes.Blue;
                             }
                             break;
