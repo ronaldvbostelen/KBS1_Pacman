@@ -29,7 +29,7 @@ namespace WpfGame.Controllers.Views
         private string _selectedGame;
         private List<IPlaygroundObject> _playgroundObjects;
         private MovableObject _player;
-        private CollisionDetecter _hitTester;
+        private CollisionDetecter _collisionDetecter;
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
         private Timer _obstacleTimer;
@@ -48,7 +48,7 @@ namespace WpfGame.Controllers.Views
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
-            _hitTester = new CollisionDetecter(_gameValues);
+            _collisionDetecter = new CollisionDetecter(_gameValues);
             _refreshTimer = new Timer{Interval = 16.6667};
             _pacmanAnimationTimer = new Timer{Interval = 150};
             _obstacleTimer = new Timer{Interval = 3000};
@@ -126,7 +126,7 @@ namespace WpfGame.Controllers.Views
 
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
-                switch (_hitTester.ObjectCollision(_playgroundObjects,_player,_player.NextMove))
+                switch (_collisionDetecter.ObjectCollision(_playgroundObjects,_player,_player.NextMove))
                 {
                     case NextStep.Endpoint:
                         hitEndSpotCounter++;
@@ -145,7 +145,7 @@ namespace WpfGame.Controllers.Views
                         break;
                     case NextStep.Border:
                     case NextStep.Wall:
-                        if (_hitTester.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) != NextStep.Clear)
+                        if (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) != NextStep.Clear)
                         {
                             _player.CurrentMove = Move.Stop;
                         }
