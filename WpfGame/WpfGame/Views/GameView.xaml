@@ -27,5 +27,8 @@
         <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="EndGamePanel">
             <Image Source="../Assets/Sprites/game-over.png"></Image>
         </StackPanel>
+        <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="FinishGamePanel">
+            <Image Source="../Assets/Backgrounds/level-complete.jpg"></Image>
+        </StackPanel>
     </Grid>
 </UserControl>

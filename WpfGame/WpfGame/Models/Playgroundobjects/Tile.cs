@@ -21,6 +21,10 @@ namespace WpfGame.Models
             HasObstacle = hasObstacle;
             IsStart = isStart;
             IsEnd = isEnd;
+            if (isEnd)
+            {
+                Rectangle.Fill = Brushes.Red;
+            }
         }
     }
 }
