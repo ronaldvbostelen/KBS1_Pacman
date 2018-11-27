@@ -23,7 +23,7 @@
                 <Rectangle Name="WallSelect" Fill="Black" Width="50" Height="50" Stroke="Black"/>
                 <Ellipse Margin="0 25 0 0" Name="CoinSelect" Width="50" Height="50" Fill="Gold" Stroke="Black" />
                 <Ellipse Margin="0 25 0 0" Name="ObstSelect" Width="50" Height="50" Fill="White" Stroke="Black"/>
-                <Rectangle Margin="0 25 0 0" Name="StartSelect" Fill="Green" Width="50" Height="50" Stroke="Black"/>
+                <Rectangle Margin="0 25 0 0" Name="StartSelect" Fill="Blue" Width="50" Height="50" Stroke="Black"/>
                 <Rectangle Margin="0 25 0 0" Name="EndSelect" Fill="Red" Width="50" Height="50" Stroke="Black"/>
                 <Rectangle Margin="0 25 0 0" Name="Erase" Fill="Pink" Width="25" Height="50" Stroke="Black"/>
                 <Button Margin="0 25 0 0" VerticalAlignment="Bottom" Name="CancelBtn">Cancel</Button>

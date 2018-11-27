@@ -166,16 +166,15 @@ namespace WpfGame.Controllers.Views
                             if (!tileEdit.IsWall)
                             {
                                 tileEdit.IsEnd = true;
+                                tileEdit.Rectangle.Fill = Brushes.Red;
                             }
-
-                            //endvisual
                             break;
                         case SelectedItem.Start:
                             if (!tileEdit.IsWall)
                             {
                                 tileEdit.IsEnd = true;
+                                tileEdit.Rectangle.Fill = Brushes.Blue;
                             }
-                            //endvisual
                             break;
                         case SelectedItem.Erase:
                             tileEdit.HasCoin = tileEdit.HasObstacle =
