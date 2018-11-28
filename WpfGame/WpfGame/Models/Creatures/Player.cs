@@ -26,8 +26,10 @@ namespace WpfGame.Controllers
             Image =  new Image
             {
                 Source = new BitmapImage(new Uri("pack://application:,,,/WpfGame;component/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png")),
-                Width = imageWidth, Height = imageHeight
+                Width = imageWidth,
+                Height = imageHeight
             };
         }
     }
 }
+

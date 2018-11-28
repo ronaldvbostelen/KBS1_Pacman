@@ -30,7 +30,7 @@ namespace WpfGame.Controllers.Views
         private List<Obstacle> _obstacles;
         private List<Coin> _coins;
         private Player _player;
-        private CollisionDetecter _hitTester;
+        private CollisionDetecter _collisionDetecter;
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
         private Timer _obstacleTimer;
@@ -47,7 +47,7 @@ namespace WpfGame.Controllers.Views
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
-            _hitTester = new CollisionDetecter(_gameValues);
+            _collisionDetecter = new CollisionDetecter(_gameValues);
             _refreshTimer = new Timer{Interval = 16.6667};
             _pacmanAnimationTimer = new Timer{Interval = 150};
             _obstacleTimer = new Timer{Interval = 3000};
@@ -72,7 +72,6 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _gameView);
             _pacmanAnimation.LoadPacmanImages();
-
         }
 
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -124,12 +123,12 @@ namespace WpfGame.Controllers.Views
 
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
-                if (!_hitTester.BorderCollision(_player, _player.NextMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
+                if (!_collisionDetecter.BorderCollision(_player, _player.NextMove) && !_collisionDetecter.ObjectCollision(_tiles, _player, _player.NextMove, x => x.IsWall))
                 {
                     //next we check wether our player has hit an enabled obstacle
-                    if (!_hitTester.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
+                    if (!_collisionDetecter.ObjectCollision(_obstacles, _player, _player.NextMove, x => x.IsEnabled))
                     {
-                        if (_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsEnd))
+                        if (_collisionDetecter.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsEnd))
                         {
                             FinishGame();
                         }
@@ -145,7 +144,7 @@ namespace WpfGame.Controllers.Views
                 }
                 else
                 {
-                    if (!_hitTester.BorderCollision(_player, _player.CurrentMove) && !_hitTester.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsWall))
+                    if (!_collisionDetecter.BorderCollision(_player, _player.CurrentMove) && !_collisionDetecter.ObjectCollision(_tiles, _player, _player.CurrentMove, x => x.IsWall))
                     {
                         _position.UpdatePosition(_player, _player.CurrentMove);
                     }
