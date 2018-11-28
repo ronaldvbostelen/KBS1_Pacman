@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
+using WpfGame.Models;
 using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
@@ -20,23 +21,25 @@ namespace WpfGame.Controllers.Behaviour
             _gameValues = gameValues;
         }
 
-        public double? UpdatePosition(Sprite sprite, Move move)
+        public void UpdatePosition(MovableObject sprite)
         {
-            switch (move)
+            switch (sprite.CurrentMove)
             {
                 case Move.Stop:
-                    return null;
+                    break;
                 case Move.Up:
-                    return sprite.Y -= _gameValues.UpDownMovement;
+                    sprite.Y -= _gameValues.UpDownMovement;
+                    break;
                 case Move.Down:
-                    return sprite.Y += _gameValues.UpDownMovement;
+                    sprite.Y += _gameValues.UpDownMovement;
+                    break;
                 case Move.Left:
-                    return sprite.X -= _gameValues.LeftRightMovement;
+                    sprite.X -= _gameValues.LeftRightMovement;
+                    break;
                 case Move.Right:
-                    return sprite.X += _gameValues.LeftRightMovement;
+                    sprite.X += _gameValues.LeftRightMovement;
+                    break;
             }
-
-            return null;
         }
     }
 }

@@ -68,11 +68,16 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
-    <Compile Include="Models\Animations\PacmanAnimation.cs" />
+    <Compile Include="Generals\IMovable.cs" />
+    <Compile Include="Generals\IPlaygroundObject.cs" />
+    <Compile Include="Generals\IState.cs" />
+    <Compile Include="Models\Visuals\Animations\ObstacleAnimation.cs" />
+    <Compile Include="Models\Visuals\Animations\PacmanAnimation.cs" />
     <Compile Include="Models\EditModels\TileCoinEdit.cs" />
     <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
-    <Compile Include="Models\Playgroundobjects\Coin.cs" />
-    <Compile Include="Models\Playgroundobjects\PlaygroundObject.cs" />
+    <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -92,9 +97,7 @@
     <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
     <Compile Include="Models\EditModels\CoinEdit.cs" />
-    <Compile Include="Models\Playgroundobjects\Obstacle.cs" />
     <Compile Include="Models\EditModels\ObstacleEdit.cs" />
-    <Compile Include="Models\Playgroundobjects\Tile.cs" />
     <Compile Include="Models\EditModels\TileEdit.cs" />
     <Compile Include="Models\TileMockup.cs" />
     <Compile Include="Values\EditorValues.cs" />
@@ -186,6 +189,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\level-complete.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\end.png" />
+    <Resource Include="Assets\Sprites\Objects\floor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\wall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\spawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\ObstacleOff.png" />
+    <Resource Include="Assets\Sprites\Objects\ObstacleOn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

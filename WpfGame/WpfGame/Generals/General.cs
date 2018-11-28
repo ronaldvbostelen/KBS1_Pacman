@@ -5,6 +5,19 @@ namespace WpfGame.Generals
 
     public delegate void PlaytimeIsOVerEventHandeler(object sender, EventArgs e);
 
+    public enum ObjectType
+    {
+        Coin,
+        Obstacle,
+        Wall,
+        Path,
+        Enemy,
+        Player,
+        SpawnPoint,
+        StartPoint,
+        EndPoint
+    }
+
     public enum Move
     {
         Stop,
@@ -34,9 +47,21 @@ namespace WpfGame.Generals
         Obstacle,
         Start,
         End,
-        Erase
+        Erase,
+        Spawn
     }
 
+    public enum NextStep
+    {
+        Clear,
+        Wall,
+        Border,
+        Coin,
+        Obstacle,
+        Endpoint,
+        Player,
+        Enemy
+    }
 
     public static class General
     {
