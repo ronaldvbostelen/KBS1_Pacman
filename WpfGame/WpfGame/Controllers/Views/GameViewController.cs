@@ -145,10 +145,12 @@ namespace WpfGame.Controllers.Views
                         break;
                     case NextStep.Border:
                     case NextStep.Wall:
-                        if (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) != NextStep.Clear)
+                        if (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == NextStep.Wall ||
+                            _collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == NextStep.Border)
                         {
                             _player.CurrentMove = Move.Stop;
                         }
+
                         break;
                 }
                 _position.UpdatePosition(_player);
@@ -236,12 +238,10 @@ namespace WpfGame.Controllers.Views
             },
                 // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
                 // will succeed and pacman doenst get stuck on the playingfield
-                _playgroundObjects.Average(x => x.Image.Width), _playgroundObjects.Average(x => x.Image.Height) * 1.055, 0, _gameValues.TileHeight * 3.035);
+            _playgroundObjects.Average(x => x.Image.Width) * 1.03, _playgroundObjects.Average(x => x.Image.Height) * 1.05, 0, _gameValues.TileHeight * 3.035);
             Canvas.SetTop(_player.Image, _player.Y);
             Canvas.SetLeft(_player.Image, _player.X);
             _gameView.GameCanvas.Children.Add(_player.Image);
-
-                
         }
 
         private void SetGameVales()

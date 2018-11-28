@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 using WpfGame.Generals;
 
 namespace WpfGame.Models
@@ -18,6 +19,7 @@ namespace WpfGame.Models
             Image = image;
             Image.Width = width;
             Image.Height = height;
+            Image.Stretch = Stretch.Fill;
             X = x;
             Y = y;
             NextMove = CurrentMove = Move.Stop;
