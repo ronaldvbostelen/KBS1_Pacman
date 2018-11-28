@@ -51,6 +51,115 @@ namespace WpfGame.Controllers.Views
 
         private void EditorView_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
+            SetFocusOnPlaygroundObject();
+            UpdatePlaygroundObjects();
+
+        }
+
+        private void UpdatePlaygroundObjects()
+        {
+            foreach (var tileEdit in _tileEdits)
+            {
+                if (tileEdit.Rectangle.IsMouseOver)
+                {
+                    switch (_selectedItem)
+                    {
+                        case SelectedItem.Wall:
+                            tileEdit.IsWall = true;
+                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsStart = tileEdit.IsSpawn = false;
+                            tileEdit.Rectangle.Fill = Brushes.Black;
+                            break;
+                        case SelectedItem.Obstacle:
+                            if (!tileEdit.IsWall && !tileEdit.HasCoin && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
+                            {
+                                tileEdit.HasObstacle = true;
+                                var obs = new ObstacleEdit(tileEdit.Rectangle.Width * .8, tileEdit.Rectangle.Height * .8, tileEdit.X + (tileEdit.Rectangle.Width * .1),
+                                    tileEdit.Y + (tileEdit.Rectangle.Height * .1));
+                                _obstacleEdits.Add(obs);
+                                Canvas.SetTop(obs.Ellipse, obs.Y);
+                                Canvas.SetLeft(obs.Ellipse, obs.X);
+                                _editorView.EditorCanvas.Children.Add(obs.Ellipse);
+                                _tileObstacleEdits.Add(new TileObstacleEdit(tileEdit, obs));
+                            }
+                            break;
+                        case SelectedItem.Coin:
+                            if (!tileEdit.IsWall && !tileEdit.HasObstacle && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
+                            {
+                                tileEdit.HasCoin = true;
+                                var coin = new CoinEdit(tileEdit.Rectangle.Width * .6, tileEdit.Rectangle.Height * .75, tileEdit.X + (tileEdit.Rectangle.Width * .2),
+                                    tileEdit.Y + (tileEdit.Rectangle.Height * .15));
+                                _coinEdits.Add(coin);
+                                Canvas.SetTop(coin.Ellipse, coin.Y);
+                                Canvas.SetLeft(coin.Ellipse, coin.X);
+                                _editorView.EditorCanvas.Children.Add(coin.Ellipse);
+                                _tileCoinEdits.Add(new TileCoinEdit(tileEdit, coin));
+                            }
+                            break;
+                        case SelectedItem.End:
+                            tileEdit.IsEnd = true;
+                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
+                            tileEdit.Rectangle.Fill = Brushes.Red;
+                            break;
+                        case SelectedItem.Start:
+                            tileEdit.IsStart = true;
+                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
+                            tileEdit.Rectangle.Fill = Brushes.Blue;
+                            break;
+                        case SelectedItem.Spawn:
+                            tileEdit.IsSpawn = true;
+                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
+                            tileEdit.Rectangle.Fill = Brushes.SaddleBrown;
+                            break;
+                        case SelectedItem.Erase:
+                            tileEdit.HasCoin = tileEdit.HasObstacle =
+                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
+                            tileEdit.Rectangle.Fill = Brushes.Green;
+                            break;
+                    }
+                }
+            }
+
+            foreach (var obstacleEdit in _obstacleEdits)
+            {
+                if (obstacleEdit.Ellipse.IsMouseOver)
+                {
+                    if (_selectedItem == SelectedItem.Erase)
+                    {
+                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
+                        foreach (var tileObstacleEdit in _tileObstacleEdits)
+                        {
+                            if (obstacleEdit.Equals(tileObstacleEdit.ObstacleEdit))
+                            {
+                                _tileEdits.Find(x => x.Equals(tileObstacleEdit.TileEdit)).HasObstacle = false;
+                            }
+                        }
+                        _editorView.EditorCanvas.Children.Remove(obstacleEdit.Ellipse);
+                    }
+                }
+            }
+
+            foreach (var coinEdit in _coinEdits)
+            {
+                if (coinEdit.Ellipse.IsMouseOver)
+                {
+                    if (_selectedItem == SelectedItem.Erase)
+                    {
+                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
+                        foreach (var tileCoinEdit in _tileCoinEdits)
+                        {
+                            if (coinEdit.Equals(tileCoinEdit.CoinEdit))
+                            {
+                                _tileEdits.Find(x => x.Equals(tileCoinEdit.TileEdit)).HasCoin = false;
+                            }
+                        }
+                        _editorView.EditorCanvas.Children.Remove(coinEdit.Ellipse);
+                    }
+                }
+            }
+        }
+
+        private void SetFocusOnPlaygroundObject()
+        {
             if (_editorView.WallSelect.IsMouseOver)
             {
                 _editorView.WallSelect.Stroke = Brushes.Yellow;
@@ -141,107 +250,6 @@ namespace WpfGame.Controllers.Views
                 _selectedItem = SelectedItem.Erase;
                 _editorView.CurrentSelectedLabel.Content = "Erase";
             }
-
-        
-
-            foreach (var tileEdit in _tileEdits)
-            {
-                if (tileEdit.Rectangle.IsMouseOver)
-                {
-                    switch (_selectedItem)
-                    {
-                        case SelectedItem.Wall:
-                                tileEdit.IsWall = true;
-                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsStart = tileEdit.IsSpawn = false;
-                                tileEdit.Rectangle.Fill = Brushes.Black;
-                            break;
-                        case SelectedItem.Obstacle:
-                            if (!tileEdit.IsWall && !tileEdit.HasCoin && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
-                            {
-                                tileEdit.HasObstacle = true;
-                                var obs = new ObstacleEdit(tileEdit.Rectangle.Width*.8,tileEdit.Rectangle.Height*.8,tileEdit.X + (tileEdit.Rectangle.Width*.1) ,
-                                    tileEdit.Y +(tileEdit.Rectangle.Height * .1) );
-                                _obstacleEdits.Add(obs);
-                                Canvas.SetTop(obs.Ellipse,obs.Y);
-                                Canvas.SetLeft(obs.Ellipse,obs.X);
-                                _editorView.EditorCanvas.Children.Add(obs.Ellipse);
-                                _tileObstacleEdits.Add(new TileObstacleEdit(tileEdit,obs));
-                            }
-                            break;
-                        case SelectedItem.Coin:
-                            if (!tileEdit.IsWall && !tileEdit.HasObstacle && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
-                            {
-                                tileEdit.HasCoin = true;
-                                var coin = new CoinEdit(tileEdit.Rectangle.Width * .6, tileEdit.Rectangle.Height * .75, tileEdit.X + (tileEdit.Rectangle.Width * .2),
-                                    tileEdit.Y + (tileEdit.Rectangle.Height * .15));
-                                _coinEdits.Add(coin);
-                                Canvas.SetTop(coin.Ellipse, coin.Y);
-                                Canvas.SetLeft(coin.Ellipse, coin.X);
-                                _editorView.EditorCanvas.Children.Add(coin.Ellipse);
-                                _tileCoinEdits.Add(new TileCoinEdit(tileEdit,coin));
-                            }
-                            break;
-                        case SelectedItem.End:
-                                tileEdit.IsEnd = true;
-                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
-                                tileEdit.Rectangle.Fill = Brushes.Red;
-                            break;
-                        case SelectedItem.Start:
-                                tileEdit.IsStart = true;
-                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
-                                tileEdit.Rectangle.Fill = Brushes.Blue;
-                            break;
-                        case SelectedItem.Spawn:
-                                tileEdit.IsSpawn = true;
-                                tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
-                                tileEdit.Rectangle.Fill = Brushes.SaddleBrown;
-                            break;
-                        case SelectedItem.Erase:
-                            tileEdit.HasCoin = tileEdit.HasObstacle =
-                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
-                            tileEdit.Rectangle.Fill = Brushes.Green;
-                            break;
-                    }
-                }
-            }
-
-            foreach (var obstacleEdit in _obstacleEdits)
-            {
-                if (obstacleEdit.Ellipse.IsMouseOver)
-                {
-                    if (_selectedItem == SelectedItem.Erase)
-                    {
-                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
-                        foreach (var tileObstacleEdit in _tileObstacleEdits)
-                        {
-                            if (obstacleEdit.Equals(tileObstacleEdit.ObstacleEdit))
-                            {
-                                _tileEdits.Find(x => x.Equals(tileObstacleEdit.TileEdit)).HasObstacle = false;
-                            }
-                        }
-                        _editorView.EditorCanvas.Children.Remove(obstacleEdit.Ellipse);
-                    }
-                }
-            }
-
-            foreach (var coinEdit in _coinEdits)
-            {
-                if (coinEdit.Ellipse.IsMouseOver)
-                {
-                    if (_selectedItem == SelectedItem.Erase)
-                    {
-                        //ze blijven wel in de array, maar voorzover ik zie boeit dan niet echt, boeit dus wel voor tileEdits, dit moet worden gematched en worden aangepast
-                        foreach (var tileCoinEdit in _tileCoinEdits)
-                        {
-                            if (coinEdit.Equals(tileCoinEdit.CoinEdit))
-                            {
-                                _tileEdits.Find(x => x.Equals(tileCoinEdit.TileEdit)).HasCoin = false;
-                            }
-                        }
-                        _editorView.EditorCanvas.Children.Remove(coinEdit.Ellipse);
-                    }
-                }
-            }
         }
 
 
@@ -261,7 +269,7 @@ namespace WpfGame.Controllers.Views
             {
                 for (int j = 0; j < _editorValues.AmountOfXtiles; j++)
                 {
-                    tileEdits.Add(new TileEdit(_editorValues.TileWith,_editorValues.TileHeigth,i*_editorValues.TileHeigth,j*_editorValues.TileWith, false, false, false, false, false,false));
+                    tileEdits.Add(new TileEdit(_editorValues.TileWith,_editorValues.TileHeigth,i*_editorValues.TileHeigth,j*_editorValues.TileWith));
                 }
             }
         }
@@ -289,8 +297,6 @@ namespace WpfGame.Controllers.Views
         {
             SetEditorValues();
             SetEditGridVisibility(Visibility.Visible);
-
-            //dit is niet heel charmant, maar anders zijn de waardes niet geladen voor de aanroep, als iemand het beter weet: doen (en mij vertellen :))
             LoadEditTiles(_tileEdits);
             RenderEditTiles(_tileEdits);
         }

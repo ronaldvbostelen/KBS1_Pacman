@@ -20,4 +20,4 @@
             IsSpawn = isSpawn;
         }
     }
-    }
+}

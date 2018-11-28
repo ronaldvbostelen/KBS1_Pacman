@@ -15,21 +15,21 @@ namespace WpfGame.Models
         public bool IsEnd { get; set; }
         public bool IsSpawn { get; set; }
 
-        public TileEdit(double width, double height, double y, double x, bool isWall, bool hasCoin, bool hasObstacle, bool isStart, bool isEnd, bool isSpawn)
+        public TileEdit(double width, double height, double y, double x)
         {
             Rectangle = new Rectangle { Width = width, Height = height,Stroke = Brushes.Black};
             
-            Rectangle.Fill = isWall ? Brushes.Black : Brushes.Green;
+            Rectangle.Fill = Brushes.Green;
 
             Y = y;
             X = x;
 
-            IsWall = isWall;
-            HasCoin = hasCoin;
-            HasObstacle = hasObstacle;
-            IsStart = isStart;
-            IsEnd = isEnd;
-            IsSpawn = isSpawn;
+            IsWall = false;
+            HasCoin = false; 
+            HasObstacle = false; 
+            IsStart = false; 
+            IsEnd = false; 
+            IsSpawn = false; 
         }
     }
 }

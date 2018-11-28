@@ -126,7 +126,7 @@ namespace WpfGame.Controllers.Views
 
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
-                switch (_collisionDetecter.ObjectCollision(_playgroundObjects,_player,_player.NextMove))
+                switch (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.NextMove))
                 {
                     case NextStep.Endpoint:
                         hitEndSpotCounter++;
@@ -207,7 +207,7 @@ namespace WpfGame.Controllers.Views
         
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            SetGameVales();
+            SetGameValues();
             _gameView.GameCanvas.Focus();
 
             _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
@@ -244,7 +244,7 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Children.Add(_player.Image);
         }
 
-        private void SetGameVales()
+        private void SetGameValues()
         {
             _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
             _gameValues.PlayCanvasWidth = _gameView.GameCanvas.ActualWidth;

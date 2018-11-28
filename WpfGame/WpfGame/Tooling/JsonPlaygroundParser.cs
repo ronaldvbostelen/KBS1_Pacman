@@ -50,6 +50,7 @@ namespace WpfGame.Editor
                     {
                         if (tileTag)
                         {
+                            
                             list.Add(new TileMockup(wall, coin, obstacle, start, end, spawn));
                             tileTag = wall = coin = obstacle = start = end = spawn = false;
                         }
@@ -94,7 +95,7 @@ namespace WpfGame.Editor
                     }
                 }
             }
-            list.Add(new TileMockup(wall, coin, obstacle, start, end,spawn));
+            list.Add(new TileMockup(wall, coin, obstacle, start, end, spawn));
         }
 
 
