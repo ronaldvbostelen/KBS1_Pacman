@@ -31,6 +31,11 @@
                     <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
                 </Button.Background>
             </Button>
+            <Button x:Name="BtnEnterUsername" Content="Gebruikersnaam invoeren" Margin="80,10,0,9" Width="143" Height="45">
+                <Button.Background>
+                    <SolidColorBrush Color="Lime" Opacity="0.72"/>
+                </Button.Background>
+            </Button>
         </DockPanel>
         <StackPanel Grid.Row="4" Grid.RowSpan="2" VerticalAlignment="Center">
             <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0">
@@ -46,6 +51,5 @@
             <Button Margin="5" Name="SelectPlgrnd">Select Playground</Button>
             <Button Margin="5" Name="CancelSelectPlgrnd">Cancel</Button>
         </StackPanel>
-        <Button x:Name="BtnEnterUsername" Content="Gebruikersnaam invoeren" HorizontalAlignment="Left" Margin="589,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="141" Height="44"/>
     </Grid>
 </UserControl>
