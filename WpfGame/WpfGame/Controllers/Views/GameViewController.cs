@@ -44,12 +44,12 @@ namespace WpfGame.Controllers.Views
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
         {
-            this._selectedGame = selectedGame;
+            _selectedGame = selectedGame;
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
             _collisionDetecter = new CollisionDetecter(_gameValues);
-            _refreshTimer = new Timer{Interval = 16.6667};
+            _refreshTimer = new Timer { Interval = 1000/60 };
             _pacmanAnimationTimer = new Timer{Interval = 150};
             _obstacleTimer = new Timer{Interval = 3000};
             _step = new Step();
@@ -58,11 +58,13 @@ namespace WpfGame.Controllers.Views
             _obstacleAnimation = new ObstacleAnimation();
             _random = new Random();
             _clockController = new ClockController();
-            
+
+            SetContentOfMain(mainWindow, _gameView);
 
             Canvas = _gameView.GameCanvas;
-            
-            SetKeyDownEvents(OnButtonKeyDown);
+
+            SetKeyDownEvents(_gameView.GameCanvas, OnButtonKeyDown);
+            SetKeyUpEvents(_gameView.GameCanvas, OnButtonKeyUp);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _refreshTimer.Elapsed += Refresh_GameCanvas;
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
@@ -70,11 +72,11 @@ namespace WpfGame.Controllers.Views
             _mainWindow.Closing += _mainWindow_Closing;
             _clockController.PlaytimeIsOVerEventHander += On_PlaytimeIsOver;
 
-            SetContentOfMain(mainWindow, _gameView);
+
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
-
+        
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
@@ -204,20 +206,51 @@ namespace WpfGame.Controllers.Views
                     break;
             }
         }
-        
+
+        private void OnButtonKeyUp(object sender, KeyEventArgs e)
+        {
+            //if the player releases his current key his nextmove will be reset to his current move, this prevents setting the next step in advance.
+            _player.NextMove = _player.CurrentMove;
+        }
+
+
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            SetGameValues();
-            _gameView.GameCanvas.Focus();
+            try
+            {
+                SetGameValues();
+                _gameView.GameCanvas.Focus();
+                RenderPlaygroundObjects();
+                LoadObjects(_playgroundObjects);
+                LoadPlayer(_playgroundObjects);
 
-            _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
-            LoadObjects(_playgroundObjects);
-            LoadPlayer(_playgroundObjects);
-            
-            _clockController.InitializeTimer();
-            _refreshTimer.Start();
-            _pacmanAnimationTimer.Start();
-            _obstacleTimer.Start();
+                
+                _clockController.InitializeTimer();
+                _refreshTimer.Start();
+                _pacmanAnimationTimer.Start();
+                _obstacleTimer.Start();
+            }
+            catch (Exception exception)
+            {
+                //ga back to mainscreen
+                new StartWindowViewController(_mainWindow);
+            }
+
+        }
+
+        private void RenderPlaygroundObjects()
+        {
+            try
+            {
+
+                _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
         private void LoadObjects(List<IPlaygroundObject> list)
@@ -238,7 +271,7 @@ namespace WpfGame.Controllers.Views
             },
                 // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
                 // will succeed and pacman doenst get stuck on the playingfield
-            _playgroundObjects.Average(x => x.Image.Width) * 1.03, _playgroundObjects.Average(x => x.Image.Height) * 1.05, 0, _gameValues.TileHeight * 3.035);
+            _gameValues.TileWidth * .93, _gameValues.TileHeight * .93, 0, _gameValues.TileHeight * 3.04);
             Canvas.SetTop(_player.Image, _player.Y);
             Canvas.SetLeft(_player.Image, _player.X);
             _gameView.GameCanvas.Children.Add(_player.Image);
@@ -253,8 +286,7 @@ namespace WpfGame.Controllers.Views
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
-            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 235;
-            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 235;
+            _gameValues.Movement = 2.5;
         }
 
     }

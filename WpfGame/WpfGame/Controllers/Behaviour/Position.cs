@@ -28,16 +28,16 @@ namespace WpfGame.Controllers.Behaviour
                 case Move.Stop:
                     break;
                 case Move.Up:
-                    sprite.Y -= _gameValues.UpDownMovement;
+                    sprite.Y -= _gameValues.Movement;
                     break;
                 case Move.Down:
-                    sprite.Y += _gameValues.UpDownMovement;
+                    sprite.Y += _gameValues.Movement;
                     break;
                 case Move.Left:
-                    sprite.X -= _gameValues.LeftRightMovement;
+                    sprite.X -= _gameValues.Movement;
                     break;
                 case Move.Right:
-                    sprite.X += _gameValues.LeftRightMovement;
+                    sprite.X += _gameValues.Movement;
                     break;
             }
         }

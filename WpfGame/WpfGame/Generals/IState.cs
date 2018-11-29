@@ -1,6 +1,6 @@
 ﻿namespace WpfGame.Generals
 {
-    public interface IState
+    public interface IState : IPlaygroundObject
     {
         bool State { get; set; }
     }
