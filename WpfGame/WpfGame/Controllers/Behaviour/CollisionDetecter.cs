@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
 using WpfGame.Models;
@@ -33,16 +34,16 @@ namespace WpfGame.Controllers.Behaviour
             switch (move)
             {
                 case Move.Up:
-                    return TopBorderOfPlaygroundCollision(movable.Y, _gameValues.UpDownMovement);
+                    return TopBorderOfPlaygroundCollision(movable.Y, _gameValues.Movement);
                 case Move.Down:
                     return BottomBorderOfPlaygroundCollision(_gameValues.PlayCanvasHeight, movable.Image.Height,
                         movable.Y,
-                        _gameValues.UpDownMovement);
+                        _gameValues.Movement);
                 case Move.Left:
-                    return LeftBorderOfPlaygroundCollision(movable.X, _gameValues.LeftRightMovement);
+                    return LeftBorderOfPlaygroundCollision(movable.X, _gameValues.Movement);
                 case Move.Right:
                     return RightBorderOfPlaygroundCollision(_gameValues.PlayCanvasWidth, movable.Image.Width, movable.X,
-                        _gameValues.LeftRightMovement);
+                        _gameValues.Movement);
                 default:
                     return false;
             }
@@ -56,16 +57,16 @@ namespace WpfGame.Controllers.Behaviour
             switch (move)
             {
                 case Move.Down:
-                    addToY = _gameValues.UpDownMovement;
+                    addToY = _gameValues.Movement;
                     break;
                 case Move.Up:
-                    addToY = -_gameValues.UpDownMovement;
+                    addToY = -_gameValues.Movement;
                     break;
                 case Move.Left:
-                    addToX = -_gameValues.LeftRightMovement;
+                    addToX = -_gameValues.Movement;
                     break;
                 case Move.Right:
-                    addToX = _gameValues.LeftRightMovement;
+                    addToX = _gameValues.Movement;
                     break;
             }
 

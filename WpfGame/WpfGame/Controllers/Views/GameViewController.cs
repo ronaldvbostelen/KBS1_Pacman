@@ -49,7 +49,7 @@ namespace WpfGame.Controllers.Views
             _gameView = new GameView();
             _gameValues = new GameValues();       
             _collisionDetecter = new CollisionDetecter(_gameValues);
-            _refreshTimer = new Timer{Interval = 16.6667};
+            _refreshTimer = new Timer { Interval = 1000/60 };
             _pacmanAnimationTimer = new Timer{Interval = 150};
             _obstacleTimer = new Timer{Interval = 3000};
             _step = new Step();
@@ -253,8 +253,7 @@ namespace WpfGame.Controllers.Views
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
-            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 235;
-            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 235;
+            _gameValues.Movement = 2.5;
         }
 
     }

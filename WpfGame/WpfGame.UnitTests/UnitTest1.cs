@@ -31,13 +31,13 @@ namespace WpfGame.UnitTests
             var _gameView = new GameView();
             _gameValues.PlayCanvasHeight = 600;
             _gameValues.PlayCanvasWidth = 784;
-            _gameValues.UpDownMovement = _gameValues.PlayCanvasHeight / 200;
-            _gameValues.LeftRightMovement = _gameValues.PlayCanvasWidth / 200;
+            _gameValues.Movement = _gameValues.PlayCanvasHeight / 200;
+            _gameValues.Movement = _gameValues.PlayCanvasWidth / 200;
             MovableObject _sprite = new MovableObject(ObjectType.Player,null, 50,50,10,10);
             var currpos = _sprite.X;
             _sprite.CurrentMove = Move.Right;
             pos.UpdatePosition(_sprite);
-            Assert.AreEqual(currpos + _gameValues.LeftRightMovement,_sprite.X);
+            Assert.AreEqual(currpos + _gameValues.Movement,_sprite.X);
         }
     }
 }
