@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xaml;
-using WpfGame;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
@@ -29,6 +25,7 @@ namespace WpfGame.Controllers.Views
         private string _selectedGame;
         private List<IPlaygroundObject> _playgroundObjects;
         private MovableObject _player;
+        private MovableObject _enemy;
         private CollisionDetecter _collisionDetecter;
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
@@ -223,8 +220,9 @@ namespace WpfGame.Controllers.Views
                 RenderPlaygroundObjects();
                 LoadObjects(_playgroundObjects);
                 LoadPlayer(_playgroundObjects);
+                LoadEnemy(_playgroundObjects);
 
-                
+
                 _clockController.InitializeTimer();
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
@@ -269,12 +267,28 @@ namespace WpfGame.Controllers.Views
             {
                 Source = new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png"))
             },
-                // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
-                // will succeed and pacman doenst get stuck on the playingfield
+          // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
+          // will succeed and pacman doenst get stuck on the playingfield
             _gameValues.TileWidth * .93, _gameValues.TileHeight * .93, 0, _gameValues.TileHeight * 3.04);
             Canvas.SetTop(_player.Image, _player.Y);
             Canvas.SetLeft(_player.Image, _player.X);
             _gameView.GameCanvas.Children.Add(_player.Image);
+        }
+
+        private void LoadEnemy(List<IPlaygroundObject> playgroundObjects)
+        {
+            _enemy = new MovableObject(ObjectType.Enemy, new Image
+            {
+                Source = new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Enemy/blinky-right.png"))
+            },
+            // there is some minor difference in the x/y and width/size of the tiles and pacman. So we have to correct the size of pacman so that the hittesting
+            // will succeed and pacman doenst get stuck on the playingfield
+            _gameValues.TileWidth * .93, _gameValues.TileHeight * .93, 0, _gameValues.TileHeight * 3.04);
+            _enemy.X = 197.2357;//niet echt mooi gedaan, nog wijzigen
+            _enemy.Y = 283.0037;//niet echt mooi gedaan, nog wijzigen
+            Canvas.SetTop(_enemy.Image, _enemy.Y);
+            Canvas.SetLeft(_enemy.Image, _enemy.X);
+            _gameView.GameCanvas.Children.Add(_enemy.Image);
         }
 
         private void SetGameValues()

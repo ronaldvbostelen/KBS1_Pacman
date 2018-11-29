@@ -92,7 +92,6 @@
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
     <Compile Include="Controllers\Game\ClockController.cs" />
-    <Compile Include="Models\Creatures\Enemy.cs" />
     <Compile Include="Models\Creatures\Player.cs" />
     <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
