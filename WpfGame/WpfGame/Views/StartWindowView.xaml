@@ -46,5 +46,6 @@
             <Button Margin="5" Name="SelectPlgrnd">Select Playground</Button>
             <Button Margin="5" Name="CancelSelectPlgrnd">Cancel</Button>
         </StackPanel>
+        <Button x:Name="BtnEnterUsername" Content="Gebruikersnaam invoeren" HorizontalAlignment="Left" Margin="589,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="141" Height="44"/>
     </Grid>
 </UserControl>
