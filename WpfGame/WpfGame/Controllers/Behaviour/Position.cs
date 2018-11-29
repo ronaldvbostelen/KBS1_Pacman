@@ -10,7 +10,7 @@ using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
 {
-    class Position
+    public class Position
     {
         public int Left { get; set; }
         public int Top { get; set; }
