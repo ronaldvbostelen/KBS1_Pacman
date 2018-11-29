@@ -14,6 +14,9 @@ namespace WpfGame.Controllers.Behaviour
     {
         private GameValues _gameValues;
 
+        public delegate void CoinCollisionHandler(ImmovableObject coin);
+        public event CoinCollisionHandler CoinCollision;
+
         public CollisionDetecter(GameValues gameValues)
         {
             _gameValues = gameValues;
@@ -102,6 +105,7 @@ namespace WpfGame.Controllers.Behaviour
                             var coin = (ImmovableObject) obj;
                             if (coin.State)
                             {
+                                OnCoinCollision(coin);
                                 coin.State = false;
                                 return NextStep.Coin;
                             }
@@ -110,6 +114,14 @@ namespace WpfGame.Controllers.Behaviour
                 }
             }
             return BorderCollision(movable,move) ? NextStep.Border : NextStep.Clear;
+        }
+
+        protected virtual void OnCoinCollision(ImmovableObject coin)
+        {
+            if(CoinCollision != null)
+            {
+                CoinCollision(coin);
+            }
         }
     }
 }

@@ -72,6 +72,8 @@ namespace WpfGame.Controllers.Views
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
+
+            _collisionDetecter.CoinCollision += OnCoinCollision;
         }
         
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -139,6 +141,8 @@ namespace WpfGame.Controllers.Views
                         EndGame();
                         break;
                     case NextStep.Coin:
+                        
+                        break;
                     case NextStep.Clear:
                         _player.CurrentMove = _player.NextMove;
                         break;
@@ -209,7 +213,6 @@ namespace WpfGame.Controllers.Views
             //if the player releases his current key his nextmove will be reset to his current move, this prevents setting the next step in advance.
             _player.NextMove = _player.CurrentMove;
         }
-
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
@@ -289,6 +292,34 @@ namespace WpfGame.Controllers.Views
             Canvas.SetTop(_enemy.Image, _enemy.Y);
             Canvas.SetLeft(_enemy.Image, _enemy.X);
             _gameView.GameCanvas.Children.Add(_enemy.Image);
+        }
+
+        /**
+         * We used a delegate for the collision with the coin, because it currently
+         * isn't possible to return a coin in the CollisionDetecter.
+         **/
+        public void OnCoinCollision(ImmovableObject coin)
+        {
+            foreach (UIElement element in Canvas.Children)
+            {
+                var visualCanvas = element.TransformToVisual(Canvas);
+                Point coordinates = visualCanvas.Transform(new Point(0, 0));
+
+                if (coordinates.X == coin.X && coordinates.Y == coin.Y)
+                {
+                    RemoveCoin(element);
+                    return;
+                }
+            }
+        }
+
+        /**
+         * Remove the coin, because removing an item from a list in a
+         * foreach is not possible
+         **/
+        private void RemoveCoin(UIElement element)
+        {
+            Canvas.Children.Remove(element);
         }
 
         private void SetGameValues()
