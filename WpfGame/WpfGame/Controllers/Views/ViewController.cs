@@ -28,6 +28,10 @@ namespace WpfGame.Controllers.Views
             _mainWindow.KeyDown += e;
         }
 
+        protected void SetKeyUpEvents(KeyEventHandler e)
+        {
+            _mainWindow.KeyUp += e;
+        }
         protected void SetContentOfMain(MainWindow mainWindow, UserControl view)
         {
             mainWindow.Content = view;

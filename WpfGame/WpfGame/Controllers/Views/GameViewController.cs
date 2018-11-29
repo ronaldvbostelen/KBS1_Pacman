@@ -63,6 +63,7 @@ namespace WpfGame.Controllers.Views
             Canvas = _gameView.GameCanvas;
             
             SetKeyDownEvents(OnButtonKeyDown);
+            SetKeyUpEvents(OnButtonKeyUp);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _refreshTimer.Elapsed += Refresh_GameCanvas;
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
@@ -74,7 +75,7 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
-
+        
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
@@ -204,7 +205,14 @@ namespace WpfGame.Controllers.Views
                     break;
             }
         }
-        
+
+        private void OnButtonKeyUp(object sender, KeyEventArgs e)
+        {
+            //if the player releases his current key his nextmove will be reset to his current move, this prevents setting the next step in advance.
+            _player.NextMove = _player.CurrentMove;
+        }
+
+
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             SetGameValues();
