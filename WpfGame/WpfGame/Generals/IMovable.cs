@@ -1,6 +1,6 @@
 ﻿namespace WpfGame.Generals
 {
-    public interface IMovable
+    public interface IMovable : IPlaygroundObject
     {
         Move CurrentMove { get; set; }
         Move NextMove { get; set; }

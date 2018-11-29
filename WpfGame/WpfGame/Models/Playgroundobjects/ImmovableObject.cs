@@ -4,7 +4,7 @@ using WpfGame.Generals;
 
 namespace WpfGame.Models
 {
-    public class ImmovableObject: IPlaygroundObject, IState
+    public class ImmovableObject: IState
     {
         public ObjectType ObjectType { get; set; }
         public Image Image { get; set; }
