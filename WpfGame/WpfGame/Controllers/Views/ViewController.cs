@@ -23,14 +23,14 @@ namespace WpfGame.Controllers.Views
             button.Click += e;
         }
 
-        protected void SetKeyDownEvents(KeyEventHandler e)
+        protected void SetKeyDownEvents(Canvas canvas, KeyEventHandler e)
         {
-            _mainWindow.KeyDown += e;
+            canvas.KeyDown += e;
         }
 
-        protected void SetKeyUpEvents(KeyEventHandler e)
+        protected void SetKeyUpEvents(Canvas canvas, KeyEventHandler e)
         {
-            _mainWindow.KeyUp += e;
+            canvas.KeyUp += e;
         }
         protected void SetContentOfMain(MainWindow mainWindow, UserControl view)
         {

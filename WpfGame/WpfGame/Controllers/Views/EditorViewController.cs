@@ -41,7 +41,7 @@ namespace WpfGame.Controllers.Views
 
             _editorView.Loaded += EditorCanvas_Loaded;
             _editorView.MouseDown += EditorView_OnMouseDown;
-
+            
             SetContentOfMain(mainWindow, _editorView);
             SetButtonEvents(_editorView.CancelBtn, CancelBtn_Click);
             SetButtonEvents(_editorView.SaveBtn, SaveBtn_Click);

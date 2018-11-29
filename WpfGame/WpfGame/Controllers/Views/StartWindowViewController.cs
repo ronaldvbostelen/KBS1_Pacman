@@ -34,7 +34,6 @@ namespace WpfGame.Controllers.Views
 
             SetKeyEvents(_startWindowView.Grid, Grid_KeyDown);
 
-
             //todo:wrapper
             _startWindowView.Grid.Loaded += Grid_Loaded;
         }

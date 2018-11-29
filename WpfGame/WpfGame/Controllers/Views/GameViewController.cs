@@ -44,7 +44,7 @@ namespace WpfGame.Controllers.Views
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
         {
-            this._selectedGame = selectedGame;
+            _selectedGame = selectedGame;
             
             _gameView = new GameView();
             _gameValues = new GameValues();       
@@ -58,12 +58,13 @@ namespace WpfGame.Controllers.Views
             _obstacleAnimation = new ObstacleAnimation();
             _random = new Random();
             _clockController = new ClockController();
-            
+
+            SetContentOfMain(mainWindow, _gameView);
 
             Canvas = _gameView.GameCanvas;
-            
-            SetKeyDownEvents(OnButtonKeyDown);
-            SetKeyUpEvents(OnButtonKeyUp);
+
+            SetKeyDownEvents(_gameView.GameCanvas, OnButtonKeyDown);
+            SetKeyUpEvents(_gameView.GameCanvas, OnButtonKeyUp);
             _gameView.GameCanvas.Loaded += GameCanvas_Loaded;
             _refreshTimer.Elapsed += Refresh_GameCanvas;
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
@@ -71,7 +72,7 @@ namespace WpfGame.Controllers.Views
             _mainWindow.Closing += _mainWindow_Closing;
             _clockController.PlaytimeIsOVerEventHander += On_PlaytimeIsOver;
 
-            SetContentOfMain(mainWindow, _gameView);
+
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
@@ -215,17 +216,41 @@ namespace WpfGame.Controllers.Views
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            SetGameValues();
-            _gameView.GameCanvas.Focus();
+            try
+            {
+                SetGameValues();
+                _gameView.GameCanvas.Focus();
+                RenderPlaygroundObjects();
+                LoadObjects(_playgroundObjects);
+                LoadPlayer(_playgroundObjects);
 
-            _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
-            LoadObjects(_playgroundObjects);
-            LoadPlayer(_playgroundObjects);
-            
-            _clockController.InitializeTimer();
-            _refreshTimer.Start();
-            _pacmanAnimationTimer.Start();
-            _obstacleTimer.Start();
+                
+                _clockController.InitializeTimer();
+                _refreshTimer.Start();
+                _pacmanAnimationTimer.Start();
+                _obstacleTimer.Start();
+            }
+            catch (Exception exception)
+            {
+                //ga back to mainscreen
+                new StartWindowViewController(_mainWindow);
+            }
+
+        }
+
+        private void RenderPlaygroundObjects()
+        {
+            try
+            {
+
+                _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
         private void LoadObjects(List<IPlaygroundObject> list)
