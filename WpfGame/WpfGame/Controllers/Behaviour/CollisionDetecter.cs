@@ -13,8 +13,6 @@ namespace WpfGame.Controllers.Behaviour
     public class CollisionDetecter
     {
         private GameValues _gameValues;
-
-        //public event CoinCollisionHandler CoinCollision;
         public event EventHandler<ImmovableEventArgs> CoinCollision;
 
         public CollisionDetecter(GameValues gameValues)
