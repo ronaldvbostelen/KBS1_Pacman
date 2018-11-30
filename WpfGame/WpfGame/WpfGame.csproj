@@ -61,7 +61,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\Behaviour\CollisionDetecter.cs" />
-    <Compile Include="Controllers\Renderers\ControlRenderer.cs" />
     <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
     <Compile Include="Controllers\Renderers\TileRenderer.cs" />
     <Compile Include="Controllers\Views\EditorViewController.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\UsernameViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Generals\ImmovableEventArgs.cs" />
     <Compile Include="Generals\IMovable.cs" />
     <Compile Include="Generals\IPlaygroundObject.cs" />
     <Compile Include="Generals\IState.cs" />

@@ -72,8 +72,10 @@ namespace WpfGame.Controllers.Views
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
+
+            _collisionDetecter.CoinCollision += OnCoinCollision;
         }
-        
+
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
@@ -210,7 +212,6 @@ namespace WpfGame.Controllers.Views
             _player.NextMove = _player.CurrentMove;
         }
 
-
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -289,6 +290,16 @@ namespace WpfGame.Controllers.Views
             Canvas.SetTop(_enemy.Image, _enemy.Y);
             Canvas.SetLeft(_enemy.Image, _enemy.X);
             _gameView.GameCanvas.Children.Add(_enemy.Image);
+        }
+
+        /**
+         * We used a delegate for the collision with the coin, because it currently
+         * isn't possible to return a coin in the CollisionDetecter.
+         **/
+        public void OnCoinCollision(object sender, ImmovableEventArgs args)
+        {
+            args.Coin.State = false;
+            _gameView.GameCanvas.Children.Remove(args.Coin.Image);
         }
 
         private void SetGameValues()
