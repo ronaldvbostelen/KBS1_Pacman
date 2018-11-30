@@ -34,7 +34,8 @@ namespace WpfGame.Controllers.Views
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
         private ObstacleAnimation _obstacleAnimation;
-        private ClockController _clockController;
+        private Clock _clock;
+        private Score _score;
         private const int AmountOfTilesWidth = 20;
         private int hitEndSpotCounter;
 
@@ -54,7 +55,8 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimation = new PacmanAnimation();
             _obstacleAnimation = new ObstacleAnimation();
             _random = new Random();
-            _clockController = new ClockController();
+            _clock = new Clock();
+            _score = new Score();
 
             SetContentOfMain(mainWindow, _gameView);
 
@@ -67,7 +69,7 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimationTimer.Elapsed += _pacmanAnimationTimer_Elapsed;
             _obstacleTimer.Elapsed += _obstacleTimer_Elapsed;
             _mainWindow.Closing += _mainWindow_Closing;
-            _clockController.PlaytimeIsOVerEventHander += On_PlaytimeIsOver;
+            _clock.PlaytimeIsOVerEventHander += On_PlaytimeIsOver;
 
 
             _pacmanAnimation.LoadPacmanImages();
@@ -96,8 +98,7 @@ namespace WpfGame.Controllers.Views
                         }
                     }
                 }
-            });
-            
+            });      
         }
 
         private void _pacmanAnimationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -118,12 +119,13 @@ namespace WpfGame.Controllers.Views
 
         private void Refresh_GameCanvas(object sender, ElapsedEventArgs e)
         {
-            
             //so we have to call the dispatcher to grab authority over the GUI
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
-//                updateclock
-                _gameView.GameClockHolder.Text = _clockController.Display;
+                //Update clock
+                _gameView.GameClockHolder.Text = _clock.Display;
+                //Update score
+                _gameView.GameScoreHolder.Text = $"Score: {_score.ScoreValue.ToString()}";
 
                 //we only set the (next) step if the sprite doesnt hit a outerborder nor an obstacle on the nextstep, we set the currentstep again
                 //if it succeed the hittest, if it fails we stop the movement
@@ -161,16 +163,15 @@ namespace WpfGame.Controllers.Views
 
         public void On_PlaytimeIsOver(object sender, EventArgs e)
         {
-            var totalscore = 10000;
-            _gameView.GameClockHolder.Text = _clockController.Display;
-            _gameView.TimeIsUpTextBlock.Text = $"Time's up! Total score: {totalscore}";
-            _gameView.GameTimeIsOVerPanel.Visibility = Visibility.Visible;
+            _gameView.GameClockHolder.Text = _clock.Display; //This is a little hack that prevents the clock from standing still on 00:01 instead of 00:00
+            DisplayScore(true);
             EndGame();
         }
 
         private void EndGame()
         {
             _gameView.EndGamePanel.Visibility = Visibility.Visible;
+            DisplayScore();
             _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
@@ -179,9 +180,20 @@ namespace WpfGame.Controllers.Views
         private void FinishGame()
         {
             _gameView.FinishGamePanel.Visibility = Visibility.Visible;
+            DisplayScore();
             _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
+        }
+
+        private void DisplayScore(bool timeIsUp = false)
+        {
+            if(timeIsUp)
+                _gameView.TimeIsUpTextBlock.Text = $"Time's up! Total score: {_score.ScoreValue}";
+            else
+                _gameView.TimeIsUpTextBlock.Text = $"Total score: {_score.ScoreValue}";
+            _gameView.GameTimeIsOVerPanel.Visibility = Visibility.Visible;
+            _score.WriteTotalScoreToHighscores();
         }
 
         private void OnButtonKeyDown(object sender, KeyEventArgs e)
@@ -224,14 +236,14 @@ namespace WpfGame.Controllers.Views
                 LoadEnemy(_playgroundObjects);
 
 
-                _clockController.InitializeTimer();
+                _clock.InitializeTimer();
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
             }
             catch (Exception exception)
             {
-                //ga back to mainscreen
+                //go back to mainscreen
                 new StartWindowViewController(_mainWindow);
             }
 
@@ -299,7 +311,8 @@ namespace WpfGame.Controllers.Views
         public void OnCoinCollision(object sender, ImmovableEventArgs args)
         {
             args.Coin.State = false;
-            _gameView.GameCanvas.Children.Remove(args.Coin.Image);
+            _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from vanvas
+            _score.ScoreValue += 10;
         }
 
         private void SetGameValues()

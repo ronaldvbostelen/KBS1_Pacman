@@ -91,7 +91,7 @@
     <Compile Include="Controllers\Behaviour\Step.cs" />
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
-    <Compile Include="Controllers\Game\ClockController.cs" />
+    <Compile Include="Controllers\Game\Clock.cs" />
     <Compile Include="Models\Creatures\Player.cs" />
     <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
@@ -187,9 +187,6 @@
     <Resource Include="Assets\Sprites\Objects\coin.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Backgrounds\level-complete.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\end.png" />
     <Resource Include="Assets\Sprites\Objects\floor.png" />
   </ItemGroup>
@@ -202,6 +199,9 @@
   <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\ObstacleOff.png" />
     <Resource Include="Assets\Sprites\Objects\ObstacleOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Highscores.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

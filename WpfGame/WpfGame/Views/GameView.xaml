@@ -14,11 +14,16 @@
             
         </StackPanel>
 
+        <StackPanel Width="800" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TextBlock HorizontalAlignment="Left" Name="GameScoreHolder"
+                       FontSize="20" Foreground="White"/>
+        </StackPanel>
+
         <StackPanel Name="GameTimeIsOVerPanel" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 150 0 0">
             <Border Margin="5" Padding="3" BorderThickness="1" BorderBrush="DarkRed" Background="DarkRed" CornerRadius="10">
                 <TextBlock Name="TimeIsUpTextBlock"
                        FontSize="30" Foreground="DarkRed"
-                           FontFamily="STENCIL"
+                       FontFamily="STENCIL"
                        Background="Black"
                        Padding="10"/>
             </Border>
@@ -28,7 +33,16 @@
             <Image Source="../Assets/Sprites/game-over.png"></Image>
         </StackPanel>
         <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="FinishGamePanel">
-            <Image Source="../Assets/Backgrounds/level-complete.jpg"></Image>
+            <Border Margin="5" Padding="3" BorderThickness="1" BorderBrush="DarkGreen" Background="DarkGreen" CornerRadius="10">
+                <TextBlock Name="LevelCompleted"
+                       FontSize="40" 
+                       Foreground="DarkGreen"
+                       FontFamily="STENCIL"
+                       Background="Black"
+                       Padding="10"
+                       TextAlignment="Center"
+                       Text="Level completed!" />
+            </Border>
         </StackPanel>
     </Grid>
 </UserControl>
