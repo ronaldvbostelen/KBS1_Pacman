@@ -200,8 +200,5 @@
     <Resource Include="Assets\Sprites\Objects\ObstacleOff.png" />
     <Resource Include="Assets\Sprites\Objects\ObstacleOn.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Highscores.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
