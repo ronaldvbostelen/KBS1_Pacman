@@ -20,12 +20,10 @@ namespace WpfGame.Controllers
             string path = $"{Environment.CurrentDirectory}\\Highscores.txt";
             string fileContent = $"{Settings.Default.Username} {ScoreValue.ToString()} {Environment.NewLine}";
 
-            if (!File.Exists(path)) // Create the file if it doesn't exist yet
+            using (StreamWriter file = new StreamWriter(path, true))
             {
-                File.Create(path);
+                file.WriteLine(fileContent);
             }
-
-            File.AppendAllText(path, fileContent);
         }
     }
 }
