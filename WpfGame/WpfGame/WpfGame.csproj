@@ -72,13 +72,13 @@
     <Compile Include="Generals\IMovable.cs" />
     <Compile Include="Generals\IPlaygroundObject.cs" />
     <Compile Include="Generals\IState.cs" />
-    <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
-    <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
-    <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
     <Compile Include="Models\Visuals\Animations\ObstacleAnimation.cs" />
     <Compile Include="Models\Visuals\Animations\PacmanAnimation.cs" />
     <Compile Include="Models\EditModels\TileCoinEdit.cs" />
     <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
+    <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
     <Compile Include="Settings.Designer.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
@@ -93,7 +93,7 @@
     <Compile Include="Controllers\Behaviour\Step.cs" />
     <Compile Include="Controllers\Behaviour\Position.cs" />
     <Compile Include="Controllers\Behaviour\Size.cs" />
-    <Compile Include="Controllers\Game\ClockController.cs" />
+    <Compile Include="Controllers\Game\Clock.cs" />
     <Compile Include="Models\Creatures\Player.cs" />
     <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
@@ -201,9 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\coin.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Backgrounds\level-complete.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\end.png" />

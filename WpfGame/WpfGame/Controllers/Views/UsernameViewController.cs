@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WpfGame.Properties;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
