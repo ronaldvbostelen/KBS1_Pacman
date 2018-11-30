@@ -164,14 +164,14 @@ namespace WpfGame.Controllers.Views
         public void On_PlaytimeIsOver(object sender, EventArgs e)
         {
             _gameView.GameClockHolder.Text = _clock.Display; //This is a little hack that prevents the clock from standing still on 00:01 instead of 00:00
-            DisplayScore(true);
+            _gameView.TimeIsUpTextBlock.Text = $"Time is up!";
+            _gameView.GameTimeIsOverPanel.Visibility = Visibility.Visible;
             EndGame();
         }
 
         private void EndGame()
         {
             _gameView.EndGamePanel.Visibility = Visibility.Visible;
-            DisplayScore();
             _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
@@ -186,13 +186,10 @@ namespace WpfGame.Controllers.Views
             _refreshTimer.Stop();
         }
 
-        private void DisplayScore(bool timeIsUp = false)
+        private void DisplayScore()
         {
-            if(timeIsUp)
-                _gameView.TimeIsUpTextBlock.Text = $"Time's up! Total score: {_score.ScoreValue}";
-            else
-                _gameView.TimeIsUpTextBlock.Text = $"Total score: {_score.ScoreValue}";
-            _gameView.GameTimeIsOVerPanel.Visibility = Visibility.Visible;
+            _gameView.TimeIsUpTextBlock.Text = $"Total score: {_score.ScoreValue}";
+            _gameView.GameTimeIsOverPanel.Visibility = Visibility.Visible;
             _score.WriteTotalScoreToHighscores();
         }
 
