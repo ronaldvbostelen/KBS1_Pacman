@@ -57,16 +57,12 @@ namespace WpfGame.Controllers
         private void Timer_Elapsed()
         {
             _timer.Stop();
-            PlaytimeIsOVer();
+            PlaytimeIsOver();
         }
 
-        protected virtual void PlaytimeIsOVer()
+        protected virtual void PlaytimeIsOver()
         {
             PlaytimeIsOVerEventHander?.Invoke(this,EventArgs.Empty);
-
-            //ToDo: fill in the total score // persoonlij zou ik een pannel in de xamel inbouwen met buttons van return enzo en dispay score enzo die op visibilty visible zetten 
-            // als de tijd om is, maar ver jouw feesie. // dunno maar dit ging een paar keer random af ?? dunno volgens mij is dit een beter plek.
-//            MessageBox.Show("Time's up! Total score: ***", "", MessageBoxButton.OK);
         }
     }
 }
