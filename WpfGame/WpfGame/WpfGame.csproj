@@ -72,12 +72,14 @@
     <Compile Include="Generals\IMovable.cs" />
     <Compile Include="Generals\IPlaygroundObject.cs" />
     <Compile Include="Generals\IState.cs" />
+    <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
     <Compile Include="Models\Visuals\Animations\ObstacleAnimation.cs" />
     <Compile Include="Models\Visuals\Animations\PacmanAnimation.cs" />
     <Compile Include="Models\EditModels\TileCoinEdit.cs" />
     <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
-    <Compile Include="Models\Playgroundobjects\Coin.cs" />
-    <Compile Include="Models\Playgroundobjects\PlaygroundObject.cs" />
+    <Compile Include="Settings.Designer.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -216,6 +218,9 @@
   <ItemGroup>
     <Resource Include="Assets\Sprites\Objects\ObstacleOff.png" />
     <Resource Include="Assets\Sprites\Objects\ObstacleOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Backgrounds\desh-bg2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
