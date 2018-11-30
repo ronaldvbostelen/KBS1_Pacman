@@ -66,6 +66,7 @@
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
+    <Compile Include="Controllers\Views\UsernameViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
     <Compile Include="Generals\ImmovableEventArgs.cs" />
     <Compile Include="Generals\IMovable.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
+    <Compile Include="Settings.Designer.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -111,6 +113,9 @@
     <Compile Include="Views\StartWindowView.xaml.cs">
       <DependentUpon>StartWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UsernameView.xaml.cs">
+      <DependentUpon>UsernameView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +131,10 @@
     <Page Include="Views\StartWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UsernameView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +160,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\Enemy\blinky-down-2.png" />
