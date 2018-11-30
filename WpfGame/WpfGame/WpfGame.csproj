@@ -67,6 +67,7 @@
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Generals\ImmovableEventArgs.cs" />
     <Compile Include="Generals\IMovable.cs" />
     <Compile Include="Generals\IPlaygroundObject.cs" />
     <Compile Include="Generals\IState.cs" />

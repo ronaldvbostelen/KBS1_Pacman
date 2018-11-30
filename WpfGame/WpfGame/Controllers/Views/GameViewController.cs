@@ -75,7 +75,7 @@ namespace WpfGame.Controllers.Views
 
             _collisionDetecter.CoinCollision += OnCoinCollision;
         }
-        
+
         private void _obstacleTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
@@ -141,8 +141,6 @@ namespace WpfGame.Controllers.Views
                         EndGame();
                         break;
                     case NextStep.Coin:
-                        
-                        break;
                     case NextStep.Clear:
                         _player.CurrentMove = _player.NextMove;
                         break;
@@ -298,28 +296,10 @@ namespace WpfGame.Controllers.Views
          * We used a delegate for the collision with the coin, because it currently
          * isn't possible to return a coin in the CollisionDetecter.
          **/
-        public void OnCoinCollision(ImmovableObject coin)
+        public void OnCoinCollision(object sender, ImmovableEventArgs args)
         {
-            foreach (UIElement element in Canvas.Children)
-            {
-                var visualCanvas = element.TransformToVisual(Canvas);
-                Point coordinates = visualCanvas.Transform(new Point(0, 0));
-
-                if (coordinates.X == coin.X && coordinates.Y == coin.Y)
-                {
-                    RemoveCoin(element);
-                    return;
-                }
-            }
-        }
-
-        /**
-         * Remove the coin, because removing an item from a list in a
-         * foreach is not possible
-         **/
-        private void RemoveCoin(UIElement element)
-        {
-            Canvas.Children.Remove(element);
+            args.Coin.State = false;
+            _gameView.GameCanvas.Children.Remove(args.Coin.Image);
         }
 
         private void SetGameValues()
