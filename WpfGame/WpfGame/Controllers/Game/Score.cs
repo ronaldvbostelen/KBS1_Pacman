@@ -16,15 +16,16 @@ namespace WpfGame.Controllers
 
         public void WriteTotalScoreToHighscores()
         {
-            // Create a file to write to
+            // File to write to
             string path = $"{Environment.CurrentDirectory}\\Highscores.txt";
+            string fileContent = $"{Settings.Default.Username} {ScoreValue.ToString()} {Environment.NewLine}";
 
-            if(!File.Exists(path))
+            if (!File.Exists(path)) // Create the file if it doesn't exist yet
             {
                 File.Create(path);
             }
 
-            File.WriteAllText(path, ScoreValue.ToString());
+            File.AppendAllText(path, fileContent);
         }
     }
 }
