@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
 using WpfGame.Models;
@@ -12,16 +13,17 @@ namespace WpfGame.Controllers.Behaviour
 {
     public class Position
     {
-        public int Left { get; set; }
-        public int Top { get; set; }
+        public CollisionDetecter CollisionDetecter { get; }
+        public List<IPlaygroundObject> PlaygroundObjects { get; set; }
         private GameValues _gameValues;
 
         public Position(GameValues gameValues)
         {
             _gameValues = gameValues;
+            CollisionDetecter = new CollisionDetecter(_gameValues);
         }
 
-        public void UpdatePosition(MovableObject sprite)
+        private void UpdatePosition(MovableObject sprite)
         {
             switch (sprite.CurrentMove)
             {
@@ -40,6 +42,20 @@ namespace WpfGame.Controllers.Behaviour
                     sprite.X += _gameValues.Movement;
                     break;
             }
+        }
+
+        public void ProcessMove(MovableObject sprite, Move move)
+        {
+            if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, move) == Collision.Clear)
+            {
+                sprite.CurrentMove = move;
+            }
+            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) != Collision.Clear)
+            {
+                sprite.CurrentMove = sprite.NextMove = Move.Stop;
+            }
+
+            UpdatePosition(sprite);
         }
     }
 }

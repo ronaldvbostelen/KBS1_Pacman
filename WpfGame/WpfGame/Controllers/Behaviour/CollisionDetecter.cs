@@ -13,7 +13,10 @@ namespace WpfGame.Controllers.Behaviour
     public class CollisionDetecter
     {
         private GameValues _gameValues;
-        public event EventHandler<ImmovableEventArgs> CoinCollision;
+        public event EventHandler<ImmovableEventArgs> OnCoinCollision;
+        public event EventHandler OnEnemyCollision;
+        public event EventHandler OnObstacleCollision;
+        public event EventHandler OnEndpointCollision;
 
         public CollisionDetecter(GameValues gameValues)
         {
@@ -80,34 +83,48 @@ namespace WpfGame.Controllers.Behaviour
                 Rect tileRect = new Rect(new Point(obj.X, obj.Y),
                     new System.Windows.Size(obj.Image.Width, obj.Image.Height));
 
+                //the collisiondector will fire an event when a gamebreaking collision took place, it will also return a collisionvalue to the caller.
                 if (moveObject.IntersectsWith(tileRect))
                 {
                     switch (obj.ObjectType)
                     {
                         case ObjectType.Player:
+                            if (movable.ObjectType == ObjectType.Enemy)
+                            {
+                                OnEnemyCollided();
+                            }
                             return Collision.Player;
                         case ObjectType.Enemy:
+                            if (movable.ObjectType == ObjectType.Player)
+                            {
+                                OnEnemyCollided();
+                            }
                             return Collision.Enemy;
                         case ObjectType.EndPoint:
-                            return Collision.Endpoint;
-                        case ObjectType.Obstacle:
-                            var obstacle = (ImmovableObject) obj;
-                            // we only return the collision if the obstacle is 'on' 
-                            if (obstacle.State)
+                            //we have to compute the amount of intersection, so only when our player is for 99% on the endtile the game will end
+                            var intersectedRec = Rect.Intersect(moveObject, tileRect);
+                            if ((intersectedRec.Width * intersectedRec.Height) * 100f / (moveObject.Width * moveObject.Height) > 99)
                             {
-                                return Collision.Obstacle;
+                                OnEndpointCollided();
                             }
                             break;
                         case ObjectType.SpawnPoint:
                         case ObjectType.Wall:
                             return Collision.Wall;
                         case ObjectType.Coin:
-                            // we only return the collision if the obstacle is 'on' 
+                            // we invoke the coin event when the movableobject hits an active obstacle
                             var coin = (ImmovableObject) obj;
                             if (coin.State)
                             {
-                                OnCoinCollision(new ImmovableEventArgs(coin));
-                                return Collision.Coin;
+                                OnCoinCollided(new ImmovableEventArgs(coin));
+                            }
+                            break;
+                        case ObjectType.Obstacle:
+                            var obstacle = (ImmovableObject)obj;
+                            // we invoke the obstacle event when the movableobject hits an active obstacle
+                            if (obstacle.State)
+                            {
+                                OnObstacleCollided();
                             }
                             break;
                     }
@@ -116,9 +133,24 @@ namespace WpfGame.Controllers.Behaviour
             return BorderCollision(movable,move) ? Collision.Border : Collision.Clear;
         }
 
-        protected virtual void OnCoinCollision(ImmovableEventArgs args)
+        protected virtual void OnCoinCollided(ImmovableEventArgs args)
         {
-            CoinCollision?.Invoke(this, args);
+            OnCoinCollision?.Invoke(this, args);
+        }   
+
+        protected virtual void OnEnemyCollided()
+        {
+            OnEnemyCollision?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnObstacleCollided()
+        {
+            OnObstacleCollision?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnEndpointCollided()
+        {
+            OnEndpointCollision?.Invoke(this, EventArgs.Empty);
         }
     }
 }
