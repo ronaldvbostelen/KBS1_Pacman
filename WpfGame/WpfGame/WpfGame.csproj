@@ -64,8 +64,6 @@
     <Compile Include="Controllers\Renderers\EnemyFactory.cs" />
     <Compile Include="Controllers\Renderers\PlayerFactory.cs" />
     <Compile Include="Controllers\Renderers\PlaygroundFactory.cs" />
-    <Compile Include="Controllers\Renderers\SpriteRenderer.cs" />
-    <Compile Include="Controllers\Renderers\TileRenderer.cs" />
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
