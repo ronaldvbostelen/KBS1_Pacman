@@ -53,7 +53,7 @@ namespace WpfGame.Generals
         Spawn
     }
 
-    public enum NextStep
+    public enum Collision
     {
         Clear,
         Wall,

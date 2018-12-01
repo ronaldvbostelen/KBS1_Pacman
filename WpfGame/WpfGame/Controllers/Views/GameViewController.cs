@@ -38,6 +38,9 @@ namespace WpfGame.Controllers.Views
         private Score _score;
         private const int AmountOfTilesWidth = 20;
         private int hitEndSpotCounter;
+        private PlaygroundFactory _playgroundFactory;
+        private PlayerFactory _playerFactory;
+        private EnemyFactory _enemyFactory;
 
         public GameViewController(MainWindow mainWindow, string selectedGame) 
             : base(mainWindow)
@@ -57,6 +60,9 @@ namespace WpfGame.Controllers.Views
             _random = new Random();
             _clock = new Clock();
             _score = new Score();
+            _playgroundFactory = new PlaygroundFactory();
+            _playerFactory = new PlayerFactory();
+            _enemyFactory = new EnemyFactory();
 
             SetContentOfMain(mainWindow, _gameView);
 
@@ -131,25 +137,25 @@ namespace WpfGame.Controllers.Views
                 //if it succeed the hittest, if it fails we stop the movement
                 switch (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.NextMove))
                 {
-                    case NextStep.Endpoint:
+                    case Collision.Endpoint:
                         hitEndSpotCounter++;
                         if (hitEndSpotCounter > 15)
                         {
                             FinishGame();
                         }
                         break;
-                    case NextStep.Enemy:
-                    case NextStep.Obstacle:
+                    case Collision.Enemy:
+                    case Collision.Obstacle:
                         EndGame();
                         break;
-                    case NextStep.Coin:
-                    case NextStep.Clear:
+                    case Collision.Coin:
+                    case Collision.Clear:
                         _player.CurrentMove = _player.NextMove;
                         break;
-                    case NextStep.Border:
-                    case NextStep.Wall:
-                        if (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == NextStep.Wall ||
-                            _collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == NextStep.Border)
+                    case Collision.Border:
+                    case Collision.Wall:
+                        if (_collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == Collision.Wall ||
+                            _collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.CurrentMove) == Collision.Border)
                         {
                             _player.CurrentMove = Move.Stop;
                         }
@@ -223,14 +229,26 @@ namespace WpfGame.Controllers.Views
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
+
+            SetGameValues();
+            _gameView.GameCanvas.Focus();
+
             try
             {
-                SetGameValues();
-                _gameView.GameCanvas.Focus();
-                RenderPlaygroundObjects();
-                LoadObjects(_playgroundObjects);
-                LoadPlayer(_playgroundObjects);
-                LoadEnemy(_playgroundObjects);
+                _playgroundFactory.LoadFactory(_gameValues);
+                _playgroundObjects = new List<IPlaygroundObject>(_playgroundFactory.LoadPlayground(new JsonPlaygroundParser(_selectedGame).GetOutputList()));
+                _playgroundFactory.DrawPlayground(_playgroundObjects,_gameView.GameCanvas);
+                
+                _playerFactory.LoadFactory(_gameValues);
+                _player = _playerFactory.LoadPlayer(_playgroundObjects);
+                _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
+
+                _enemyFactory.LoadFactory(_gameValues);
+                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
+                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+
+//                LoadPlayer(_playgroundObjects);
+//                LoadEnemy(_playgroundObjects);
 
 
                 _clock.InitializeTimer();
@@ -240,36 +258,12 @@ namespace WpfGame.Controllers.Views
             }
             catch (Exception exception)
             {
+                MessageBox.Show("Sorry, something went wrong. Message: " + exception.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 //go back to mainscreen
                 new StartWindowViewController(_mainWindow);
             }
-
         }
-
-        private void RenderPlaygroundObjects()
-        {
-            try
-            {
-
-                _playgroundObjects = new List<IPlaygroundObject>(new TileRenderer(new JsonPlaygroundParser(_selectedGame).GetOutputList(), _gameValues).RenderTiles());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
-        }
-
-        private void LoadObjects(List<IPlaygroundObject> list)
-        {
-            list.ForEach(x =>
-            {
-                Canvas.SetTop(x.Image, x.Y);
-                Canvas.SetLeft(x.Image, x.X);
-                _gameView.GameCanvas.Children.Add(x.Image);
-            });
-        }
+        
         
         private void LoadPlayer(List<IPlaygroundObject> playgroundObjects)
         {

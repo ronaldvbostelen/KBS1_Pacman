@@ -20,16 +20,17 @@ namespace WpfGame.Controllers.Behaviour
             _gameValues = gameValues;
         }
 
-        public bool LeftBorderOfPlaygroundCollision(double xOfObject, double nextMove) => xOfObject - nextMove <= 0;
+        private bool LeftBorderOfPlaygroundCollision(double xOfObject, double nextMove) => xOfObject - nextMove <= 0;
 
-        public bool RightBorderOfPlaygroundCollision(double playgroundWidth, double objectWidth, double xOfObject,
+        private bool RightBorderOfPlaygroundCollision(double playgroundWidth, double objectWidth, double xOfObject,
             double nextMove) => xOfObject + nextMove + objectWidth >= playgroundWidth;
 
-        public bool TopBorderOfPlaygroundCollision(double yOfObject, double nextMove) => yOfObject - nextMove <= 0;
+        private bool TopBorderOfPlaygroundCollision(double yOfObject, double nextMove) => yOfObject - nextMove <= 0;
 
-        public bool BottomBorderOfPlaygroundCollision(double playgroundHeight, double objectHeight,
+        private bool BottomBorderOfPlaygroundCollision(double playgroundHeight, double objectHeight,
             double yOfObject, double nextMove) => yOfObject + objectHeight + nextMove >= playgroundHeight;
 
+        //we check if the sprite doesnt walk off the screen
         private bool BorderCollision(MovableObject movable, Move move)
         {
             switch (move)
@@ -50,7 +51,7 @@ namespace WpfGame.Controllers.Behaviour
             }
         }
 
-        public NextStep ObjectCollision(List<IPlaygroundObject> objectList, MovableObject movable, Move move)
+        public Collision ObjectCollision(List<IPlaygroundObject> objectList, MovableObject movable, Move move)
         {
             double addToX = 0;
             double addToY = 0;
@@ -84,41 +85,40 @@ namespace WpfGame.Controllers.Behaviour
                     switch (obj.ObjectType)
                     {
                         case ObjectType.Player:
-                            return NextStep.Player;
+                            return Collision.Player;
                         case ObjectType.Enemy:
-                            return NextStep.Enemy;
+                            return Collision.Enemy;
                         case ObjectType.EndPoint:
-                            return NextStep.Endpoint;
+                            return Collision.Endpoint;
                         case ObjectType.Obstacle:
                             var obstacle = (ImmovableObject) obj;
+                            // we only return the collision if the obstacle is 'on' 
                             if (obstacle.State)
                             {
-                                return NextStep.Obstacle;
+                                return Collision.Obstacle;
                             }
                             break;
                         case ObjectType.SpawnPoint:
                         case ObjectType.Wall:
-                            return NextStep.Wall;
+                            return Collision.Wall;
                         case ObjectType.Coin:
+                            // we only return the collision if the obstacle is 'on' 
                             var coin = (ImmovableObject) obj;
                             if (coin.State)
                             {
                                 OnCoinCollision(new ImmovableEventArgs(coin));
-                                return NextStep.Coin;
+                                return Collision.Coin;
                             }
                             break;
                     }
                 }
             }
-            return BorderCollision(movable,move) ? NextStep.Border : NextStep.Clear;
+            return BorderCollision(movable,move) ? Collision.Border : Collision.Clear;
         }
 
         protected virtual void OnCoinCollision(ImmovableEventArgs args)
         {
-            if(CoinCollision != null)
-            {
-                CoinCollision(this, args);
-            }
+            CoinCollision?.Invoke(this, args);
         }
     }
 }
