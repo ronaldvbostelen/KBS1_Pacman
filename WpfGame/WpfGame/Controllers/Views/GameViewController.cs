@@ -73,10 +73,10 @@ namespace WpfGame.Controllers.Views
             _mainWindow.Closing += OnMainWindowClosing;
             _clock.PlaytimeIsOver += OnPlaytimeIsOver;
 
-            _position.CollisionDetecter.OnCoinCollision += OnCoinCollision;
-            _position.CollisionDetecter.OnEndpointCollision += OnEndpointCollision;
-            _position.CollisionDetecter.OnEnemyCollision += OnOnEnemyCollision;
-            _position.CollisionDetecter.OnObstacleCollision += OnObstacleCollision;      
+            _position.CollisionDetecter.CoinCollision += OnCoinCollision;
+            _position.CollisionDetecter.EndpointCollision += OnEndpointCollision;
+            _position.CollisionDetecter.EnemyCollision += OnOnEnemyCollision;
+            _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;      
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();

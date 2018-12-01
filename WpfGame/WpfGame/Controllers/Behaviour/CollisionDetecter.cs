@@ -13,10 +13,10 @@ namespace WpfGame.Controllers.Behaviour
     public class CollisionDetecter
     {
         private GameValues _gameValues;
-        public event EventHandler<ImmovableEventArgs> OnCoinCollision;
-        public event EventHandler OnEnemyCollision;
-        public event EventHandler OnObstacleCollision;
-        public event EventHandler OnEndpointCollision;
+        public event EventHandler<ImmovableEventArgs> CoinCollision;
+        public event EventHandler EnemyCollision;
+        public event EventHandler ObstacleCollision;
+        public event EventHandler EndpointCollision;
 
         public CollisionDetecter(GameValues gameValues)
         {
@@ -91,13 +91,13 @@ namespace WpfGame.Controllers.Behaviour
                         case ObjectType.Player:
                             if (movable.ObjectType == ObjectType.Enemy)
                             {
-                                OnEnemyCollided();
+                                OnEnemyCollision();
                             }
                             return Collision.Player;
                         case ObjectType.Enemy:
                             if (movable.ObjectType == ObjectType.Player)
                             {
-                                OnEnemyCollided();
+                                OnEnemyCollision();
                             }
                             return Collision.Enemy;
                         case ObjectType.EndPoint:
@@ -105,7 +105,7 @@ namespace WpfGame.Controllers.Behaviour
                             var intersectedRec = Rect.Intersect(moveObject, tileRect);
                             if ((intersectedRec.Width * intersectedRec.Height) * 100f / (moveObject.Width * moveObject.Height) > 99)
                             {
-                                OnEndpointCollided();
+                                OnEndpointCollision();
                             }
                             break;
                         case ObjectType.SpawnPoint:
@@ -116,7 +116,7 @@ namespace WpfGame.Controllers.Behaviour
                             var coin = (ImmovableObject) obj;
                             if (coin.State)
                             {
-                                OnCoinCollided(new ImmovableEventArgs(coin));
+                                OnCoinCollision(new ImmovableEventArgs(coin));
                             }
                             break;
                         case ObjectType.Obstacle:
@@ -124,7 +124,7 @@ namespace WpfGame.Controllers.Behaviour
                             // we invoke the obstacle event when the movableobject hits an active obstacle
                             if (obstacle.State)
                             {
-                                OnObstacleCollided();
+                                OnObstacleCollision();
                             }
                             break;
                     }
@@ -133,24 +133,24 @@ namespace WpfGame.Controllers.Behaviour
             return BorderCollision(movable,move) ? Collision.Border : Collision.Clear;
         }
 
-        protected virtual void OnCoinCollided(ImmovableEventArgs args)
+        protected virtual void OnCoinCollision(ImmovableEventArgs args)
         {
-            OnCoinCollision?.Invoke(this, args);
+            CoinCollision?.Invoke(this, args);
         }   
 
-        protected virtual void OnEnemyCollided()
+        protected virtual void OnEnemyCollision()
         {
-            OnEnemyCollision?.Invoke(this, EventArgs.Empty);
+            EnemyCollision?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnObstacleCollided()
+        protected virtual void OnObstacleCollision()
         {
-            OnObstacleCollision?.Invoke(this, EventArgs.Empty);
+            ObstacleCollision?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void OnEndpointCollided()
+        protected virtual void OnEndpointCollision()
         {
-            OnEndpointCollision?.Invoke(this, EventArgs.Empty);
+            EndpointCollision?.Invoke(this, EventArgs.Empty);
         }
     }
 }
