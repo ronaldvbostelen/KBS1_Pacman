@@ -97,14 +97,14 @@ namespace WpfGame.Controllers.Behaviour
                             {
                                 OnEnemyCollision();
                             }
-                            return Collision.Player;
+                            break;
                         case ObjectType.Enemy:
                             // we invoke the enemy event when the player hits an enemy
                             if (movable.ObjectType == ObjectType.Player && !isEnemy)
                             {
                                 OnEnemyCollision();
                             }
-                            return Collision.Enemy;
+                            break;
                         case ObjectType.EndPoint:
                             if (!isEnemy)
                             {

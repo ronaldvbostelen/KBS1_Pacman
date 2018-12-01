@@ -92,7 +92,6 @@ namespace WpfGame.Controllers.Views
         private void _steps_Elapsed(object sender, ElapsedEventArgs e)
         {
             _enemy.NextMove = (Move)_random.Next(0, 5);
-            _gameView.GameCanvas.Dispatcher.Invoke(() => { _position.ProcessMove(_enemy); });
         }
 
         private void OnObstacleCollision(object sender, EventArgs e)
@@ -271,13 +270,17 @@ namespace WpfGame.Controllers.Views
                     _playgroundFactory.LoadPlayground(new JsonPlaygroundParser(_selectedGame).GetOutputList()));
                 _playgroundFactory.DrawPlayground(_playgroundObjects, _gameView.GameCanvas);
 
+                _enemyFactory.LoadFactory(_gameValues);
+                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
+                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+
                 _playerFactory.LoadFactory(_gameValues);
                 _player = _playerFactory.LoadPlayer(_playgroundObjects);
                 _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
 
-                _enemyFactory.LoadFactory(_gameValues);
-                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
-                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+                //add enemy and player to playgroundobjectsList
+                _playgroundObjects.Add(_enemy);
+                _playgroundObjects.Add(_player);
 
                 _position.PlaygroundObjects = _playgroundObjects;
                 
