@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WpfGame.Views;
@@ -20,21 +19,21 @@ namespace WpfGame.Controllers.Views
             // TODO set button events
         }
 
-        public ArrayList GetListOfHighScores()
+        public ArrayList GetListOfHighScoresDescending()
         {
-            int counter = 0;
             string line;
-            ArrayList arrayList = new ArrayList();
+            var list = new ArrayList();
 
             // Read the file and display it line by line.
-            StreamReader file = new StreamReader(@"C:\Users\sel01\source\repos\KBS1-CSharp game\WpfGame\WpfGame\bin\Debug\Highscore.txt");
-            while ((line = file.ReadLine()) != null)
-            {
-                arrayList.Add(line);
-                counter++;
-            }
+            var file = new StreamReader(
+                @"C:\Users\sel01\source\repos\KBS1-CSharp game\WpfGame\WpfGame\bin\Debug\Highscore.txt");
+            while ((line = file.ReadLine()) != null) list.Add(line);
             file.Close();
-            return arrayList;
+
+            list.Sort();
+            list.Reverse();
+
+            return list;
         }
 
         public FlowDocument CreateFlowDocument()
@@ -93,35 +92,29 @@ namespace WpfGame.Controllers.Views
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Score"))));
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Gebruikersnaam"))));
 
-            // Add the third row.
-            table.RowGroups[0].Rows.Add(new TableRow());
-            currentRow = table.RowGroups[0].Rows[2];
+            int rankCounter = 1;
+            int rowCounter = 2;
+            foreach (var highScore in GetListOfHighScoresDescending())
+            {
+                // Add the row.
+                table.RowGroups[0].Rows.Add(new TableRow());
+                currentRow = table.RowGroups[0].Rows[rowCounter];
 
-            // Global formatting for the row.
-            currentRow.FontSize = 12;
-            currentRow.FontWeight = FontWeights.Normal;
+                // Global formatting for the row.
+                currentRow.FontSize = 12;
+                currentRow.FontWeight = FontWeights.Normal;
 
-            // Add cells with content to the third row.
-            // TODO add highscores with the GetListOfHighScores method
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("1"))));
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("280"))));
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Sake"))));
+                // Add cells with content to the row.
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{rankCounter}"))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{highScore}"))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run(Settings.Default.Username))));
 
-            // Bold the first cell.
-            currentRow.Cells[0].FontWeight = FontWeights.Bold;
+                // Bold the first cell.
+                currentRow.Cells[0].FontWeight = FontWeights.Bold;
 
-            table.RowGroups[0].Rows.Add(new TableRow());
-            currentRow = table.RowGroups[0].Rows[3];
-
-            // Global formatting for the footer row.
-            currentRow.Background = Brushes.LightGray;
-            currentRow.FontSize = 18;
-            currentRow.FontWeight = FontWeights.Normal;
-
-            // Add the header row with content, 
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Footer text"))));
-            // and set the row to span all 6 columns.
-            currentRow.Cells[0].ColumnSpan = 3;
+                rankCounter++;
+                rowCounter++;
+            }
 
             return flowDoc;
         }
