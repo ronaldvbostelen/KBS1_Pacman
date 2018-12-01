@@ -80,7 +80,11 @@
     <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
-    <Compile Include="Settings.Designer.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -166,6 +170,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="bin\Debug\WpfGame.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -226,6 +231,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\WpfGame.exe" />
+    <Content Include="bin\Debug\WpfGame.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\Playgrounds\" />
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,6 @@ namespace WpfGame.Controllers.Views
             _highScoreView = new HighScoreView();
             _highScoreView.Loaded += HighScoreCanvas_Loaded;
             SetContentOfMain(mainWindow, _highScoreView);
-            // TODO set button events
         }
 
         public ArrayList GetListOfHighScoresDescending()
@@ -24,9 +23,9 @@ namespace WpfGame.Controllers.Views
             string line;
             var list = new ArrayList();
 
-            // Read the file and display it line by line.
+            // Read the file and add it line by line to the ArrayList.
             var file = new StreamReader(
-                @"C:\Users\sel01\source\repos\KBS1-CSharp game\WpfGame\WpfGame\bin\Debug\Highscore.txt");
+                @"C:\Users\Sake Elfring\source\repos\KBS1-CSharp game\WpfGame\WpfGame\bin\Debug\Highscores.txt");
             while ((line = file.ReadLine()) != null) list.Add(line);
             file.Close();
 
@@ -88,7 +87,7 @@ namespace WpfGame.Controllers.Views
             currentRow.FontWeight = FontWeights.Bold;
 
             // Add cells with content to the second row.
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Rank"))));
+            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Rang"))));
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Score"))));
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Gebruikersnaam"))));
 
@@ -121,7 +120,7 @@ namespace WpfGame.Controllers.Views
 
         private void HighScoreCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            // TODO add table when loaded
+            _highScoreView.FlowDocumentScrollViewer.Document = CreateFlowDocument();
         }
 
     }
