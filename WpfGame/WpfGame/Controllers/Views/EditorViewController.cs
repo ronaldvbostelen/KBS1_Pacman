@@ -283,15 +283,19 @@ namespace WpfGame.Controllers.Views
         private void SetEditorValues()
         {
             _editorValues.PlayCanvasWidth = _editorValues.OriginMainWindowWidth = _mainWindow.ActualWidth;
-            _editorValues.PlayCanvasHeigth = _editorView.EditorCanvas.ActualHeight;
+            _editorValues.OriginMainWindowHeight = _mainWindow.ActualHeight;
+            _editorView.EditGrid.Height = _editorValues.PlayCanvasHeigth = _editorValues.OriginMainWindowHeight - 30;
             _editorView.ColumnDefinitionOne.Width = new GridLength(_editorValues.PlayCanvasWidth);
             _editorView.ColumnDefinitionTwo.Width = new GridLength(_editorView.EditGrid.Width);
-            _mainWindow.Width = _editorValues.PlayCanvasWidth + _editorView.EditGrid.Width;
             _editorValues.HeigthWidthRatio = _editorValues.PlayCanvasHeigth / _editorValues.PlayCanvasWidth;
             _editorValues.AmountOfXtiles = AmountOfTilesWidth;
             _editorValues.AmountofYtiles = _editorValues.AmountOfXtiles * _editorValues.HeigthWidthRatio;
             _editorValues.TileWith = _editorValues.PlayCanvasWidth / _editorValues.AmountOfXtiles;
             _editorValues.TileHeigth = _editorValues.PlayCanvasHeigth / _editorValues.AmountofYtiles;
+
+            //we increase the length for the editorpanel and we chop the gamedisplay off
+            _mainWindow.Width = _editorValues.PlayCanvasWidth + _editorView.EditGrid.Width;
+            _mainWindow.Height = _editorValues.PlayCanvasHeigth;
         }
 
         private void SetEditGridVisibility(Visibility visibility)
@@ -334,7 +338,9 @@ namespace WpfGame.Controllers.Views
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            //we set the dimension of the screen back to its original
             _mainWindow.Width = _editorValues.OriginMainWindowWidth;
+            _mainWindow.Height = _editorValues.OriginMainWindowHeight;
             new StartWindowViewController(_mainWindow);
         }
     }
