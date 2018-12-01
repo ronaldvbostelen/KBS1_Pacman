@@ -69,7 +69,8 @@ namespace WpfGame.UnitTests
         {
             var x = _player.X;
             var y = _player.Y;
-             _position.ProcessMove(_player, Move.Stop);
+            _player.NextMove = Move.Stop;
+             _position.ProcessMove(_player);
            Assert.AreEqual(x+y, _player.X + _player.Y);
          }
 
@@ -77,7 +78,8 @@ namespace WpfGame.UnitTests
         public void UpdatePosition_MoveUp_ReturnsCorrectDouble()
         {
             double expected = _player.Y - _gameValues.Movement;
-            _position.ProcessMove(_player, Move.Up);
+            _player.NextMove = Move.Up;
+            _position.ProcessMove(_player);
             Assert.AreEqual(expected, _player.Y);
         }
 
@@ -85,7 +87,8 @@ namespace WpfGame.UnitTests
         public void UpdatePosition_MoveDown_ReturnsCorrectDouble()
         {
             double expected = _player.Y + _gameValues.Movement;
-            _position.ProcessMove(_player, Move.Down);
+            _player.NextMove = Move.Down;
+            _position.ProcessMove(_player);
             Assert.AreEqual(expected, _player.Y);
         }
 
@@ -93,7 +96,8 @@ namespace WpfGame.UnitTests
         public void UpdatePosition_MoveRight_ReturnsCorrectDouble()
         {
             double expected = _player.X + _gameValues.Movement;
-            _position.ProcessMove(_player, Move.Right);
+            _player.NextMove = Move.Right;
+            _position.ProcessMove(_player);
             Assert.AreEqual(expected, _player.X);
         }
 
@@ -101,7 +105,8 @@ namespace WpfGame.UnitTests
         public void UpdatePosition_MoveLeft_ReturnsCorrectDouble()
         {
             double expected = _player.X - _gameValues.Movement;
-            _position.ProcessMove(_player, Move.Left);
+            _player.NextMove = Move.Left;
+            _position.ProcessMove(_player);
             Assert.AreEqual(expected, _player.X);
         }
     }

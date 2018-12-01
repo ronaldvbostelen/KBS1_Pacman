@@ -147,7 +147,7 @@ namespace WpfGame.Controllers.Views
                 _gameView.GameScoreHolder.Text = $"Score: {_score.ScoreValue.ToString()}";
                 
                 //Update playerposition based on userinput
-                _position.ProcessMove(_player, _player.NextMove);
+                _position.ProcessMove(_player);
                 _step.SetStep(_player);
 
                 //Validate gamestate

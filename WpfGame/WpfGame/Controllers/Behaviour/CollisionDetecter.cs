@@ -59,6 +59,7 @@ namespace WpfGame.Controllers.Behaviour
             double addToX = 0;
             double addToY = 0;
 
+            //simulate next move
             switch (move)
             {
                 case Move.Down:
@@ -78,6 +79,8 @@ namespace WpfGame.Controllers.Behaviour
             Rect moveObject = new Rect(new Point(movable.X + addToX, movable.Y + addToY),
                 new System.Windows.Size(movable.Image.Width, movable.Image.Height));
 
+            //this list contains all the playgroundobjects. we loop through it end every object (its position and demension) is passed to the Rect. we then use the .IntersectWith
+            //function to check if the moveableobject (a player or a enemy) hits something on the playingfield.
             foreach (var obj in objectList)
             {
                 Rect tileRect = new Rect(new Point(obj.X, obj.Y),
@@ -89,12 +92,14 @@ namespace WpfGame.Controllers.Behaviour
                     switch (obj.ObjectType)
                     {
                         case ObjectType.Player:
+                            // we invoke the enemy event when the enemy hits the player
                             if (movable.ObjectType == ObjectType.Enemy)
                             {
                                 OnEnemyCollision();
                             }
                             return Collision.Player;
                         case ObjectType.Enemy:
+                            // we invoke the enemy event when the player hits an enemy
                             if (movable.ObjectType == ObjectType.Player)
                             {
                                 OnEnemyCollision();
