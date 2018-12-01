@@ -48,11 +48,11 @@ namespace WpfGame.Controllers.Behaviour
         //a gamebreaking event has been fired by the CollisionDector or we try the CurrentMove and based on that outcome we move/stop/break te game.
         public void ProcessMove(MovableObject sprite)
         {
-            if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.NextMove) == Collision.Clear)
+            if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.NextMove, sprite.ObjectType == ObjectType.Enemy) == Collision.Clear)
             {
                 sprite.CurrentMove = sprite.NextMove;
             }
-            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) != Collision.Clear)
+            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove, sprite.ObjectType == ObjectType.Enemy) != Collision.Clear)
             {
                 sprite.CurrentMove = sprite.NextMove = Move.Stop;
             }

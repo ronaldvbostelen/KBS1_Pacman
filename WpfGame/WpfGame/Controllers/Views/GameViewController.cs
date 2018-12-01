@@ -39,6 +39,9 @@ namespace WpfGame.Controllers.Views
         private MovableObject _player;
         private MovableObject _enemy;
 
+        //test
+        private Timer _steps;
+
 
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
@@ -58,6 +61,10 @@ namespace WpfGame.Controllers.Views
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
+
+            //test
+            _steps = new Timer{Interval = 2000, Enabled = true};
+            _steps.Elapsed += _steps_Elapsed;
 
             SetContentOfMain(mainWindow, _gameView);
 
@@ -80,6 +87,12 @@ namespace WpfGame.Controllers.Views
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
+        }
+
+        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _enemy.NextMove = (Move)_random.Next(0, 5);
+            _gameView.GameCanvas.Dispatcher.Invoke(() => { _position.ProcessMove(_enemy); });
         }
 
         private void OnObstacleCollision(object sender, EventArgs e)
@@ -149,6 +162,10 @@ namespace WpfGame.Controllers.Views
                 //Update playerposition based on userinput
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
+
+                //test
+                _position.ProcessMove(_enemy);
+                _step.SetStep(_enemy);
 
                 //Validate gamestate
                 ValidateGamestate();
