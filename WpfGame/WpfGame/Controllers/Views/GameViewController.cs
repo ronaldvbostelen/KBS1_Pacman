@@ -71,7 +71,7 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimationTimer.Elapsed += OnPacmanAnimationTimerElapsed;
             _obstacleTimer.Elapsed += OnObstacleTimerElapsed;
             _mainWindow.Closing += OnMainWindowClosing;
-            _clock.OnPlaytimeIsOver += OnPlaytimeIsOver;
+            _clock.PlaytimeIsOver += OnPlaytimeIsOver;
 
             _position.CollisionDetecter.OnCoinCollision += OnCoinCollision;
             _position.CollisionDetecter.OnEndpointCollision += OnEndpointCollision;
