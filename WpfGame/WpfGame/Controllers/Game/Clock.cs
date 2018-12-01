@@ -20,7 +20,7 @@ namespace WpfGame.Controllers
         public string Display { get; set; }
         private DispatcherTimer _timer;
         private TimeSpan _time;
-        public event PlaytimeIsOVerEventHandeler PlaytimeIsOVerEventHander;
+        public event EventHandler PlaytimeIsOver;
         
         /**
          * Initializes a new timer with a delegate event
@@ -57,12 +57,17 @@ namespace WpfGame.Controllers
         private void Timer_Elapsed()
         {
             _timer.Stop();
-            PlaytimeIsOver();
+            OnPlaytimeIsOver();
         }
 
-        protected virtual void PlaytimeIsOver()
+        public void StopClock()
         {
-            PlaytimeIsOVerEventHander?.Invoke(this,EventArgs.Empty);
+            _timer.Stop();
+        }
+
+        protected virtual void OnPlaytimeIsOver()
+        {
+            PlaytimeIsOver?.Invoke(this,EventArgs.Empty);
         }
     }
 }

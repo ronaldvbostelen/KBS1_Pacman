@@ -3,9 +3,13 @@ using WpfGame.Models;
 
 namespace WpfGame.Generals
 {
-
-    public delegate void PlaytimeIsOVerEventHandeler(object sender, EventArgs e);
-    public delegate void CoinCollisionHandler(object sender, ImmovableEventArgs a);
+    public enum GameState
+    {
+        Playing,
+        Finished,
+        Lost,
+        OutOfTime
+    }
 
     public enum ObjectType
     {
@@ -53,7 +57,7 @@ namespace WpfGame.Generals
         Spawn
     }
 
-    public enum NextStep
+    public enum Collision
     {
         Clear,
         Wall,

@@ -17,8 +17,8 @@
         <Grid Grid.Column="1" Width="150" Background="Purple" Name="EditGrid"
               HorizontalAlignment="Right"
               Visibility="Collapsed">
-            <StackPanel Name="EditViewStackpanel" VerticalAlignment="Center">
-                <Label VerticalAlignment="Top" HorizontalAlignment="Center">Current selected:</Label>
+            <StackPanel>
+                <Label Margin="0 10 0 0" VerticalAlignment="Top" HorizontalAlignment="Center">Current selected:</Label>
                 <Label VerticalAlignment="Top" HorizontalAlignment="Center" Name="CurrentSelectedLabel">None</Label>
                 <Rectangle Name="WallSelect" Fill="Black" Width="50" Height="50" Stroke="Black"/>
                 <Ellipse Margin="0 10 0 0" Name="CoinSelect" Width="50" Height="50" Fill="Gold" Stroke="Black" />

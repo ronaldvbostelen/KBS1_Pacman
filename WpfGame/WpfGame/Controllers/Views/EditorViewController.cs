@@ -27,6 +27,7 @@ namespace WpfGame.Controllers.Views
         private List<TileObstacleEdit> _tileObstacleEdits;
         private List<TileCoinEdit> _tileCoinEdits;
         private SelectedItem _selectedItem;
+        private bool GotEnd, GotStart, GotSpawn;
         
 
         public EditorViewController(MainWindow mainWindow) : base (mainWindow)
@@ -47,6 +48,8 @@ namespace WpfGame.Controllers.Views
             SetButtonEvents(_editorView.SaveBtn, SaveBtn_Click);
 
             _editorView.Focus();
+
+            GotEnd = GotSpawn = GotStart = false;
         }
 
         private void EditorView_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -99,16 +102,19 @@ namespace WpfGame.Controllers.Views
                             tileEdit.IsEnd = true;
                             tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Red;
+                            GotEnd = true;
                             break;
                         case SelectedItem.Start:
                             tileEdit.IsStart = true;
                             tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Blue;
+                            GotStart = true;
                             break;
                         case SelectedItem.Spawn:
                             tileEdit.IsSpawn = true;
                             tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
                             tileEdit.Rectangle.Fill = Brushes.SaddleBrown;
+                            GotSpawn = true;
                             break;
                         case SelectedItem.Erase:
                             tileEdit.HasCoin = tileEdit.HasObstacle =
@@ -277,15 +283,19 @@ namespace WpfGame.Controllers.Views
         private void SetEditorValues()
         {
             _editorValues.PlayCanvasWidth = _editorValues.OriginMainWindowWidth = _mainWindow.ActualWidth;
-            _editorValues.PlayCanvasHeigth = _editorView.EditorCanvas.ActualHeight;
+            _editorValues.OriginMainWindowHeight = _mainWindow.ActualHeight;
+            _editorView.EditGrid.Height = _editorValues.PlayCanvasHeigth = _editorValues.OriginMainWindowHeight - 30;
             _editorView.ColumnDefinitionOne.Width = new GridLength(_editorValues.PlayCanvasWidth);
             _editorView.ColumnDefinitionTwo.Width = new GridLength(_editorView.EditGrid.Width);
-            _mainWindow.Width = _editorValues.PlayCanvasWidth + _editorView.EditGrid.Width;
             _editorValues.HeigthWidthRatio = _editorValues.PlayCanvasHeigth / _editorValues.PlayCanvasWidth;
             _editorValues.AmountOfXtiles = AmountOfTilesWidth;
             _editorValues.AmountofYtiles = _editorValues.AmountOfXtiles * _editorValues.HeigthWidthRatio;
             _editorValues.TileWith = _editorValues.PlayCanvasWidth / _editorValues.AmountOfXtiles;
             _editorValues.TileHeigth = _editorValues.PlayCanvasHeigth / _editorValues.AmountofYtiles;
+
+            //we increase the length for the editorpanel and we chop the gamedisplay off
+            _mainWindow.Width = _editorValues.PlayCanvasWidth + _editorView.EditGrid.Width;
+            _mainWindow.Height = _editorValues.PlayCanvasHeigth;
         }
 
         private void SetEditGridVisibility(Visibility visibility)
@@ -303,13 +313,34 @@ namespace WpfGame.Controllers.Views
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            new JsonPlaygroundWriter(_tileEdits);
-            MessageBox.Show("Save geslaagd", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            // we need atleast an spawnpoint and startpoint to create a valid playground. So we do a check on those fields. Endpoint is optional.
+            if (!GotEnd)
+            {
+                MessageBoxResult ContinueWithoutEndpoint = MessageBox.Show(
+                    "Your playground doesn't seem to have an endpoint, you sure you want to save this playground?",
+                    "No Endpoint", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                GotEnd = ContinueWithoutEndpoint == MessageBoxResult.Yes;
+            }
+
+            if (GotSpawn && GotStart && GotEnd)
+            {
+                new JsonPlaygroundWriter(_tileEdits);
+                MessageBox.Show("Save geslaagd", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show(
+                    $"Your playground is incomplete. You are missing: {(GotStart ? "" : "startpoint ") + (GotEnd ? "" : "endpoint ") + (GotSpawn ? "" : "spawnpoint")}",
+                    "Incomplete playground", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            //we set the dimension of the screen back to its original
             _mainWindow.Width = _editorValues.OriginMainWindowWidth;
+            _mainWindow.Height = _editorValues.OriginMainWindowHeight;
             new StartWindowViewController(_mainWindow);
         }
     }
