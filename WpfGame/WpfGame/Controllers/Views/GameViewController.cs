@@ -92,7 +92,6 @@ namespace WpfGame.Controllers.Views
         private void _steps_Elapsed(object sender, ElapsedEventArgs e)
         {
             _enemy.NextMove = (Move)_random.Next(0, 5);
-            _gameView.GameCanvas.Dispatcher.Invoke(() => { _position.ProcessMove(_enemy); });
         }
 
         private void OnObstacleCollision(object sender, EventArgs e)
