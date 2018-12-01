@@ -51,7 +51,7 @@ namespace WpfGame.Controllers.Views
             table.Background = Brushes.White;
 
             // Create 3 columns and add them to the table's Columns collection.
-            int numberOfColumns = 6;
+            int numberOfColumns = 3;
             for (int x = 0; x < numberOfColumns; x++)
             {
                 table.Columns.Add(new TableColumn());
@@ -76,7 +76,7 @@ namespace WpfGame.Controllers.Views
 
             // Add the header row with content, 
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("High Score Table"))));
-            // and set the row to span all 6 columns.
+            // and set the row to span all 3 columns.
             currentRow.Cells[0].ColumnSpan = 3;
 
             // Add the second (header) row.
