@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using WpfGame.Editor;
 using WpfGame.Generals;
 using WpfGame.Views;
 
@@ -51,7 +44,7 @@ namespace WpfGame.Controllers.Views
             {
                 case Key.F2:
                     FileInfo[] files =
-                        new DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath)
+                        new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath)
                             .GetFiles();
                     _startWindowView.ListBoxForPlaygroundFiles.ItemsSource = files;
                     _startWindowView.SelectPlaygroundMenu.Visibility = Visibility.Visible;
