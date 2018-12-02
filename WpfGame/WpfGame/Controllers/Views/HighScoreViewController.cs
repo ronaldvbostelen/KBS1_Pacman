@@ -18,6 +18,7 @@ namespace WpfGame.Controllers.Views
             _highScoreView = new HighScoreView();
             _highScoreView.Loaded += HighScoreCanvas_Loaded;
             SetContentOfMain(mainWindow, _highScoreView);
+            SetButtonEvents(_highScoreView.BtnBack, BtnBack_Click);
         }
 
         public List<KeyValuePair<string, string>> GetListOfHighScoresDescending()
@@ -150,6 +151,11 @@ namespace WpfGame.Controllers.Views
         private void HighScoreCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             _highScoreView.FlowDocumentScrollViewer.Document = CreateFlowDocument();
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            new StartWindowViewController(_mainWindow);
         }
 
     }
