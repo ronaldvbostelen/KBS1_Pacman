@@ -170,6 +170,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\Fonts\PAC-FONT.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="bin\Debug\WpfGame.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
