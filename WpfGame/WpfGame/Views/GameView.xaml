@@ -18,15 +18,19 @@
             <DockPanel>
                 <TextBlock DockPanel.Dock="Right"
                            Name="GameClockHolder"
+                           FontFamily="{StaticResource PacmanFont}"
+                           VerticalAlignment="Center"
                            FontSize="20"
                            FontWeight="ExtraBold"
-                           Foreground="Black"
+                           Foreground="White"
                            Margin="0 0 5 0" />
                 <TextBlock DockPanel.Dock="Left"
                            Name="GameScoreHolder"
+                           VerticalAlignment="Center"
+                           FontFamily="{StaticResource PacmanFont}"
                            FontSize="20"
                            FontWeight="ExtraBold"
-                           Foreground="Black"
+                           Foreground="White"
                            Margin="5 0 0 0" />
             </DockPanel>
         </Grid>
@@ -38,7 +42,7 @@
                         CornerRadius="10">
                     <TextBlock Name="TimeIsUpTextBlock"
                                FontSize="30" Foreground="DarkRed"
-                               FontFamily="STENCIL"
+                               FontFamily="{StaticResource PacmanFont}"
                                Background="Black"
                                Padding="10" />
                 </Border>
@@ -53,7 +57,7 @@
                     <TextBlock Name="LevelCompleted"
                                FontSize="40"
                                Foreground="DarkGreen"
-                               FontFamily="STENCIL"
+                               FontFamily="{StaticResource PacmanFont}"
                                Background="Black"
                                Padding="10"
                                TextAlignment="Center"

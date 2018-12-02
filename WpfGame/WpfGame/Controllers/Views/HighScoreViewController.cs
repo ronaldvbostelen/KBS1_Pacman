@@ -44,6 +44,9 @@ namespace WpfGame.Controllers.Views
 
             // Create the Table
             Table table = new Table();
+
+            // set fontfamlily
+            table.FontFamily =  new FontFamily(new Uri("pack://application:,,,/"),"./Assets/Fonts/#CrackMan");
             // ...and add it to the FlowDocument Blocks collection.
             flowDoc.Blocks.Add(table);
 

@@ -171,9 +171,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Assets\Fonts\PAC-FONT.TTF">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -193,6 +190,7 @@
     <Resource Include="Assets\Sprites\Enemy\blinky-right.png" />
     <Resource Include="Assets\Sprites\Enemy\blinky-up-2.png" />
     <Resource Include="Assets\Sprites\Enemy\blinky-up.png" />
+    <Resource Include="Assets\Fonts\CrackMan.TTF" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Sprites\game-over.png" />

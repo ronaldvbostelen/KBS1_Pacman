@@ -14,7 +14,7 @@ namespace WpfGame.Controllers.Renderer
         private GameValues _gameValues;
         private Dictionary<ObjectType, BitmapImage> _imageDictionary;
         private Dictionary<ObjectType, Size> _demensionDictionary;
-        private double coinCorrectionWidthPlacement, coinCorrectionHeightPlacement, obstacleCorrectionHeightPlacement;
+        private double coinCorrectionWidthPlacement, coinCorrectionHeightPlacement;
 
 
         public PlaygroundFactory()
@@ -53,7 +53,6 @@ namespace WpfGame.Controllers.Renderer
 
             coinCorrectionHeightPlacement = _gameValues.TileHeight * 0.17;
             coinCorrectionWidthPlacement = _gameValues.TileWidth * 0.17;
-            obstacleCorrectionHeightPlacement = _gameValues.TileHeight * 0;
         }
 
         public List<IPlaygroundObject> LoadPlayground(List<TileMockup> mockups)
@@ -121,7 +120,7 @@ namespace WpfGame.Controllers.Renderer
                             playground.Add(new ImmovableObject(type, new Image {Source = _imageDictionary[type]},
                                 _demensionDictionary[type].Width, _demensionDictionary[type].Height,
                                 _demensionDictionary[type].Width * j,
-                                _gameValues.TileHeight * i + obstacleCorrectionHeightPlacement, false));
+                                _gameValues.TileHeight * i, false));
                             isObstacle = false;
                         }
 
