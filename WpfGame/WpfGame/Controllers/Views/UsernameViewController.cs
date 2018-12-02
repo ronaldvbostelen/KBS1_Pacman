@@ -11,11 +11,12 @@ namespace WpfGame.Controllers.Views
 
         public UsernameViewController(MainWindow mainWindow, string selectedGameName) : base(mainWindow)
         {
-            _usernameView = new UsernameView { tbxUsername = {Text = Settings.Default.Username}};
+            _usernameView = new UsernameView { tbxUsername = { Text = Settings.Default.Username } };
             _selectedGameName = selectedGameName;
+            _usernameView.tbxUsername.Focus();
 
             SetContentOfMain(mainWindow, _usernameView);
-            SetButtonEvents(_usernameView.BtnOk, BtnOk);
+            SetButtonEvents(_usernameView.BtnOk, BtnOk);            
         }
 
         private void BtnOk(object sender, RoutedEventArgs e)
