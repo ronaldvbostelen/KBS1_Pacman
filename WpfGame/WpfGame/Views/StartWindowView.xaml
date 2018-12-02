@@ -21,24 +21,24 @@
             <ImageBrush ImageSource="/WpfGame;component/Assets/Backgrounds/startwindow.jpg"/>
         </Grid.Background>
         <DockPanel Grid.Row="2" Margin="280 0 0 0" HorizontalAlignment="Left">
-            <Button x:Name="btnStartGame" Content="Spel starten" Width="100" Height="45" BorderThickness="0">
+            <Button x:Name="btnStartGame" Content="Start game" Width="100" Height="45" BorderThickness="0">
                 <Button.Background>
                     <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="btnDesignLevel" Content="Level ontwerpen" Width="100" Height="45" Margin="80 0 0 0" BorderThickness="0">
+            <Button x:Name="btnDesignLevel" Content="Design level" Width="100" Height="45" Margin="80 0 0 0" BorderThickness="0">
                 <Button.Background>
                     <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
                 </Button.Background>
             </Button>
         </DockPanel>
         <DockPanel Grid.Row="4" Margin="198 20 0 0" HorizontalAlignment="Left">
-            <Button x:Name="BtnHighScoreTable" Content="High Score Table" Width="100" Height="45" BorderThickness="0" Margin="80,0,0,0">
+            <Button x:Name="BtnHighScoreTable" Content="View Highscores" Width="100" Height="45" BorderThickness="0" Margin="80,0,0,0">
                 <Button.Background>
                     <SolidColorBrush Color="#db851c" Opacity="0.72"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0" Margin="80 0 0 0">
+            <Button x:Name="btnCloseGame" Content="Exit" Width="100" Height="45" BorderThickness="0" Margin="80 0 0 0">
                 <Button.Background>
                     <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
                 </Button.Background>
