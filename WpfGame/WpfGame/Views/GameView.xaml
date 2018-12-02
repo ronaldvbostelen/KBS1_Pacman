@@ -42,7 +42,7 @@
                         CornerRadius="10">
                     <TextBlock Name="TimeIsUpTextBlock"
                                FontSize="30" Foreground="DarkRed"
-                               FontFamily="STENCIL"
+                               FontFamily="{StaticResource PacmanFont}"
                                Background="Black"
                                Padding="10" />
                 </Border>
@@ -57,7 +57,7 @@
                     <TextBlock Name="LevelCompleted"
                                FontSize="40"
                                Foreground="DarkGreen"
-                               FontFamily="STENCIL"
+                               FontFamily="{StaticResource PacmanFont}"
                                Background="Black"
                                Padding="10"
                                TextAlignment="Center"
