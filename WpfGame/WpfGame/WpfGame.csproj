@@ -174,7 +174,6 @@
     <Content Include="Assets\Fonts\PAC-FONT.TTF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="bin\Debug\WpfGame.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -238,14 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Sounds\pacman_beginning.wav" />
-    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
-    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
-    <Content Include="bin\Debug\WpfGame.exe" />
-    <Content Include="bin\Debug\WpfGame.pdb" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\Playgrounds\" />
-    <Folder Include="bin\Release\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,18 +37,18 @@
                 </Button.Background>
             </Button>
         </DockPanel>
-        <StackPanel Grid.Row="4" Grid.RowSpan="2" VerticalAlignment="Center">
-            <Button x:Name="BtnHighScoreTable" Content="High Score Table" Width="100" Height="45" BorderThickness="0" Margin="500,10,200,0">
+        <DockPanel Grid.Row="4" Margin="198 20 0 0" HorizontalAlignment="Left">
+            <Button x:Name="BtnHighScoreTable" Content="High Score Table" Width="100" Height="45" BorderThickness="0" Margin="80,0,0,0">
                 <Button.Background>
                     <SolidColorBrush Color="#db851c" Opacity="0.72"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0" Margin="350,0">
+            <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0" Margin="80 0 0 0">
                 <Button.Background>
                     <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
                 </Button.Background>
             </Button>
-        </StackPanel>
+        </DockPanel>
         <StackPanel MinHeight="200" MinWidth="75" Name="SelectPlaygroundMenu" Grid.RowSpan="7" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" Visibility="Collapsed">
             <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" >
                 <ListBox MinHeight="100" MaxHeight="200" Margin="5" Name="ListBoxForPlaygroundFiles"/>
