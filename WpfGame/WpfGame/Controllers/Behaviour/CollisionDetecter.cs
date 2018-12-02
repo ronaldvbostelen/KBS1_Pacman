@@ -109,10 +109,10 @@ namespace WpfGame.Controllers.Behaviour
                             //only when the player hits the endpoint we invoke the event, an enemyhit will be ignored
                             if (movable.ObjectType == ObjectType.Player)
                             {
-                                //we have to compute the amount of intersection, so only when our player is for >99% on the endtile the game will end
+                                //we compute the amount of intersection, only when our player is for >99% on the endtile the game will end
                                 var intersectedRec = Rect.Intersect(moveObject, tileRect);
-                                if ((intersectedRec.Width * intersectedRec.Height) * 100f /
-                                    (moveObject.Width * moveObject.Height) > 99)
+                                if (intersectedRec.Width * intersectedRec.Height * (100 /
+                                    (moveObject.Width * moveObject.Height)) > 99)
                                 {
                                     OnEndpointCollision();
                                 }
@@ -138,10 +138,10 @@ namespace WpfGame.Controllers.Behaviour
                                 var coin = (ImmovableObject)obj;
                                 if (coin.State)
                                 {
-                                    //we have to compute the amount of intersection, so only when our player has eaten the coin for >25% it will register as hit
+                                    //we compute the amount of intersection, only when our player has eaten the coin for >25% it will register as hit
                                     var intersectedRec = Rect.Intersect(moveObject, tileRect);
-                                    if ((intersectedRec.Width * intersectedRec.Height) * 100f /
-                                        (moveObject.Width * moveObject.Height) > 25)
+                                    if (intersectedRec.Width * intersectedRec.Height * (100 /
+                                        (moveObject.Width * moveObject.Height)) > 25)
                                     {
 
                                         OnCoinCollision(new ImmovableEventArgs(coin));
@@ -158,7 +158,14 @@ namespace WpfGame.Controllers.Behaviour
                                 
                                 if (obstacle.State)
                                 {
-                                    OnObstacleCollision();
+                                    //we compute the amount of intersection, only when our player has hit the active obstacle for >35% it will register as hit
+                                    var intersectedRec = Rect.Intersect(moveObject, tileRect);
+                                    if (intersectedRec.Width * intersectedRec.Height * (100 /
+                                        (moveObject.Width * moveObject.Height)) > 35)
+                                    {
+                                        OnObstacleCollision();
+                                    }
+                                        
                                 }
                             }
                             break;

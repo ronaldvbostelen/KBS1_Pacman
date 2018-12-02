@@ -18,12 +18,16 @@
             <DockPanel>
                 <TextBlock DockPanel.Dock="Right"
                            Name="GameClockHolder"
+                           FontFamily="{StaticResource PacmanFont}"
+                           VerticalAlignment="Center"
                            FontSize="20"
                            FontWeight="ExtraBold"
                            Foreground="Black"
                            Margin="0 0 5 0" />
                 <TextBlock DockPanel.Dock="Left"
                            Name="GameScoreHolder"
+                           VerticalAlignment="Center"
+                           FontFamily="{StaticResource PacmanFont}"
                            FontSize="20"
                            FontWeight="ExtraBold"
                            Foreground="Black"
