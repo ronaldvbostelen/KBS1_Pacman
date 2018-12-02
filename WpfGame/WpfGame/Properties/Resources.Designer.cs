@@ -59,15 +59,5 @@ namespace WpfGame.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] PAC_FONT {
-            get {
-                object obj = ResourceManager.GetObject("PAC_FONT", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
