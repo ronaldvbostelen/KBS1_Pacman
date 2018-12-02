@@ -21,8 +21,11 @@ namespace WpfGame.Controllers.Views
 
         private void BtnOk(object sender, RoutedEventArgs e)
         {
-            Settings.Default.Username = _usernameView.tbxUsername.Text;
-            new GameViewController(_mainWindow, _selectedGameName);
+            if(_usernameView.tbxUsername.Text != string.Empty)
+            {
+                Settings.Default.Username = _usernameView.tbxUsername.Text;
+                new GameViewController(_mainWindow, _selectedGameName);
+            }
         }
     }
 }
