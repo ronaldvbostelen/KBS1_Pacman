@@ -15,7 +15,7 @@
             <Grid Height="200" Width="200">
                 <Label Content="Your username:" HorizontalAlignment="Left" Margin="15,55,0,0" VerticalAlignment="Top" Width="153" Foreground="White"/>
                 <TextBox x:Name="tbxUsername" HorizontalAlignment="Left" Height="24" Margin="20,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="133"/>
-                <Button x:Name="BtnOk" Content="OK" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Width="75" BorderThickness="0">
+                <Button x:Name="BtnOk" Content="OK" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Width="75" BorderThickness="0" IsDefault="True">
                     <Button.Background>
                         <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>
                     </Button.Background>
