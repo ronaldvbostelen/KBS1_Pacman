@@ -25,10 +25,8 @@ namespace WpfGame.UnitTests
     [TestFixture(Description = "WPF_PACMAN_UNIT_TESTS")]
     public class WallCollisionTest
     {
-        private Position _position;
         private GameValues _gameValues;
         private MovableObject _player;
-        private CollisionDetecter _collisionDetecter;
         private PlaygroundFactory _playgroundFactory;
         private List<IPlaygroundObject> _playgroundObjects;
 
@@ -50,8 +48,6 @@ namespace WpfGame.UnitTests
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
             _gameValues.Movement = 2.5;
 
-            _position = new Position(_gameValues);
-
             _playgroundFactory = new PlaygroundFactory();
             _playgroundFactory.LoadFactory(_gameValues);
 
@@ -63,15 +59,13 @@ namespace WpfGame.UnitTests
                             new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png"))
                 }, 50, 50, 10, 10);
 
-            _collisionDetecter = new CollisionDetecter(_gameValues);
             _playgroundObjects = new List<IPlaygroundObject>(_playgroundFactory.LoadPlayground(new JsonPlaygroundParser("Playgroundv3.json").GetOutputList()));
         }
         
         [Test]
-        public void CollisionDetected_PlayerObjectSameLocation_ReturnsCollision()
+        public void CollisionDetected_PlayerWallSameLocation_ReturnsCollision()
         {
-            Collision collisionObj = _collisionDetecter.ObjectCollision(_playgroundObjects, _player, _player.NextMove);
-            _player.X = 156.8;
+            _player.X = 39.2;
             _player.Y = 0;
             bool result = false;
 
