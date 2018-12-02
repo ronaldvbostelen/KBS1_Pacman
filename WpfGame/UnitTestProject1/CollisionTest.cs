@@ -23,14 +23,16 @@ using Assert = NUnit.Framework.Assert;
 namespace WpfGame.UnitTests
 {
     [TestFixture(Description = "WPF_PACMAN_UNIT_TESTS")]
-    public class WallCollisionTest
+    public class CollisionTest
     {
         private GameValues _gameValues;
         private MovableObject _player;
         private PlaygroundFactory _playgroundFactory;
         private List<IPlaygroundObject> _playgroundObjects;
+        private CollisionDetecter _collisionDetecter;
+        private GameState _gameState;
 
-        public WallCollisionTest()
+        public CollisionTest()
         {
             //this piece of code gave me headache. you'll need it in every testclass. // NEVER REMOVE IT //
             if (Application.ResourceAssembly == null)
@@ -59,23 +61,82 @@ namespace WpfGame.UnitTests
                             new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png"))
                 }, 50, 50, 10, 10);
 
+            _collisionDetecter = new CollisionDetecter(_gameValues);
             _playgroundObjects = new List<IPlaygroundObject>(_playgroundFactory.LoadPlayground(new JsonPlaygroundParser("Playgroundv3.json").GetOutputList()));
+            _gameState = GameState.Playing;
         }
         
         [Test]
         public void CollisionDetected_PlayerWallSameLocation_ReturnsCollision()
         {
+            List<IPlaygroundObject> newList = new List<IPlaygroundObject>();
             _player.X = 39.2;
             _player.Y = 0;
-            bool result = false;
+
+            Collision result = Collision.Clear;
+            Collision expected = Collision.Wall;
+
+            foreach (var wall in _playgroundObjects)
+            {
+                if (_player.X == wall.X && _player.Y == wall.Y)
+                {
+                    newList.Add(wall);
+
+                    result = _collisionDetecter.ObjectCollision(newList, _player, _player.NextMove);
+                }
+            }
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CollisionDetected_PlayerObstacleSameLocation_ReturnsCollision()
+        {
+            List<IPlaygroundObject> newList = new List<IPlaygroundObject>();
+            _player.X = 39.2;
+            _player.Y = 208;
+
+            Collision result = Collision.Clear;
+            Collision expected = Collision.Obstacle;
 
             foreach (var obj in _playgroundObjects)
             {
                 if (_player.X == obj.X && _player.Y == obj.Y)
-                    result = true;
+                {
+                    var obstacle = (ImmovableObject)obj;
+                    obstacle.State = true;
+                    newList.Add(obj);
+
+                    result = _collisionDetecter.ObjectCollision(newList, _player, _player.NextMove);
+                }    
             }
 
-            Assert.IsTrue(result);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void CollisionDetected_PlayerObstacleSameLocation_KillsPlayer()
+        {
+            List<IPlaygroundObject> newList = new List<IPlaygroundObject>();
+            _player.X = 39.2;
+            _player.Y = 208;
+
+            GameState expected = GameState.Lost;
+
+            foreach (var obj in _playgroundObjects)
+            {
+                if (_player.X == obj.X && _player.Y == obj.Y)
+                {
+                    var obstacle = (ImmovableObject)obj;
+                    obstacle.State = true;
+                    
+                    newList.Add(obj);
+
+                    _collisionDetecter.ObjectCollision(newList, _player, _player.NextMove);
+                }
+            }
+
+            Assert.AreEqual(expected, _gameState);
         }
     }
 }
