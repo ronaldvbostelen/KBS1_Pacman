@@ -66,6 +66,7 @@
     <Compile Include="Controllers\Renderers\PlaygroundFactory.cs" />
     <Compile Include="Controllers\Views\EditorViewController.cs" />
     <Compile Include="Controllers\Views\GameViewController.cs" />
+    <Compile Include="Controllers\Views\HighScoreViewController.cs" />
     <Compile Include="Controllers\Views\StartWindowViewController.cs" />
     <Compile Include="Controllers\Views\UsernameViewController.cs" />
     <Compile Include="Controllers\Views\ViewController.cs" />
@@ -80,7 +81,11 @@
     <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
     <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
-    <Compile Include="Settings.Designer.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -111,6 +116,9 @@
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HighScoreView.xaml.cs">
+      <DependentUpon>HighScoreView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StartWindowView.xaml.cs">
       <DependentUpon>StartWindowView.xaml</DependentUpon>
     </Compile>
@@ -126,6 +134,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HighScoreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,6 +171,10 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\Fonts\PAC-FONT.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="bin\Debug\WpfGame.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -219,6 +235,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Newtonsoft.Json.dll" />
+    <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\WpfGame.exe" />
+    <Content Include="bin\Debug\WpfGame.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\Playgrounds\" />
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

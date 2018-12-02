@@ -26,7 +26,7 @@
                     <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="btnDesignLevel" Content="Level ontwerpen" Width="100" Height="45" Margin="80 0 0 0"  BorderThickness="0">
+            <Button x:Name="btnDesignLevel" Content="Level ontwerpen" Width="100" Height="45" Margin="80 0 0 0" BorderThickness="0">
                 <Button.Background>
                     <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
                 </Button.Background>
@@ -38,7 +38,12 @@
             </Button>
         </DockPanel>
         <StackPanel Grid.Row="4" Grid.RowSpan="2" VerticalAlignment="Center">
-            <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0">
+            <Button x:Name="BtnHighScoreTable" Content="High Score Table" Width="100" Height="45" BorderThickness="0" Margin="500,10,200,0">
+                <Button.Background>
+                    <SolidColorBrush Color="#db851c" Opacity="0.72"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btnCloseGame" Content="Spel afsluiten" Width="100" Height="45" BorderThickness="0" Margin="350,0">
                 <Button.Background>
                     <SolidColorBrush Color="#FFC01913" Opacity="0.72"/>
                 </Button.Background>
