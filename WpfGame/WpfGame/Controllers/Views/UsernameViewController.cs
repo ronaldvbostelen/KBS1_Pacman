@@ -14,17 +14,11 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _usernameView);
             SetButtonEvents(_usernameView.BtnOk, BtnOk);
-            SetButtonEvents(_usernameView.BtnCancel, BtnCancel);
         }
 
         private void BtnOk(object sender, RoutedEventArgs e)
         {
             Settings.Default.Username = _usernameView.tbxUsername.Text;
-            new StartWindowViewController(_mainWindow);
-        }
-
-        private void BtnCancel(object sender, RoutedEventArgs e)
-        {
             new StartWindowViewController(_mainWindow);
         }
     }
