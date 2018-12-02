@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Input;
 using WpfGame.Properties;
 using WpfGame.Views;
 
@@ -16,7 +18,17 @@ namespace WpfGame.Controllers.Views
             _usernameView.tbxUsername.Focus();
 
             SetContentOfMain(mainWindow, _usernameView);
-            SetButtonEvents(_usernameView.BtnOk, BtnOk);            
+            SetButtonEvents(_usernameView.BtnOk, BtnOk);
+            _usernameView.KeyDown += _usernameView_KeyDown;
+
+        }
+
+        private void _usernameView_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                new StartWindowViewController(_mainWindow);
+            }
         }
 
         private void BtnOk(object sender, RoutedEventArgs e)
