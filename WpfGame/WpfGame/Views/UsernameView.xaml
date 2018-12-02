@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="Black">
-    <Grid FocusManager.FocusedElement="{Binding ElementName=tbxUsername}">
+    <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/WpfGame;component/Assets/Backgrounds/startwindow.jpg"/>
         </Grid.Background>
         <Border Background="#0d0a27" Height="200" Width="200" BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="10,10,10,10">
-            <Grid Height="200" Width="200">
+            <Grid Height="200" Width="200" FocusManager.FocusedElement="{Binding ElementName=tbxUsername}">
                 <Label Content="Your username:" HorizontalAlignment="Left" Margin="15,55,0,0" VerticalAlignment="Top" Width="153" Foreground="White"/>
                 <TextBox x:Name="tbxUsername" HorizontalAlignment="Left" Height="24" Margin="20,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="133"/>
                 <Button x:Name="BtnOk" Content="OK" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Width="75" BorderThickness="0">
