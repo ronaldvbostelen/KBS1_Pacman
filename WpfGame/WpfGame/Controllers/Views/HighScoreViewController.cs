@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -18,27 +20,26 @@ namespace WpfGame.Controllers.Views
             SetContentOfMain(mainWindow, _highScoreView);
         }
 
-        public ArrayList GetListOfHighScoresDescending()
+        public List<KeyValuePair<string, string>> GetListOfHighScoresDescending()
         {
             string line;
-            var list = new ArrayList();
+            var highScoreList = new List<KeyValuePair<string, string>>();
 
-            // Read the file and add it line by line to the ArrayList.
-            var file = new StreamReader(
-                @"C:\Users\Sake Elfring\source\repos\KBS1-CSharp game\WpfGame\WpfGame\bin\Debug\Highscores.txt");
-            while ((line = file.ReadLine()) != null) list.Add(line);
+            // Read the file and add it line by line to List.
+            var file = new StreamReader($"{Environment.CurrentDirectory}\\Highscores.txt");
+            while ((line = file.ReadLine()) != null)
+            {
+                highScoreList.Add(new KeyValuePair<string, string>(line.Substring(0, line.IndexOf(' ')), line.Substring(line.IndexOf(' '))));
+            }
             file.Close();
 
-            list.Sort();
-            list.Reverse();
-
-            return list;
+            return highScoreList.OrderByDescending(kvp => kvp.Value).ToList();
         }
 
         public FlowDocument CreateFlowDocument()
         {
             // Create the parent FlowDocument...
-            FlowDocument flowDoc = new FlowDocument();
+            FlowDocument flowDoc = new FlowDocument {Foreground = Brushes.Yellow, Background = Brushes.Black};
 
             // Create the Table
             Table table = new Table();
@@ -47,16 +48,13 @@ namespace WpfGame.Controllers.Views
 
             // Set some global formatting properties for the table.
             table.CellSpacing = 10;
-            table.Background = Brushes.White;
+            table.Background = Brushes.Black;
 
             // Create 3 columns and add them to the table's Columns collection.
             int numberOfColumns = 3;
             for (int x = 0; x < numberOfColumns; x++)
             {
                 table.Columns.Add(new TableColumn());
-
-                // Set alternating background colors for the middle colums.
-                table.Columns[x].Background = x % 2 == 0 ? Brushes.Beige : Brushes.LightSteelBlue;
             }
 
             // Create and add an empty TableRowGroup to hold the table's Rows.
@@ -69,7 +67,6 @@ namespace WpfGame.Controllers.Views
             TableRow currentRow = table.RowGroups[0].Rows[0];
 
             // Global formatting for the title row.
-            currentRow.Background = Brushes.Silver;
             currentRow.FontSize = 40;
             currentRow.FontWeight = FontWeights.Bold;
 
@@ -93,6 +90,11 @@ namespace WpfGame.Controllers.Views
 
             int rankCounter = 1;
             int rowCounter = 2;
+            int red = 1;
+            int pink = 2;
+            int blue = 3;
+            int orange = 4;
+            int yellow = 5;
             foreach (var highScore in GetListOfHighScoresDescending())
             {
                 // Add the row.
@@ -101,12 +103,39 @@ namespace WpfGame.Controllers.Views
 
                 // Global formatting for the row.
                 currentRow.FontSize = 12;
+
+                if (rankCounter == red)
+                {
+                    currentRow.Foreground = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#d03e19"));
+                    red += 5;
+                }
+                else if (rankCounter == pink)
+                {
+                    currentRow.Foreground = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#ea82e5"));
+                    pink += 5;
+                }
+                else if (rankCounter == blue)
+                {
+                    currentRow.Foreground = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#46bfee"));
+                    blue += 5;
+                }
+                else if (rankCounter == orange)
+                {
+                    currentRow.Foreground = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#d03e19"));
+                    orange += 5;
+                }
+                else if (rankCounter == yellow)
+                {
+                    currentRow.Foreground = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#fdff00"));
+                    yellow += 5;
+                }
+
                 currentRow.FontWeight = FontWeights.Normal;
 
                 // Add cells with content to the row.
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{rankCounter}"))));
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{highScore}"))));
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run(Settings.Default.Username))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{rankCounter}e"))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{highScore.Value}"))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run($"{highScore.Key}"))));
 
                 // Bold the first cell.
                 currentRow.Cells[0].FontWeight = FontWeights.Bold;
