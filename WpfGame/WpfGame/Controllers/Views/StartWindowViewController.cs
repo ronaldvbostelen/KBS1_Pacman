@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WpfGame.Generals;
@@ -66,7 +67,10 @@ namespace WpfGame.Controllers.Views
 
         private void BtnStartGameOnClick(object sender, RoutedEventArgs e)
         {
-            var selectedGameName = "Playgroundv3.json";
+            var directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Playgrounds");
+            var selectedGameName = (from f in directory.GetFiles()
+                orderby f.LastWriteTime descending
+                select f).First().ToString();
 
             if (selectedPlayground)
             {
