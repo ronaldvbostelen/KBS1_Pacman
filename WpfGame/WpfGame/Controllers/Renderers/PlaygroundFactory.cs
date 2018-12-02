@@ -45,8 +45,7 @@ namespace WpfGame.Controllers.Renderer
             _demensionDictionary.Add(ObjectType.Coin,
                 new Size(_gameValues.TileWidth * 0.65, _gameValues.TileHeight * 0.65));
             _demensionDictionary.Add(ObjectType.EndPoint, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
-            _demensionDictionary.Add(ObjectType.Obstacle,
-                new Size(_gameValues.TileWidth, _gameValues.TileHeight * 0.60));
+            _demensionDictionary.Add(ObjectType.Obstacle, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
             _demensionDictionary.Add(ObjectType.Path, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
             _demensionDictionary.Add(ObjectType.SpawnPoint, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
             _demensionDictionary.Add(ObjectType.Wall, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
@@ -54,7 +53,7 @@ namespace WpfGame.Controllers.Renderer
 
             coinCorrectionHeightPlacement = _gameValues.TileHeight * 0.17;
             coinCorrectionWidthPlacement = _gameValues.TileWidth * 0.17;
-            obstacleCorrectionHeightPlacement = _gameValues.TileHeight * 0.20;
+            obstacleCorrectionHeightPlacement = _gameValues.TileHeight * 0;
         }
 
         public List<IPlaygroundObject> LoadPlayground(List<TileMockup> mockups)
