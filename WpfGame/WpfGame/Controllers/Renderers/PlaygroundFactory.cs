@@ -32,7 +32,7 @@ namespace WpfGame.Controllers.Renderer
             _imageDictionary.Add(ObjectType.EndPoint,
                 new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Objects/end.png")));
             _imageDictionary.Add(ObjectType.Obstacle,
-                new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Objects/ObstacleOff.png")));
+                new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Objects/obstacle-off.png")));
             _imageDictionary.Add(ObjectType.Path,
                 new BitmapImage(new Uri("pack://application:,,,/Assets/Sprites/Objects/floor.png")));
             _imageDictionary.Add(ObjectType.SpawnPoint,

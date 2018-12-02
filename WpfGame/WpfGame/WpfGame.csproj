@@ -214,8 +214,8 @@
     <Resource Include="Assets\Sprites\Objects\spawn.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Sprites\Objects\ObstacleOff.png" />
-    <Resource Include="Assets\Sprites\Objects\ObstacleOn.png" />
+    <Resource Include="Assets\Sprites\Objects\obstacle-off.png" />
+    <Resource Include="Assets\Sprites\Objects\obstacle-on.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
