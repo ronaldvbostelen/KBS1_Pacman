@@ -7,11 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="Black">
-    <Grid>
-        <TextBox x:Name="username" HorizontalAlignment="Left" Height="24" Margin="292,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="133"/>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=tbxUsername}">
+        <TextBox x:Name="tbxUsername" HorizontalAlignment="Left" Height="24" Margin="292,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="133"/>
         <Label Content="Voer je gebruikersnaam in:" HorizontalAlignment="Left" Margin="134,188,0,0" VerticalAlignment="Top" Width="153" Foreground="White"/>
-        <Button x:Name="BtnOk" Content="Ok" HorizontalAlignment="Left" Margin="292,239,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="BtnCancel" Content="Annuleren" HorizontalAlignment="Left" Margin="395,239,0,0" VerticalAlignment="Top" Width="75"/>
-
+        <Button x:Name="BtnOk" Content="OK" HorizontalAlignment="Left" Margin="292,239,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="395,239,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </UserControl>
