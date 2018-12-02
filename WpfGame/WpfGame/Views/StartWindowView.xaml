@@ -31,11 +31,6 @@
                     <SolidColorBrush Color="#FFD7D01C" Opacity="0.72"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="BtnEnterUsername" Content="Gebruikersnaam invoeren" Margin="80,10,0,9" Width="143" Height="45">
-                <Button.Background>
-                    <SolidColorBrush Color="Lime" Opacity="0.72"/>
-                </Button.Background>
-            </Button>
         </DockPanel>
         <DockPanel Grid.Row="4" Margin="198 20 0 0" HorizontalAlignment="Left">
             <Button x:Name="BtnHighScoreTable" Content="High Score Table" Width="100" Height="45" BorderThickness="0" Margin="80,0,0,0">

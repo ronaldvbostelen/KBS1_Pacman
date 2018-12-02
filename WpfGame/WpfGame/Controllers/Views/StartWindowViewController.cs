@@ -26,10 +26,11 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _startWindowView);
 
+            CallUsernameViewController();
+
             SetButtonEvents(_startWindowView.btnCloseGame, BtnCloseGame_Click);
             SetButtonEvents(_startWindowView.btnDesignLevel, BtnDesignLevel_Click);
             SetButtonEvents(_startWindowView.btnStartGame, BtnStartGameOnClick);
-            SetButtonEvents(_startWindowView.BtnEnterUsername, BtnEnterUsername_Click);
             SetButtonEvents(_startWindowView.CancelSelectPlgrnd, BtnCancelSelect_Click);
             SetButtonEvents(_startWindowView.SelectPlgrnd, BtnConfirmSelect_Click);
             SetButtonEvents(_startWindowView.BtnHighScoreTable, BtnHighScoreTable_Click);
@@ -92,9 +93,10 @@ namespace WpfGame.Controllers.Views
             Application.Current.Shutdown();
         }
 
-        private void BtnEnterUsername_Click(object sender, RoutedEventArgs e)
+        private void CallUsernameViewController()
         {
-            new UsernameViewController(_mainWindow);
+            if (Settings.Default.Username == string.Empty)
+                new UsernameViewController(_mainWindow);
         }
 
         private void BtnHighScoreTable_Click (object sender, RoutedEventArgs e)
