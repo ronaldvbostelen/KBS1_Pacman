@@ -80,6 +80,7 @@ namespace WpfGame.Controllers.Views
             if (Settings.Default.Username == string.Empty) 
             {
                 new UsernameViewController(_mainWindow, Settings.Default.Level);
+                return;
             }
             
             new GameViewController(_mainWindow, Settings.Default.Level);
