@@ -96,21 +96,24 @@ namespace WpfGame.Controllers.Behaviour
                             if (movable.ObjectType == ObjectType.Enemy)
                             {
                                 OnEnemyCollision();
+                                return Collision.Player;
                             }
-                            return Collision.Player;
+                            break;
                         case ObjectType.Enemy:
                             // we invoke the enemy event when the player hits an enemy
                             if (movable.ObjectType == ObjectType.Player)
                             {
                                 OnEnemyCollision();
+                                return Collision.Enemy;
                             }
-                            return Collision.Enemy;
+                            break;
                         case ObjectType.EndPoint:
                             //we have to compute the amount of intersection, so only when our player is for 99% on the endtile the game will end
                             var intersectedRec = Rect.Intersect(moveObject, tileRect);
                             if ((intersectedRec.Width * intersectedRec.Height) * 100f / (moveObject.Width * moveObject.Height) > 99)
                             {
                                 OnEndpointCollision();
+                                return Collision.Endpoint;
                             }
                             break;
                         case ObjectType.SpawnPoint:
@@ -122,6 +125,7 @@ namespace WpfGame.Controllers.Behaviour
                             if (coin.State)
                             {
                                 OnCoinCollision(new ImmovableEventArgs(coin));
+                                return Collision.Coin;
                             }
                             break;
                         case ObjectType.Obstacle:
@@ -130,6 +134,7 @@ namespace WpfGame.Controllers.Behaviour
                             if (obstacle.State)
                             {
                                 OnObstacleCollision();
+                                return Collision.Obstacle;
                             }
                             break;
                     }
