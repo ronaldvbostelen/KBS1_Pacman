@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Renderer;
 using WpfGame.Generals;
 using WpfGame.Models;
 using WpfGame.Values;
 using System.Windows.Controls;
 using NUnit.Framework;
-using WpfGame.Controllers.Views;
 
 
 namespace WpfGame.UnitTests
