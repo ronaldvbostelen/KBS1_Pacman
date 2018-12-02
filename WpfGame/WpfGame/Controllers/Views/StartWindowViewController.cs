@@ -32,6 +32,7 @@ namespace WpfGame.Controllers.Views
             SetButtonEvents(_startWindowView.BtnEnterUsername, BtnEnterUsername_Click);
             SetButtonEvents(_startWindowView.CancelSelectPlgrnd, BtnCancelSelect_Click);
             SetButtonEvents(_startWindowView.SelectPlgrnd, BtnConfirmSelect_Click);
+            SetButtonEvents(_startWindowView.BtnHighScoreTable, BtnHighScoreTable_Click);
 
             SetKeyEvents(_startWindowView.Grid, Grid_KeyDown);
 
@@ -94,6 +95,11 @@ namespace WpfGame.Controllers.Views
         private void BtnEnterUsername_Click(object sender, RoutedEventArgs e)
         {
             new UsernameViewController(_mainWindow);
+        }
+
+        private void BtnHighScoreTable_Click (object sender, RoutedEventArgs e)
+        {
+            new HighScoreViewController(_mainWindow);
         }
     }
 }

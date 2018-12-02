@@ -39,6 +39,9 @@ namespace WpfGame.Controllers.Views
         private MovableObject _player;
         private MovableObject _enemy;
 
+        //test
+        private Timer _steps;
+
 
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
@@ -58,6 +61,10 @@ namespace WpfGame.Controllers.Views
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
+
+            //test
+            _steps = new Timer{Interval = 2000, Enabled = true};
+            _steps.Elapsed += _steps_Elapsed;
 
             SetContentOfMain(mainWindow, _gameView);
 
@@ -80,6 +87,11 @@ namespace WpfGame.Controllers.Views
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
+        }
+
+        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _enemy.NextMove = (Move)_random.Next(1, 5);
         }
 
         private void OnObstacleCollision(object sender, EventArgs e)
@@ -149,6 +161,10 @@ namespace WpfGame.Controllers.Views
                 //Update playerposition based on userinput
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
+
+                //test
+                _position.ProcessMove(_enemy);
+                _step.SetStep(_enemy);
 
                 //Validate gamestate
                 ValidateGamestate();
@@ -254,13 +270,17 @@ namespace WpfGame.Controllers.Views
                     _playgroundFactory.LoadPlayground(new JsonPlaygroundParser(_selectedGame).GetOutputList()));
                 _playgroundFactory.DrawPlayground(_playgroundObjects, _gameView.GameCanvas);
 
+                _enemyFactory.LoadFactory(_gameValues);
+                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
+                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+
                 _playerFactory.LoadFactory(_gameValues);
                 _player = _playerFactory.LoadPlayer(_playgroundObjects);
                 _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
 
-                _enemyFactory.LoadFactory(_gameValues);
-                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
-                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+                //add enemy and player to playgroundobjectsList
+                _playgroundObjects.Add(_enemy);
+                _playgroundObjects.Add(_player);
 
                 _position.PlaygroundObjects = _playgroundObjects;
                 

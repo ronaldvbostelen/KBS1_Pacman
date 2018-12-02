@@ -21,13 +21,13 @@ using Assert = NUnit.Framework.Assert;
 namespace WpfGame.UnitTests
 {
     [TestFixture(Description = "WPF_PACMAN_UNIT_TESTS")]
-    public class WpfGameUnitTestst
+    public class MovementTests
     {
         private readonly Position _position;
         private readonly GameValues _gameValues;
         private readonly MovableObject _player;
         
-        public WpfGameUnitTestst()
+        public MovementTests()
         {
             //this piece of code gave me headache. you'll need it in every testclass. // NEVER REMOVE IT //
             if (Application.ResourceAssembly == null)

@@ -97,39 +97,69 @@ namespace WpfGame.Controllers.Behaviour
                             {
                                 OnEnemyCollision();
                             }
-                            return Collision.Player;
+                            break;
                         case ObjectType.Enemy:
                             // we invoke the enemy event when the player hits an enemy
                             if (movable.ObjectType == ObjectType.Player)
                             {
                                 OnEnemyCollision();
                             }
-                            return Collision.Enemy;
+                            break;
                         case ObjectType.EndPoint:
-                            //we have to compute the amount of intersection, so only when our player is for 99% on the endtile the game will end
-                            var intersectedRec = Rect.Intersect(moveObject, tileRect);
-                            if ((intersectedRec.Width * intersectedRec.Height) * 100f / (moveObject.Width * moveObject.Height) > 99)
+                            //only when the player hits the endpoint we invoke the event, an enemyhit will be ignored
+                            if (movable.ObjectType == ObjectType.Player)
                             {
-                                OnEndpointCollision();
+                                //we have to compute the amount of intersection, so only when our player is for >99% on the endtile the game will end
+                                var intersectedRec = Rect.Intersect(moveObject, tileRect);
+                                if ((intersectedRec.Width * intersectedRec.Height) * 100f /
+                                    (moveObject.Width * moveObject.Height) > 99)
+                                {
+                                    OnEndpointCollision();
+                                }
+                            }
+                            else
+                            {
+                                return Collision.Wall;
                             }
                             break;
                         case ObjectType.SpawnPoint:
+                            //spawnpoint equals wall for player, an enemy can pass it
+                            if (movable.ObjectType == ObjectType.Player)
+                            {
+                                return Collision.Wall;
+                            }
+                            break;
                         case ObjectType.Wall:
                             return Collision.Wall;
                         case ObjectType.Coin:
-                            // we invoke the coin event when the movableobject hits an active obstacle
-                            var coin = (ImmovableObject) obj;
-                            if (coin.State)
+                            // we invoke the coin event when the player hits an active coin
+                            if (movable.ObjectType == ObjectType.Player)
                             {
-                                OnCoinCollision(new ImmovableEventArgs(coin));
+                                var coin = (ImmovableObject)obj;
+                                if (coin.State)
+                                {
+                                    //we have to compute the amount of intersection, so only when our player has eaten the coin for >25% it will register as hit
+                                    var intersectedRec = Rect.Intersect(moveObject, tileRect);
+                                    if ((intersectedRec.Width * intersectedRec.Height) * 100f /
+                                        (moveObject.Width * moveObject.Height) > 25)
+                                    {
+
+                                        OnCoinCollision(new ImmovableEventArgs(coin));
+                                    }
+
+                                }
                             }
                             break;
                         case ObjectType.Obstacle:
-                            var obstacle = (ImmovableObject)obj;
-                            // we invoke the obstacle event when the movableobject hits an active obstacle
-                            if (obstacle.State)
+                            // we invoke the obstacle event when the player hits an active obstacle
+                            if (movable.ObjectType == ObjectType.Player)
                             {
-                                OnObstacleCollision();
+                                var obstacle = (ImmovableObject) obj;
+                                
+                                if (obstacle.State)
+                                {
+                                    OnObstacleCollision();
+                                }
                             }
                             break;
                     }
