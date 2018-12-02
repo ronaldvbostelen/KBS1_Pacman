@@ -237,6 +237,7 @@
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Sounds\pacman_beginning.wav" />
     <Content Include="bin\Debug\Newtonsoft.Json.dll" />
     <Resource Include="bin\Debug\Newtonsoft.Json.xml" />
     <Content Include="bin\Debug\WpfGame.exe" />
