@@ -98,17 +98,20 @@ namespace WpfGame.Controllers.Views
                 {
                     MessageBox.Show("Your root folder does not contain a Playgrounds folder. Unable to start a game.",
                         "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 catch (InvalidOperationException)
                 {
 
                     MessageBox.Show("Your Playgrounds folder doesn't contain a file. Please create or download a playground.",
                         "Playgrounds folder empty", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Something went horribly wrong. Please contact your software-supplier." + ex.Message + " " + ex.StackTrace,
                         "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
                 
             }
