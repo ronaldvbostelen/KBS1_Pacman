@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
 using WpfGame.Generals;
 using WpfGame.Models;
 using WpfGame.Models.Animations;
+using WpfGame.Sounds;
 using WpfGame.Values;
 using WpfGame.Views;
 
@@ -38,6 +37,7 @@ namespace WpfGame.Controllers.Views
         private List<IPlaygroundObject> _playgroundObjects;
         private MovableObject _player;
         private MovableObject _enemy;
+        private Sound _sound;
 
         //test
         private Timer _steps;
@@ -61,6 +61,7 @@ namespace WpfGame.Controllers.Views
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
+            _sound = new Sound();
 
             //test
             _steps = new Timer{Interval = 2000, Enabled = true};
@@ -79,11 +80,15 @@ namespace WpfGame.Controllers.Views
             _obstacleTimer.Elapsed += OnObstacleTimerElapsed;
             _mainWindow.Closing += OnMainWindowClosing;
             _clock.PlaytimeIsOver += OnPlaytimeIsOver;
+            _clock.PlaytimeIsOver += _sound.OnPlaytimeIsOver;
 
             _position.CollisionDetecter.CoinCollision += OnCoinCollision;
+            _position.CollisionDetecter.CoinCollision += _sound.OnCoinCollision;
             _position.CollisionDetecter.EndpointCollision += OnEndpointCollision;
             _position.CollisionDetecter.EnemyCollision += OnOnEnemyCollision;
-            _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;      
+            _position.CollisionDetecter.EnemyCollision += _sound.OnOnEnemyCollision;
+            _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;
+            _position.CollisionDetecter.ObstacleCollision += _sound.OnObstacleCollision;
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
@@ -306,7 +311,7 @@ namespace WpfGame.Controllers.Views
         private void OnCoinCollision(object sender, ImmovableEventArgs args)
         {
             args.Coin.State = false;
-            _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from vanvas
+            _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from canvas
             _score.ScoreValue += 10;
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WpfGame.Generals;
+using WpfGame.Sounds;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
@@ -11,16 +12,19 @@ namespace WpfGame.Controllers.Views
     class StartWindowViewController : ViewController
     {
         private StartWindowView _startWindowView;
+        private readonly Sound _sound;
 
         public StartWindowViewController(MainWindow mainWindow) : base(mainWindow)
         {
             _startWindowView = new StartWindowView();
+            _sound = new Sound();
 
             SetContentOfMain(mainWindow, _startWindowView);
 
             SetButtonEvents(_startWindowView.btnCloseGame, BtnCloseGame_Click);
             SetButtonEvents(_startWindowView.btnDesignLevel, BtnDesignLevel_Click);
             SetButtonEvents(_startWindowView.btnStartGame, BtnStartGameOnClick);
+            SetButtonEvents(_startWindowView.btnStartGame, _sound.BtnStartGameOnClick);
             SetButtonEvents(_startWindowView.CancelSelectPlgrnd, BtnCancelSelect_Click);
             SetButtonEvents(_startWindowView.SelectPlgrnd, BtnConfirmSelect_Click);
             SetButtonEvents(_startWindowView.BtnHighScoreTable, BtnHighScoreTable_Click);
