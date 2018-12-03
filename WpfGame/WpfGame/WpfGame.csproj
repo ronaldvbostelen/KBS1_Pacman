@@ -234,11 +234,6 @@
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Sounds\pacman_beginning.wav" />
-    <Resource Include="Assets\Sounds\pacman_chomp.wav" />
-    <Resource Include="Assets\Sounds\pacman_death.wav" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
