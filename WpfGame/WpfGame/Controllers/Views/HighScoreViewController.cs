@@ -71,7 +71,7 @@ namespace WpfGame.Controllers.Views
             TableRow currentRow = table.RowGroups[0].Rows[0];
 
             // Global formatting for the title row.
-            currentRow.FontSize = 40;
+            currentRow.FontSize = 55;
             currentRow.FontWeight = FontWeights.Bold;
 
             // Add the header row with content, 
@@ -84,13 +84,13 @@ namespace WpfGame.Controllers.Views
             currentRow = table.RowGroups[0].Rows[1];
 
             // Global formatting for the header row.
-            currentRow.FontSize = 18;
+            currentRow.FontSize = 36;
             currentRow.FontWeight = FontWeights.Bold;
 
             // Add cells with content to the second row.
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Rang"))));
+            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Rank"))));
             currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Score"))));
-            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Gebruikersnaam"))));
+            currentRow.Cells.Add(new TableCell(new Paragraph(new Run("User name"))));
 
             int rankCounter = 1;
             int rowCounter = 2;
@@ -106,7 +106,7 @@ namespace WpfGame.Controllers.Views
                 currentRow = table.RowGroups[0].Rows[rowCounter];
 
                 // Global formatting for the row.
-                currentRow.FontSize = 12;
+                currentRow.FontSize = 30;
 
                 if (rankCounter == red)
                 {

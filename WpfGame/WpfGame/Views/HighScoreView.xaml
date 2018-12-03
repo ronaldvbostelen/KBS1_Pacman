@@ -8,6 +8,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <FlowDocumentScrollViewer x:Name="FlowDocumentScrollViewer" VerticalScrollBarVisibility="Auto"></FlowDocumentScrollViewer>
-        <Button x:Name="BtnBack" Background="Yellow" FontFamily="{StaticResource PacmanFont}" FontWeight="Bold" Content="Terug" HorizontalAlignment="Left" Margin="659,32,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="BtnBack" Background="Transparent" Foreground="Yellow" BorderThickness="0" FontFamily="{StaticResource PacmanFont}" FontWeight="Bold" FontSize="20" Content="Back" HorizontalAlignment="Left" Margin="684,31,0,0" VerticalAlignment="Top" Width="88" Height="30"/>
     </Grid>
 </UserControl>
