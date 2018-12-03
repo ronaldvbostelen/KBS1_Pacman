@@ -353,7 +353,7 @@ namespace WpfGame.Controllers.Views
                 try
                 {
                     new JsonPlaygroundWriter(_tileEdits);
-                    MessageBox.Show("Save succed.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Save succeeded.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
                     MessageBoxResult eraseAfterSave = MessageBox.Show("Erase current playground?", "Erase",
                         MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -365,7 +365,7 @@ namespace WpfGame.Controllers.Views
                 catch (DirectoryNotFoundException)
                 {
                     MessageBox.Show(
-                        "We could not make a Playgrounds folder in your exe folder. Please make a Playgrounds folder manually and try again.",
+                        "We could not make a Playgrounds folder in your root folder. Please make a Playgrounds folder manually and try again.",
                         "Unable to create Playgrounds folder", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (JsonWriterException)
@@ -389,7 +389,7 @@ namespace WpfGame.Controllers.Views
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        "Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " +
+                        "Something went horribly wrong. Please contact your software-supplier." + ex.Message + " " +
                         ex.StackTrace,
                         "Help", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
