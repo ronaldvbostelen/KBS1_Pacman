@@ -56,7 +56,7 @@ namespace WpfGame.UnitTests
                     Source =
                         new BitmapImage(
                             new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png"))
-                }, 50, 50, 10, 10);
+                }, 50, 50, 75, 25);
 
             _enemy = new MovableObject(ObjectType.Enemy,
                 new Image
@@ -64,7 +64,7 @@ namespace WpfGame.UnitTests
                     Source =
                         new BitmapImage(
                             new Uri("pack://application:,,,/Assets/Sprites/Pacman/pacman-right-halfopenjaw.png"))
-                }, 50, 50, 10, 10);
+                }, 50, 50, 75, 25);
 
         }
 

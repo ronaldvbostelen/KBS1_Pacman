@@ -87,6 +87,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sounds\Sound.cs" />
     <Compile Include="Tooling\JsonPlaygroundParser.cs" />
     <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
     <Compile Include="Generals\General.cs" />
@@ -233,9 +234,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Sounds\pacman_beginning.wav" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
