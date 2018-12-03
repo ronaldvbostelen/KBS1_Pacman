@@ -54,7 +54,7 @@ namespace WpfGame.Controllers.Behaviour
             }
         }
 
-        public Collision ObjectCollision(List<IPlaygroundObject> objectList, MovableObject movable, Move move, bool isEnemy)
+        public Collision ObjectCollision(List<IPlaygroundObject> objectList, MovableObject movable, Move move)
         {
             double addToX = 0;
             double addToY = 0;
@@ -93,63 +93,69 @@ namespace WpfGame.Controllers.Behaviour
                     {
                         case ObjectType.Player:
                             // we invoke the enemy event when the enemy hits the player
-                            if (movable.ObjectType == ObjectType.Enemy && isEnemy)
+                            if (movable.ObjectType == ObjectType.Enemy)
                             {
                                 OnEnemyCollision();
                             }
                             break;
                         case ObjectType.Enemy:
                             // we invoke the enemy event when the player hits an enemy
-                            if (movable.ObjectType == ObjectType.Player && !isEnemy)
+                            if (movable.ObjectType == ObjectType.Player)
                             {
                                 OnEnemyCollision();
                             }
                             break;
                         case ObjectType.EndPoint:
-                            if (movable.ObjectType == ObjectType.Player && !isEnemy)
+                            //only when the player hits the endpoint we invoke the event, an enemyhit will be ignored
+                            if (movable.ObjectType == ObjectType.Player)
                             {
-                                
                                 //we compute the amount of intersection, only when our player is for >99% on the endtile the game will end
                                 var intersectedRec = Rect.Intersect(moveObject, tileRect);
-                                if ((intersectedRec.Width * intersectedRec.Height) * 100f /
-                                        (moveObject.Width * moveObject.Height) > 99)
+                                if (intersectedRec.Width * intersectedRec.Height * (100 /
+                                    (moveObject.Width * moveObject.Height)) > 99)
                                 {
                                     OnEndpointCollision();
                                 }
                             }
                             else
                             {
-                                //return Collision.Wall;
+                                return Collision.Wall;
                             }
                             break;
                         case ObjectType.SpawnPoint:
                             //spawnpoint equals wall for player, an enemy can pass it
-                            if (isEnemy)
-                            {
-                                break;
-                            }
-                            else
+                            if (movable.ObjectType == ObjectType.Player)
                             {
                                 return Collision.Wall;
                             }
+                            break;
                         case ObjectType.Wall:
                             return Collision.Wall;
                         case ObjectType.Coin:
-                            // we invoke the coin event when the movableobject hits an active coin
-                            if (!isEnemy)
+                            // we invoke the coin event when the player hits an active coin
+                            if (movable.ObjectType == ObjectType.Player)
                             {
                                 var coin = (ImmovableObject)obj;
                                 if (coin.State)
                                 {
-                                    OnCoinCollision(new ImmovableEventArgs(coin));
+                                    //we compute the amount of intersection, only when our player has eaten the coin for >25% it will register as hit
+                                    var intersectedRec = Rect.Intersect(moveObject, tileRect);
+                                    if (intersectedRec.Width * intersectedRec.Height * (100 /
+                                        (moveObject.Width * moveObject.Height)) > 25)
+                                    {
+
+                                        OnCoinCollision(new ImmovableEventArgs(coin));
+                                    }
+
                                 }
                             }
                             break;
                         case ObjectType.Obstacle:
-                            // we invoke the obstacle event when the movableobject hits an active obstacle
-                            if (!isEnemy)
+                            // we invoke the obstacle event when the player hits an active obstacle
+                            if (movable.ObjectType == ObjectType.Player)
                             {
-                                var obstacle = (ImmovableObject) obj;                                
+                                var obstacle = (ImmovableObject) obj;
+                                
                                 if (obstacle.State)
                                 {
                                     //we compute the amount of intersection, only when our player has hit the active obstacle for >35% it will register as hit

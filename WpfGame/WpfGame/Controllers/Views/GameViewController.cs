@@ -286,7 +286,7 @@ namespace WpfGame.Controllers.Views
                 _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
                 
                 _playerFactory.LoadFactory(_gameValues);
-                _player = _enemyFactory.LoadEnemy(_playgroundObjects);
+                _player = _playerFactory.LoadPlayer(_playgroundObjects);
                 _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
 
                 //add enemy and player to playgroundobjectsList
