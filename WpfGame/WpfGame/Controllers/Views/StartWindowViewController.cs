@@ -11,12 +11,10 @@ namespace WpfGame.Controllers.Views
     class StartWindowViewController : ViewController
     {
         private StartWindowView _startWindowView;
-        private bool selectedPlayground;
 
         public StartWindowViewController(MainWindow mainWindow) : base(mainWindow)
         {
             _startWindowView = new StartWindowView();
-            selectedPlayground = false;
 
             SetContentOfMain(mainWindow, _startWindowView);
 
