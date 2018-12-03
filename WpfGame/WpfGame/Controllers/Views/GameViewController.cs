@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
@@ -305,6 +304,10 @@ namespace WpfGame.Controllers.Views
          **/
         private void OnCoinCollision(object sender, ImmovableEventArgs args)
         {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_chomp.wav"));
+            mediaPlayer.Play();
+
             args.Coin.State = false;
             _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from vanvas
             _score.ScoreValue += 10;
