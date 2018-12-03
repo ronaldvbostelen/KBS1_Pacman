@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -264,6 +266,7 @@ namespace WpfGame.Controllers.Views
 
         private void OnGameCanvasLoaded(object sender, RoutedEventArgs e)
         {
+            var somethingWentWrongWhenLoadingTheGame = true;
             SetGameValues();
             _gameView.GameCanvas.Focus();
 
@@ -288,16 +291,52 @@ namespace WpfGame.Controllers.Views
                 _playgroundObjects.Add(_player);
 
                 _position.PlaygroundObjects = _playgroundObjects;
-                
+
                 _clock.InitializeTimer();
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
+                _steps.Start();
+
+                somethingWentWrongWhenLoadingTheGame = false;
             }
-            catch (Exception exception)
+            catch (DirectoryNotFoundException)
             {
-                MessageBox.Show("Sorry, something went wrong. Message: " + exception.Message, "ERROR",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    "Your root folder does not contain a Playgrounds folder. Unable to load a playground. ",
+                    "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show(
+                    "Your Playgrounds folder doesn't contain a file. Please create or download a playground.",
+                    "Playgrounds folder empty", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Could not read the file. Please check if the file is corrupt. ",
+                    "Unable to read file", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonReaderException)
+            {
+                MessageBox.Show("Your JSON-file is invalid. Please load another file or repair the current.",
+                    "Invalid JSON", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Your JSON-file is incomplete. Please load another file or repair the current",
+                    "Incomplete JSON-file", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Something went horribly wrong. Please contact your software-supplier." + ex.Message + " " +
+                    ex.StackTrace,
+                    "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            if (somethingWentWrongWhenLoadingTheGame)
+            {
                 //go back to mainscreen
                 new StartWindowViewController(_mainWindow);
             }
