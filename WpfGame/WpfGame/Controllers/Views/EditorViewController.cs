@@ -365,7 +365,7 @@ namespace WpfGame.Controllers.Views
                 catch (DirectoryNotFoundException)
                 {
                     MessageBox.Show(
-                        "We could not make a Playgrounds folder in your root folder. Please make a Playgrounds folder manually and try again.",
+                        "We could not create a Playgrounds folder in your root folder. Please create a Playgrounds folder manually and try again.",
                         "Unable to create Playgrounds folder", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (JsonWriterException)
