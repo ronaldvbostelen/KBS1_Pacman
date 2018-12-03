@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using WpfGame.Properties;
 using WpfGame.Views;
 
 namespace WpfGame.Controllers.Views
@@ -23,7 +21,7 @@ namespace WpfGame.Controllers.Views
 
         }
 
-        private void _usernameView_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void _usernameView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
