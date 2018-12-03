@@ -26,26 +26,40 @@ namespace WpfGame.Controllers.Views
             SetButtonEvents(_startWindowView.BtnHighScoreTable, BtnHighScoreTable_Click);
 
             SetKeyEvents(_startWindowView.Grid, Grid_KeyDown);
-
-            //todo:wrapper
-            _startWindowView.Grid.Loaded += Grid_Loaded;
+            
+            _startWindowView.Grid.Loaded += OnGridLoaded;
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void OnGridLoaded(object sender, RoutedEventArgs e)
         {
             _startWindowView.Grid.Focus();
         }
-
+        
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
                 case Key.F2:
-                    FileInfo[] files =
-                        new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath)
-                            .GetFiles();
-                    _startWindowView.ListBoxForPlaygroundFiles.ItemsSource = files;
-                    _startWindowView.SelectPlaygroundMenu.Visibility = Visibility.Visible;
+                    try
+                    {
+                        FileInfo[] files =
+                            new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath)
+                                .GetFiles();
+                        _startWindowView.ListBoxForPlaygroundFiles.ItemsSource = files;
+                        _startWindowView.SelectPlaygroundMenu.Visibility = Visibility.Visible;
+
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        MessageBox.Show(
+                            "Your exe-folder doesn't contain a Playgrounds folder. Unable to create a playgrounds-selection",
+                            "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " + ex.StackTrace,
+                            "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                     break;
             }
         }
@@ -67,21 +81,43 @@ namespace WpfGame.Controllers.Views
             if (string.IsNullOrEmpty(Settings.Default.Level))
             {
                 //if non is selected we select the newest playground
-                var directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Playgrounds");
-                Settings.Default.Level =
+                try
+                {
+                    var directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Playgrounds");
+
+                    Settings.Default.Level =
                         (from f in directory.GetFiles()
-                        orderby f.LastWriteTime descending
-                        select f).First().ToString();
+                            orderby f.LastWriteTime descending
+                            select f).First().ToString();
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show("Your exe-folder doesn't contain a Playgrounds folder. Unable to start a game.",
+                        "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (InvalidOperationException)
+                {
+
+                    MessageBox.Show("Your Playgrounds folder doesn't contain a file. Please create or download a playground.",
+                        "Playgrounds folder empty", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " + ex.StackTrace,
+                        "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
             }
             
             //Call the UsernameViewController when the Username has not been set
-            if (Settings.Default.Username == string.Empty) 
+            if (string.IsNullOrEmpty(Settings.Default.Username))
             {
                 new UsernameViewController(_mainWindow, Settings.Default.Level);
                 return;
             }
-            
+
             new GameViewController(_mainWindow, Settings.Default.Level);
+
         }
 
         private void BtnDesignLevel_Click(object sender, RoutedEventArgs e)

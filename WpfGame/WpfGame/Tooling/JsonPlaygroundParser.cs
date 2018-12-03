@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using Newtonsoft.Json;
 using WpfGame.Generals;
 using WpfGame.Models;
@@ -20,14 +19,23 @@ namespace WpfGame.Editor
         public JsonPlaygroundParser(string fileName)
         {
             _filename = fileName;
-
-            playgroundJsonPath = SetFilePath(AppDomain.CurrentDomain.BaseDirectory, fileName);
-            SetStreamReader(playgroundJsonPath);
-
-            _jsonTextReader = new JsonTextReader(_streamReader);
             _tileMockups = new List<TileMockup>();
 
-            ReadJson(_jsonTextReader, _tileMockups);
+            try
+            {
+                playgroundJsonPath = SetFilePath(AppDomain.CurrentDomain.BaseDirectory, fileName);
+
+                SetStreamReader(playgroundJsonPath);
+
+                _jsonTextReader = new JsonTextReader(_streamReader);
+
+                ReadJson(_jsonTextReader, _tileMockups);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
 
         private void ReadJson(JsonTextReader reader, List<TileMockup> list)
@@ -48,63 +56,57 @@ namespace WpfGame.Editor
                     {
                         if (tileTag)
                         {
-                            
                             list.Add(new TileMockup(wall, coin, obstacle, start, end, spawn));
                             tileTag = wall = coin = obstacle = start = end = spawn = false;
                         }
                     }
-                    
+
                     if (reader.Value.Equals("isWall"))
                     {
                         reader.Read();
-                        wall = (long)reader.Value == 1;
+                        wall = (long) reader.Value == 1;
                     }
 
                     if (reader.Value.Equals("hasCoin"))
                     {
                         reader.Read();
-                        coin = (long)reader.Value == 1;
+                        coin = (long) reader.Value == 1;
                     }
 
                     if (reader.Value.Equals("hasObstacle"))
                     {
                         reader.Read();
-                        obstacle = (long)reader.Value == 1;
+                        obstacle = (long) reader.Value == 1;
                     }
 
                     if (reader.Value.Equals("isStart"))
                     {
                         reader.Read();
-                        start = (long)reader.Value == 1;
+                        start = (long) reader.Value == 1;
                     }
 
                     if (reader.Value.Equals("isEnd"))
                     {
                         reader.Read();
-                        end = (long)reader.Value == 1;
-                        
+                        end = (long) reader.Value == 1;
                     }
 
                     if (reader.Value.Equals("isSpawn"))
                     {
                         reader.Read();
-                        spawn = (long)reader.Value == 1;
+                        spawn = (long) reader.Value == 1;
                         tileTag = true;
                     }
                 }
             }
+
             list.Add(new TileMockup(wall, coin, obstacle, start, end, spawn));
 
             if (list.Count < 300)
             {
-                MessageBox.Show(
-                    $"Your playground.json file ({_filename}) isn't valide. Please select a different playground or create a valid playground",
-                    "Invalid playground",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-                throw new IOException("Invalid jsonfile");
+                throw new FormatException();
             }
         }
-
 
 
         private void SetStreamReader(string filePath)
@@ -115,47 +117,36 @@ namespace WpfGame.Editor
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                MessageBox.Show($"Cannot read file: {filePath} please select a correct file.",
-                    "Unable to read playground", MessageBoxButton.OK, MessageBoxImage.Error);
-                throw;
+                Console.Write(e.Message);
+                throw new FileNotFoundException();
             }
-
-            
         }
 
-        
+
         private string SetFilePath(string baseDir, string fileName)
         {
+            DirectoryInfo dirInfo;
 
             try
             {
-                var dirInfo = new DirectoryInfo(baseDir + General.playgroundPath);
-                if (!dirInfo.Exists)
-                {
-                    throw new IOException("Your playground folder doesn't exist");
-                }
-
-                FileInfo[] files = dirInfo.GetFiles(fileName);
-                if (files.Length <= 0)
-                {
-                    throw new IOException($"Your Playgrounds folder doesn't contain the selected playground: {fileName}");
-                }
-
-                return baseDir + General.playgroundPath + fileName;
-
+                dirInfo = new DirectoryInfo(baseDir + General.playgroundPath);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                MessageBox.Show(e.Message,
-                    "Unable to load playground", MessageBoxButton.OK, MessageBoxImage.Error);
-                throw;
+                Console.Write(e);
+                throw new DirectoryNotFoundException();
             }
 
-            
+            FileInfo[] files = dirInfo.GetFiles(fileName);
+
+            if (files.Length <= 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return baseDir + General.playgroundPath + fileName;
         }
-        
+
         public List<TileMockup> GetOutputList() => _tileMockups;
     }
 }

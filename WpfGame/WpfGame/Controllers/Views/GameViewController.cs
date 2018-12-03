@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Renderer;
 using WpfGame.Editor;
@@ -46,9 +46,9 @@ namespace WpfGame.Controllers.Views
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
         {
-            _refreshTimer = new Timer { Interval = 1000 / 60 };
-            _pacmanAnimationTimer = new Timer { Interval = 150 };
-            _obstacleTimer = new Timer { Interval = 3000 };
+            _refreshTimer = new Timer {Interval = 1000 / 60};
+            _pacmanAnimationTimer = new Timer {Interval = 150};
+            _obstacleTimer = new Timer {Interval = 3000};
             _clock = new Clock();
             _score = new Score();
             _gameView = new GameView();
@@ -63,7 +63,7 @@ namespace WpfGame.Controllers.Views
             _random = new Random();
 
             //test
-            _steps = new Timer{Interval = 2000, Enabled = true};
+            _steps = new Timer {Interval = 2000};
             _steps.Elapsed += _steps_Elapsed;
 
             SetContentOfMain(mainWindow, _gameView);
@@ -83,7 +83,7 @@ namespace WpfGame.Controllers.Views
             _position.CollisionDetecter.CoinCollision += OnCoinCollision;
             _position.CollisionDetecter.EndpointCollision += OnEndpointCollision;
             _position.CollisionDetecter.EnemyCollision += OnOnEnemyCollision;
-            _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;      
+            _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;
 
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
@@ -91,7 +91,7 @@ namespace WpfGame.Controllers.Views
 
         private void _steps_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _enemy.NextMove = (Move)_random.Next(1, 5);
+            _enemy.NextMove = (Move) _random.Next(1, 5);
         }
 
         private void OnObstacleCollision(object sender, EventArgs e)
@@ -157,7 +157,7 @@ namespace WpfGame.Controllers.Views
                 _gameView.GameClockHolder.Text = _clock.Display;
                 //Update score
                 _gameView.GameScoreHolder.Text = $"Score: {_score.ScoreValue.ToString()}";
-                
+
                 //Update playerposition based on userinput
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
@@ -259,6 +259,7 @@ namespace WpfGame.Controllers.Views
 
         private void OnGameCanvasLoaded(object sender, RoutedEventArgs e)
         {
+            var somethingWentWrongWhenLoadingTheGame = true;
             SetGameValues();
             _gameView.GameCanvas.Focus();
 
@@ -283,16 +284,52 @@ namespace WpfGame.Controllers.Views
                 _playgroundObjects.Add(_player);
 
                 _position.PlaygroundObjects = _playgroundObjects;
-                
+
                 _clock.InitializeTimer();
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
+                _steps.Start();
+
+                somethingWentWrongWhenLoadingTheGame = false;
             }
-            catch (Exception exception)
+            catch (DirectoryNotFoundException)
             {
-                MessageBox.Show("Sorry, something went wrong. Message: " + exception.Message, "ERROR",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    "Your exe-folder doesn't contain a Playgrounds folder. Unable to load a playground. ",
+                    "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show(
+                    "Your Playgrounds folder doesn't contain a file. Please create or download a playground.",
+                    "Playgrounds folder empty", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Could not read the file. Please check if the file is corrupt. ",
+                    "Unable to read file", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (JsonReaderException)
+            {
+                MessageBox.Show("Your JSON-file is invalid. Please load another file or repair the current.",
+                    "Invalid JSON", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Your JSON-file is incomplete. Please load another file or repair the current",
+                    "Incomplete JSON-file", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " +
+                    ex.StackTrace,
+                    "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            if (somethingWentWrongWhenLoadingTheGame)
+            {
                 //go back to mainscreen
                 new StartWindowViewController(_mainWindow);
             }
@@ -315,7 +352,7 @@ namespace WpfGame.Controllers.Views
             _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
             _gameValues.PlayCanvasWidth = _gameView.GameCanvas.ActualWidth;
             _gameValues.HeigthWidthRatio = _gameValues.PlayCanvasHeight / _gameValues.PlayCanvasWidth;
-            _gameValues.AmountOfXtiles = 20;    
+            _gameValues.AmountOfXtiles = 20;
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;
