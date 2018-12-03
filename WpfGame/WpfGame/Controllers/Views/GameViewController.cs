@@ -88,17 +88,16 @@ namespace WpfGame.Controllers.Views
             _pacmanAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
-
-        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _enemy.NextMove = (Move)_random.Next(1, 5);
-        }
-
+                
         private void OnObstacleCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
         }
 
+        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _enemy.NextMove = (Move)_random.Next(1, 5);
+        }
         private void OnOnEnemyCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
@@ -273,10 +272,6 @@ namespace WpfGame.Controllers.Views
                 _enemyFactory.LoadFactory(_gameValues);
                 _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
                 _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
-
-                _playerFactory.LoadFactory(_gameValues);
-                _player = _playerFactory.LoadPlayer(_playgroundObjects);
-                _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
 
                 //add enemy and player to playgroundobjectsList
                 _playgroundObjects.Add(_enemy);
