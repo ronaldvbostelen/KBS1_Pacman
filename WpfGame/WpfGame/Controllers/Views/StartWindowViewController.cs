@@ -11,12 +11,10 @@ namespace WpfGame.Controllers.Views
     class StartWindowViewController : ViewController
     {
         private StartWindowView _startWindowView;
-        private bool selectedPlayground;
 
         public StartWindowViewController(MainWindow mainWindow) : base(mainWindow)
         {
             _startWindowView = new StartWindowView();
-            selectedPlayground = false;
 
             SetContentOfMain(mainWindow, _startWindowView);
 
@@ -61,27 +59,29 @@ namespace WpfGame.Controllers.Views
             _startWindowView.SelectPlaygroundMenu.Visibility = Visibility.Collapsed;
             MessageBox.Show("Level selected, you can start playing", "Well done", MessageBoxButton.OK,
                 MessageBoxImage.Information);
-            selectedPlayground = true;
+            Settings.Default.Level = _startWindowView.ListBoxForPlaygroundFiles.SelectedItem.ToString();
         }
 
         private void BtnStartGameOnClick(object sender, RoutedEventArgs e)
         {
-            var directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Playgrounds");
-            var selectedGameName = (from f in directory.GetFiles()
-                orderby f.LastWriteTime descending
-                select f).First().ToString();
-
-            if (Settings.Default.Username == string.Empty) //Call the UsernameViewController when the Username has not been set
+            if (string.IsNullOrEmpty(Settings.Default.Level))
             {
-                new UsernameViewController(_mainWindow, selectedGameName);
+                //if non is selected we select the newest playground
+                var directory = new DirectoryInfo($"{Environment.CurrentDirectory}\\Playgrounds");
+                Settings.Default.Level =
+                        (from f in directory.GetFiles()
+                        orderby f.LastWriteTime descending
+                        select f).First().ToString();
+            }
+            
+            //Call the UsernameViewController when the Username has not been set
+            if (Settings.Default.Username == string.Empty) 
+            {
+                new UsernameViewController(_mainWindow, Settings.Default.Level);
                 return;
             }
-
-            if (selectedPlayground)
-            {
-                selectedGameName = _startWindowView.ListBoxForPlaygroundFiles.SelectedItem.ToString();
-            }
-            new GameViewController(_mainWindow, selectedGameName);
+            
+            new GameViewController(_mainWindow, Settings.Default.Level);
         }
 
         private void BtnDesignLevel_Click(object sender, RoutedEventArgs e)
