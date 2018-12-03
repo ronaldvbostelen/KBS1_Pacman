@@ -296,7 +296,7 @@ namespace WpfGame.Controllers.Views
             catch (DirectoryNotFoundException)
             {
                 MessageBox.Show(
-                    "Your exe-folder doesn't contain a Playgrounds folder. Unable to load a playground. ",
+                    "Your root folder does not contain a Playgrounds folder. Unable to load a playground. ",
                     "Playgrounds folder not found", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (InvalidOperationException)
@@ -323,7 +323,7 @@ namespace WpfGame.Controllers.Views
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " +
+                    "Something went horribly wrong. Please contact your software-supplier." + ex.Message + " " +
                     ex.StackTrace,
                     "Help", MessageBoxButton.OK, MessageBoxImage.Error);
             }
