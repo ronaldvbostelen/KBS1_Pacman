@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using WpfGame.Editor;
 using WpfGame.Models;
 using WpfGame.Values;
@@ -28,9 +31,9 @@ namespace WpfGame.Controllers.Views
         private List<TileCoinEdit> _tileCoinEdits;
         private SelectedItem _selectedItem;
         private bool GotEnd, GotStart, GotSpawn;
-        
 
-        public EditorViewController(MainWindow mainWindow) : base (mainWindow)
+
+        public EditorViewController(MainWindow mainWindow) : base(mainWindow)
         {
             _editorView = new EditorView();
             _editorValues = new EditorValues();
@@ -42,7 +45,7 @@ namespace WpfGame.Controllers.Views
 
             _editorView.Loaded += EditorCanvas_Loaded;
             _editorView.MouseDown += EditorView_OnMouseDown;
-            
+
             SetContentOfMain(mainWindow, _editorView);
             SetButtonEvents(_editorView.CancelBtn, CancelBtn_Click);
             SetButtonEvents(_editorView.SaveBtn, SaveBtn_Click);
@@ -56,7 +59,6 @@ namespace WpfGame.Controllers.Views
         {
             SetFocusOnPlaygroundObject();
             UpdatePlaygroundObjects();
-
         }
 
         private void UpdatePlaygroundObjects()
@@ -69,14 +71,17 @@ namespace WpfGame.Controllers.Views
                     {
                         case SelectedItem.Wall:
                             tileEdit.IsWall = true;
-                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsStart = tileEdit.IsSpawn = false;
+                            tileEdit.HasCoin = tileEdit.HasObstacle =
+                                tileEdit.IsEnd = tileEdit.IsStart = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Black;
                             break;
                         case SelectedItem.Obstacle:
-                            if (!tileEdit.IsWall && !tileEdit.HasCoin && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
+                            if (!tileEdit.IsWall && !tileEdit.HasCoin && !tileEdit.IsStart && !tileEdit.IsEnd &&
+                                !tileEdit.IsSpawn)
                             {
                                 tileEdit.HasObstacle = true;
-                                var obs = new ObstacleEdit(tileEdit.Rectangle.Width * .8, tileEdit.Rectangle.Height * .8, tileEdit.X + (tileEdit.Rectangle.Width * .1),
+                                var obs = new ObstacleEdit(tileEdit.Rectangle.Width * .8,
+                                    tileEdit.Rectangle.Height * .8, tileEdit.X + (tileEdit.Rectangle.Width * .1),
                                     tileEdit.Y + (tileEdit.Rectangle.Height * .1));
                                 _obstacleEdits.Add(obs);
                                 Canvas.SetTop(obs.Ellipse, obs.Y);
@@ -84,12 +89,15 @@ namespace WpfGame.Controllers.Views
                                 _editorView.EditorCanvas.Children.Add(obs.Ellipse);
                                 _tileObstacleEdits.Add(new TileObstacleEdit(tileEdit, obs));
                             }
+
                             break;
                         case SelectedItem.Coin:
-                            if (!tileEdit.IsWall && !tileEdit.HasObstacle && !tileEdit.IsStart && !tileEdit.IsEnd && !tileEdit.IsSpawn)
+                            if (!tileEdit.IsWall && !tileEdit.HasObstacle && !tileEdit.IsStart && !tileEdit.IsEnd &&
+                                !tileEdit.IsSpawn)
                             {
                                 tileEdit.HasCoin = true;
-                                var coin = new CoinEdit(tileEdit.Rectangle.Width * .6, tileEdit.Rectangle.Height * .75, tileEdit.X + (tileEdit.Rectangle.Width * .2),
+                                var coin = new CoinEdit(tileEdit.Rectangle.Width * .6, tileEdit.Rectangle.Height * .75,
+                                    tileEdit.X + (tileEdit.Rectangle.Width * .2),
                                     tileEdit.Y + (tileEdit.Rectangle.Height * .15));
                                 _coinEdits.Add(coin);
                                 Canvas.SetTop(coin.Ellipse, coin.Y);
@@ -97,26 +105,45 @@ namespace WpfGame.Controllers.Views
                                 _editorView.EditorCanvas.Children.Add(coin.Ellipse);
                                 _tileCoinEdits.Add(new TileCoinEdit(tileEdit, coin));
                             }
+
                             break;
                         case SelectedItem.End:
                             tileEdit.IsEnd = true;
-                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
+                            tileEdit.HasCoin = tileEdit.HasObstacle =
+                                tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Red;
                             GotEnd = true;
                             break;
                         case SelectedItem.Start:
                             tileEdit.IsStart = true;
-                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
+                            tileEdit.HasCoin = tileEdit.HasObstacle =
+                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Blue;
                             GotStart = true;
                             break;
                         case SelectedItem.Spawn:
                             tileEdit.IsSpawn = true;
-                            tileEdit.HasCoin = tileEdit.HasObstacle = tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
+                            tileEdit.HasCoin = tileEdit.HasObstacle =
+                                tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = false;
                             tileEdit.Rectangle.Fill = Brushes.SaddleBrown;
                             GotSpawn = true;
                             break;
                         case SelectedItem.Erase:
+                            if (tileEdit.IsSpawn)
+                            {
+                                GotSpawn = false;
+                            }
+
+                            if (tileEdit.IsEnd)
+                            {
+                                GotEnd = false;
+                            }
+
+                            if (tileEdit.IsStart)
+                            {
+                                GotStart = false;
+                            }
+
                             tileEdit.HasCoin = tileEdit.HasObstacle =
                                 tileEdit.IsEnd = tileEdit.IsWall = tileEdit.IsStart = tileEdit.IsSpawn = false;
                             tileEdit.Rectangle.Fill = Brushes.Green;
@@ -139,6 +166,7 @@ namespace WpfGame.Controllers.Views
                                 _tileEdits.Find(x => x.Equals(tileObstacleEdit.TileEdit)).HasObstacle = false;
                             }
                         }
+
                         _editorView.EditorCanvas.Children.Remove(obstacleEdit.Ellipse);
                     }
                 }
@@ -158,6 +186,7 @@ namespace WpfGame.Controllers.Views
                                 _tileEdits.Find(x => x.Equals(tileCoinEdit.TileEdit)).HasCoin = false;
                             }
                         }
+
                         _editorView.EditorCanvas.Children.Remove(coinEdit.Ellipse);
                     }
                 }
@@ -180,7 +209,6 @@ namespace WpfGame.Controllers.Views
 
             if (_editorView.CoinSelect.IsMouseOver)
             {
-
                 _editorView.WallSelect.Stroke = Brushes.Black;
                 _editorView.CoinSelect.Stroke = Brushes.Yellow;
                 _editorView.ObstSelect.Stroke = Brushes.Black;
@@ -193,7 +221,6 @@ namespace WpfGame.Controllers.Views
 
             if (_editorView.ObstSelect.IsMouseOver)
             {
-
                 _editorView.WallSelect.Stroke = Brushes.Black;
                 _editorView.CoinSelect.Stroke = Brushes.Black;
                 _editorView.ObstSelect.Stroke = Brushes.Yellow;
@@ -206,7 +233,6 @@ namespace WpfGame.Controllers.Views
 
             if (_editorView.StartSelect.IsMouseOver)
             {
-
                 _editorView.WallSelect.Stroke = Brushes.Black;
                 _editorView.CoinSelect.Stroke = Brushes.Black;
                 _editorView.ObstSelect.Stroke = Brushes.Black;
@@ -219,7 +245,6 @@ namespace WpfGame.Controllers.Views
 
             if (_editorView.EndSelect.IsMouseOver)
             {
-
                 _editorView.WallSelect.Stroke = Brushes.Black;
                 _editorView.CoinSelect.Stroke = Brushes.Black;
                 _editorView.ObstSelect.Stroke = Brushes.Black;
@@ -232,7 +257,6 @@ namespace WpfGame.Controllers.Views
 
             if (_editorView.SpawnSelect.IsMouseOver)
             {
-
                 _editorView.WallSelect.Stroke = Brushes.Black;
                 _editorView.CoinSelect.Stroke = Brushes.Black;
                 _editorView.ObstSelect.Stroke = Brushes.Black;
@@ -263,8 +287,8 @@ namespace WpfGame.Controllers.Views
         {
             foreach (var tileEdit in tileEdits)
             {
-                Canvas.SetTop(tileEdit.Rectangle,tileEdit.Y);
-                Canvas.SetLeft(tileEdit.Rectangle,tileEdit.X);
+                Canvas.SetTop(tileEdit.Rectangle, tileEdit.Y);
+                Canvas.SetLeft(tileEdit.Rectangle, tileEdit.X);
                 _editorView.EditorCanvas.Children.Add(tileEdit.Rectangle);
             }
         }
@@ -275,7 +299,8 @@ namespace WpfGame.Controllers.Views
             {
                 for (int j = 0; j < _editorValues.AmountOfXtiles; j++)
                 {
-                    tileEdits.Add(new TileEdit(_editorValues.TileWith,_editorValues.TileHeigth,i*_editorValues.TileHeigth,j*_editorValues.TileWith));
+                    tileEdits.Add(new TileEdit(_editorValues.TileWith, _editorValues.TileHeigth,
+                        i * _editorValues.TileHeigth, j * _editorValues.TileWith));
                 }
             }
         }
@@ -325,15 +350,64 @@ namespace WpfGame.Controllers.Views
 
             if (GotSpawn && GotStart && GotEnd)
             {
-                new JsonPlaygroundWriter(_tileEdits);
-                MessageBox.Show("Save geslaagd", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    new JsonPlaygroundWriter(_tileEdits);
+                    MessageBox.Show("Save succed.", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxResult eraseAfterSave = MessageBox.Show("Erase current playground?", "Erase",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (eraseAfterSave == MessageBoxResult.Yes)
+                    {
+                        EraseCurrentPlayground();
+                    }
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    MessageBox.Show(
+                        "We could not make a Playgrounds folder in your exe folder. Please make a Playgrounds folder manually and try again.",
+                        "Unable to create Playgrounds folder", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (JsonWriterException)
+                {
+                    MessageBox.Show(
+                        "Sorry, something went wrong while creating your playground file. Please try again. ",
+                        "Unable to create playground file", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (ValidationException)
+                {
+                    MessageBox.Show("Sorry, your playground is not valid. Please create a new one. ",
+                        "Invalid playground",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show(
+                        "Unable to write your playground to a file. Please check your disk and user permissions.",
+                        "Unable to write playground to file", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Something went horrible wrong. Please contact your software-supplier." + ex.Message + " " +
+                        ex.StackTrace,
+                        "Help", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
+            else if (!GotSpawn || !GotStart || !GotStart)
             {
                 MessageBox.Show(
                     $"Your playground is incomplete. You are missing: {(GotStart ? "" : "startpoint ") + (GotEnd ? "" : "endpoint ") + (GotSpawn ? "" : "spawnpoint")}",
                     "Incomplete playground", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+        }
+
+        private void EraseCurrentPlayground()
+        {
+            GotEnd = GotSpawn = GotStart = false;
+            _tileEdits = new List<TileEdit>();
+            LoadEditTiles(_tileEdits);
+            RenderEditTiles(_tileEdits);
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
