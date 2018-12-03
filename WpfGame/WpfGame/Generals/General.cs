@@ -45,6 +45,14 @@ namespace WpfGame.Generals
         DownOpen
     }
 
+    public enum EnemyFacing
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
+
     public enum SelectedItem
     {
         None,

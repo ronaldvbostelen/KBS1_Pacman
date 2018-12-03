@@ -29,6 +29,7 @@ namespace WpfGame.Controllers.Views
         private Step _step;
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
+        private EnemyAnimation _enemyAnimation;
         private ObstacleAnimation _obstacleAnimation;
         private Clock _clock;
         private Score _score;
@@ -57,13 +58,14 @@ namespace WpfGame.Controllers.Views
             _playerFactory = new PlayerFactory();
             _enemyFactory = new EnemyFactory();
             _pacmanAnimation = new PacmanAnimation();
+            _enemyAnimation = new EnemyAnimation();
             _obstacleAnimation = new ObstacleAnimation();
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
 
             //test
-            _steps = new Timer{Interval = 2000, Enabled = true};
+            _steps = new Timer { Interval = 150, Enabled = true };
             _steps.Elapsed += _steps_Elapsed;
 
             SetContentOfMain(mainWindow, _gameView);
@@ -86,6 +88,7 @@ namespace WpfGame.Controllers.Views
             _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;      
 
             _pacmanAnimation.LoadPacmanImages();
+            _enemyAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
                 
@@ -96,8 +99,10 @@ namespace WpfGame.Controllers.Views
 
         private void _steps_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _enemy.NextMove = (Move)_random.Next(1, 5);
+            //_enemy.NextMove = (Move)_random.Next(0, 5);
+            //_position.EnemyProcessMove(_enemy);
         }
+
         private void OnOnEnemyCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
@@ -137,6 +142,7 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
                 _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
+                _enemy.Image.Source = _enemyAnimation.SetAnimation(_enemy.CurrentMove);
             });
         }
 
@@ -162,9 +168,10 @@ namespace WpfGame.Controllers.Views
                 _step.SetStep(_player);
 
                 //test
-                _position.ProcessMove(_enemy);
+                _position.EnemyProcessMove(_enemy);
+                _position.ProcessMove(_enemy);                
                 _step.SetStep(_enemy);
-
+                
                 //Validate gamestate
                 ValidateGamestate();
             });
@@ -272,6 +279,10 @@ namespace WpfGame.Controllers.Views
                 _enemyFactory.LoadFactory(_gameValues);
                 _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
                 _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
+                
+                _playerFactory.LoadFactory(_gameValues);
+                _player = _enemyFactory.LoadEnemy(_playgroundObjects);
+                _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
 
                 //add enemy and player to playgroundobjectsList
                 _playgroundObjects.Add(_enemy);
