@@ -37,6 +37,7 @@ namespace WpfGame.Controllers.Views
         private List<IPlaygroundObject> _playgroundObjects;
         private MovableObject _player;
         private MovableObject _enemy;
+        private MediaPlayer _mediaPlayer;
 
         //test
         private Timer _steps;
@@ -60,6 +61,7 @@ namespace WpfGame.Controllers.Views
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
+            _mediaPlayer = new MediaPlayer();
 
             //test
             _steps = new Timer{Interval = 2000, Enabled = true};
@@ -95,11 +97,15 @@ namespace WpfGame.Controllers.Views
 
         private void OnObstacleCollision(object sender, EventArgs e)
         {
+            _mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_death.wav"));
+            _mediaPlayer.Play();
             _gameState = GameState.Lost;
         }
 
         private void OnOnEnemyCollision(object sender, EventArgs e)
         {
+            _mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_death.wav"));
+            _mediaPlayer.Play();
             _gameState = GameState.Lost;
         }
 
@@ -197,6 +203,8 @@ namespace WpfGame.Controllers.Views
 
         private void OnPlaytimeIsOver(object sender, EventArgs e)
         {
+            _mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_death.wav"));
+            _mediaPlayer.Play();
             _gameState = GameState.OutOfTime;
         }
 
@@ -304,12 +312,11 @@ namespace WpfGame.Controllers.Views
          **/
         private void OnCoinCollision(object sender, ImmovableEventArgs args)
         {
-            MediaPlayer mediaPlayer = new MediaPlayer();
-            mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_chomp.wav"));
-            mediaPlayer.Play();
+            _mediaPlayer.Open(new Uri("C:\\Users\\Sake Elfring\\source\\repos\\KBS1-CSharp game\\WpfGame\\WpfGame\\Assets\\Sounds\\pacman_chomp.wav"));
+            _mediaPlayer.Play();
 
             args.Coin.State = false;
-            _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from vanvas
+            _gameView.GameCanvas.Children.Remove(args.Coin.Image); //Remove coin from canvas
             _score.ScoreValue += 10;
         }
 

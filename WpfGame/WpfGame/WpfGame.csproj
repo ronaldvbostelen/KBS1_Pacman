@@ -236,6 +236,7 @@
   <ItemGroup>
     <Content Include="Assets\Sounds\pacman_beginning.wav" />
     <Content Include="Assets\Sounds\pacman_chomp.wav" />
+    <Content Include="Assets\Sounds\pacman_death.wav" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
