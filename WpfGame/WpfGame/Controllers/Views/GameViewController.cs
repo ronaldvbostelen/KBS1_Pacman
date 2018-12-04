@@ -82,6 +82,7 @@ namespace WpfGame.Controllers.Views
             _position.CollisionDetecter.CoinCollision += OnCoinCollision;
             _position.CollisionDetecter.CoinCollision += _sound.OnCoinCollision;
             _position.CollisionDetecter.EndpointCollision += OnEndpointCollision;
+            _position.CollisionDetecter.EndpointCollision += _sound.OnEndpointCollision;
             _position.CollisionDetecter.EnemyCollision += OnOnEnemyCollision;
             _position.CollisionDetecter.EnemyCollision += _sound.OnOnEnemyCollision;
             _position.CollisionDetecter.ObstacleCollision += OnObstacleCollision;
