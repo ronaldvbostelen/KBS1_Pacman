@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using System.Timers;
 using System.Windows;
@@ -42,10 +43,6 @@ namespace WpfGame.Controllers.Views
         private MovableObject _enemy;
         private Sound _sound;
 
-        //test
-        private Timer _steps;
-
-
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
         {
@@ -66,11 +63,7 @@ namespace WpfGame.Controllers.Views
             _position = new Position(_gameValues);
             _random = new Random();
             _sound = new Sound();
-
-            //test
-            _steps = new Timer { Interval = 150, Enabled = true };
-            _steps.Elapsed += _steps_Elapsed;
-
+            
             SetContentOfMain(mainWindow, _gameView);
 
             _selectedGame = selectedGame;
@@ -102,12 +95,6 @@ namespace WpfGame.Controllers.Views
         private void OnObstacleCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
-        }
-
-        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            //_enemy.NextMove = (Move)_random.Next(0, 5);
-            //_position.EnemyProcessMove(_enemy);
         }
 
         private void OnOnEnemyCollision(object sender, EventArgs e)
@@ -174,11 +161,11 @@ namespace WpfGame.Controllers.Views
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
 
-                //test
+                //set and update enemyposition
                 _position.EnemyProcessMove(_enemy);
                 _position.ProcessMove(_enemy);                
                 _step.SetStep(_enemy);
-                
+
                 //Validate gamestate
                 ValidateGamestate();
             });
@@ -302,7 +289,6 @@ namespace WpfGame.Controllers.Views
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
-                _steps.Start();
 
                 somethingWentWrongWhenLoadingTheGame = false;
             }

@@ -14,20 +14,18 @@ namespace WpfGame.Controllers.Behaviour
     public class Position
     {
         public CollisionDetecter CollisionDetecter { get; }
-        public List<IPlaygroundObject> PlaygroundObjects { get; set; }
+        public List<IPlaygroundObject> PlaygroundObjects { private get; set; }
+        private static Random _random;
         private GameValues _gameValues;
-        public List<Move> _enemyMoves;//++++++++++++++++++
-        public Random random;
-        public Move _lastMove;
-        public int _stepsInDirection; // necessary for smooth movement of enemy
+        private List<Move> _enemyMoves;
+        private Move _lastMove;
+        private int _stepsInDirection; // necessary for smooth movement of enemy
 
         public Position(GameValues gameValues)
         {
-            //uncomment line below: shows log of enemy movement in game
-            //Console.WriteLine(enemy.CurrentMove + " " + enemy.NextMove +" "+_lastMove +" "+ _stepsInDirection);
             _gameValues = gameValues;
             CollisionDetecter = new CollisionDetecter(_gameValues);
-            random = new Random();
+            _random = new Random();
             _enemyMoves = new List<Move>
             {
                 Move.Left,
@@ -37,6 +35,23 @@ namespace WpfGame.Controllers.Behaviour
             };
             _lastMove = new Move(); 
             _stepsInDirection = 0;
+        }
+
+
+        //this function is called in the game-engine. We first check if the nextmove is possible (the move from userinput) if its possible we set that move, if its impossible
+        //a gamebreaking event has been fired by the CollisionDector or we try the CurrentMove and based on that outcome we move/stop/break te game.
+        public void ProcessMove(MovableObject sprite)
+        {
+            if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.NextMove) == Collision.Clear)
+            {
+                sprite.CurrentMove = sprite.NextMove;
+            }
+            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) != Collision.Clear)
+            {
+                sprite.CurrentMove = sprite.NextMove = Move.Stop;
+            }
+
+            UpdatePosition(sprite);
         }
 
         private void UpdatePosition(MovableObject sprite)
@@ -60,37 +75,15 @@ namespace WpfGame.Controllers.Behaviour
             }
         }
 
-        //this function is called in the game-engine. We first check if the nextmove is possible (the move from userinput) if its possible we set that move, if its impossible
-        //a gamebreaking event has been fired by the CollisionDector or we try the CurrentMove and based on that outcome we move/stop/break te game.
-        public void ProcessMove(MovableObject sprite)
-        {
-            if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.NextMove) == Collision.Clear)
-            {
-                sprite.CurrentMove = sprite.NextMove;
-            }
-            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) != Collision.Clear)
-            {
-                sprite.CurrentMove = sprite.NextMove = Move.Stop;
-            }
-
-            UpdatePosition(sprite);
-        }
-
         public void EnemyProcessMove(MovableObject enemy)
         {
-            Console.WriteLine(enemy.CurrentMove + " " + enemy.NextMove + " " + _lastMove + " " + _stepsInDirection);
             List<Move> current = DeterminePossibleMoves(enemy);
             List<Move> newOptions = CompareList(_enemyMoves, current);
             if (enemy.CurrentMove == Move.Up || enemy.CurrentMove == Move.Down)
-                foreach (var x in newOptions)
-                {
-                    Console.WriteLine(x);
-                }
-            Console.WriteLine(" ");
             {
                 if (newOptions.Exists(x => x == Move.Left) && (newOptions.Exists(x => x == Move.Right)))
                 {
-                    if (random.NextDouble() > 0.5)
+                    if (_random.NextDouble() > 0.5)
                     {
                         enemy.NextMove = Move.Left;
                     }
@@ -114,7 +107,7 @@ namespace WpfGame.Controllers.Behaviour
                 {
                     if (newOptions.Exists(x => x == Move.Up) && (newOptions.Exists(x => x == Move.Down)))
                     {
-                        if (random.NextDouble() > 0.5)
+                        if (_random.NextDouble() > 0.5)
                         {
                             enemy.NextMove = Move.Up;
                         }
@@ -147,12 +140,12 @@ namespace WpfGame.Controllers.Behaviour
                         Move dealer = new Move();
                         if (current.Count == 1)
                         {
-                            dealer = current[random.Next(0, current.Count)];
+                            dealer = current[_random.Next(0, current.Count)];
                         }
                         else
                         {
                             current.Remove(GetOppositeMove(_lastMove));
-                            dealer = current[random.Next(0, current.Count)];
+                            dealer = current[_random.Next(0, current.Count)];
                         }
                         _stepsInDirection = 0;
                         enemy.NextMove = dealer;
@@ -168,7 +161,7 @@ namespace WpfGame.Controllers.Behaviour
         }
 
         // in order to list the 'new' possible movement directions
-        public List<Move> CompareList(List<Move> lastPossibleMoves, List<Move> currentPossibleMoves)
+        private List<Move> CompareList(List<Move> lastPossibleMoves, List<Move> currentPossibleMoves)
             {
                 List<Move> nowPossible = new List<Move>();
                 if (currentPossibleMoves.Except(lastPossibleMoves).ToList()?.Any() != true)
@@ -179,7 +172,7 @@ namespace WpfGame.Controllers.Behaviour
             }
 
         //determines all possible directions
-        public List<Move> DeterminePossibleMoves(MovableObject enemy)//**********************
+        private List<Move> DeterminePossibleMoves(MovableObject enemy)
             {
                 List<Move> possibleMoves = new List<Move>();
                 if (PossibleMove(enemy, Move.Up))
@@ -202,42 +195,29 @@ namespace WpfGame.Controllers.Behaviour
             }
 
         //determines if direction is possible
-        public bool PossibleMove(MovableObject enemy, Move move)
-            {
-                if (CollisionDetecter.ObjectCollision(PlaygroundObjects, enemy, move) == Collision.Clear)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+        private bool PossibleMove(MovableObject enemy, Move move) =>
+            CollisionDetecter.ObjectCollision(PlaygroundObjects, enemy, move) == Collision.Clear;
 
         //to prevent 'ping-pong effect': for example: if lastmove before collision is Left, enemy should move Up or Down
-        public void RememberMove(MovableObject enemy, Move move)
+        private void RememberMove(MovableObject enemy, Move move)
         {
             if (move != Move.Stop && move != enemy.CurrentMove)
                 _lastMove = move;
         }
 
         // navigate the enemy to opposite direction
-        public Move GetOppositeMove(Move move)
+        private Move GetOppositeMove(Move move)
         {
             switch (move)
             {
                 case Move.Down:
                     return Move.Up;
-                    break;
                 case Move.Up:
                     return Move.Down;
-                    break;
                 case Move.Left:
                     return Move.Right;
-                    break;
                 case Move.Right:
                     return Move.Left;
-                    break;
                 default:
                     return Move.Stop;
             }
