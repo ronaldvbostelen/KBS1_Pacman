@@ -76,6 +76,7 @@
     <Compile Include="Generals\IMovable.cs" />
     <Compile Include="Generals\IPlaygroundObject.cs" />
     <Compile Include="Generals\IState.cs" />
+    <Compile Include="Models\Visuals\Animations\EnemyAnimation.cs" />
     <Compile Include="Models\Visuals\Animations\ObstacleAnimation.cs" />
     <Compile Include="Models\Visuals\Animations\PacmanAnimation.cs" />
     <Compile Include="Models\EditModels\TileCoinEdit.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using System.Timers;
 using System.Windows;
@@ -30,6 +31,7 @@ namespace WpfGame.Controllers.Views
         private Step _step;
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
+        private EnemyAnimation _enemyAnimation;
         private ObstacleAnimation _obstacleAnimation;
         private Clock _clock;
         private Score _score;
@@ -40,10 +42,6 @@ namespace WpfGame.Controllers.Views
         private MovableObject _player;
         private MovableObject _enemy;
         private Sound _sound;
-
-        //test
-        private Timer _steps;
-
 
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
@@ -59,16 +57,13 @@ namespace WpfGame.Controllers.Views
             _playerFactory = new PlayerFactory();
             _enemyFactory = new EnemyFactory();
             _pacmanAnimation = new PacmanAnimation();
+            _enemyAnimation = new EnemyAnimation();
             _obstacleAnimation = new ObstacleAnimation();
             _step = new Step();
             _position = new Position(_gameValues);
             _random = new Random();
             _sound = new Sound();
-
-            //test
-            _steps = new Timer{Interval = 2000, Enabled = true};
-            _steps.Elapsed += _steps_Elapsed;
-
+            
             SetContentOfMain(mainWindow, _gameView);
 
             _selectedGame = selectedGame;
@@ -93,14 +88,10 @@ namespace WpfGame.Controllers.Views
             _position.CollisionDetecter.ObstacleCollision += _sound.OnObstacleCollision;
 
             _pacmanAnimation.LoadPacmanImages();
+            _enemyAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
-
-        private void _steps_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _enemy.NextMove = (Move)_random.Next(1, 5);
-        }
-
+                
         private void OnObstacleCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
@@ -145,6 +136,7 @@ namespace WpfGame.Controllers.Views
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
                 _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
+                _enemy.Image.Source = _enemyAnimation.SetAnimation(_enemy.CurrentMove);
             });
         }
 
@@ -169,8 +161,9 @@ namespace WpfGame.Controllers.Views
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
 
-                //test
-                _position.ProcessMove(_enemy);
+                //set and update enemyposition
+                _position.EnemyProcessMove(_enemy);
+                _position.ProcessMove(_enemy);                
                 _step.SetStep(_enemy);
 
                 //Validate gamestate
@@ -281,7 +274,7 @@ namespace WpfGame.Controllers.Views
                 _enemyFactory.LoadFactory(_gameValues);
                 _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
                 _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
-
+                
                 _playerFactory.LoadFactory(_gameValues);
                 _player = _playerFactory.LoadPlayer(_playgroundObjects);
                 _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
@@ -296,7 +289,6 @@ namespace WpfGame.Controllers.Views
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
-                _steps.Start();
 
                 somethingWentWrongWhenLoadingTheGame = false;
             }

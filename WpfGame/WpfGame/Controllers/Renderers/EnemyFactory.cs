@@ -45,6 +45,5 @@ namespace WpfGame.Controllers.Renderer
             Canvas.SetLeft(enemy.Image, enemy.X);
             canvas.Children.Add(enemy.Image);
         }
-
     }
 }
