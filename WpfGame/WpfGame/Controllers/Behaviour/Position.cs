@@ -33,7 +33,7 @@ namespace WpfGame.Controllers.Behaviour
                 Move.Down,
                 Move.Up
             };
-            _lastMove = new Move(); 
+            _lastMove = new Move();
             _stepsInDirection = 0;
         }
 
@@ -46,7 +46,8 @@ namespace WpfGame.Controllers.Behaviour
             {
                 sprite.CurrentMove = sprite.NextMove;
             }
-            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) != Collision.Clear)
+            else if (CollisionDetecter.ObjectCollision(PlaygroundObjects, sprite, sprite.CurrentMove) !=
+                     Collision.Clear)
             {
                 sprite.CurrentMove = sprite.NextMove = Move.Stop;
             }
@@ -103,96 +104,105 @@ namespace WpfGame.Controllers.Behaviour
                         enemy.NextMove = Move.Right;
                     }
                 }
-                else if ((enemy.CurrentMove == Move.Left) || (enemy.CurrentMove == Move.Right))
+            }
+            else if ((enemy.CurrentMove == Move.Left) || (enemy.CurrentMove == Move.Right))
+            {
+                if (newOptions.Exists(x => x == Move.Up) && (newOptions.Exists(x => x == Move.Down)))
                 {
-                    if (newOptions.Exists(x => x == Move.Up) && (newOptions.Exists(x => x == Move.Down)))
+                    if (_random.NextDouble() > 0.5)
                     {
-                        if (_random.NextDouble() > 0.5)
-                        {
-                            enemy.NextMove = Move.Up;
-                        }
-                        else
-                        {
-                            enemy.NextMove = Move.Down;
-                        }
-                    }
-                    else if (newOptions.Exists(x => x == Move.Up) || (newOptions.Exists(x => x == Move.Down)))
-                    {
-                        if (newOptions.Exists(x => x == Move.Up))
-                        {
-                            enemy.NextMove = Move.Down;
-                        }
-                        else
-                        {
-                            enemy.NextMove = Move.Down;
-                        }
-                    }
-                }
-                if (enemy.CurrentMove == Move.Stop && enemy.CurrentMove == Move.Stop)
-                {
-                    if (_stepsInDirection == 1)
-                    {
-                        enemy.NextMove = GetOppositeMove(_lastMove);
-                        _stepsInDirection = 0;
+                        enemy.NextMove = Move.Up;
                     }
                     else
                     {
-                        Move dealer = new Move();
-                        if (current.Count == 1)
-                        {
-                            dealer = current[_random.Next(0, current.Count)];
-                        }
-                        else
-                        {
-                            current.Remove(GetOppositeMove(_lastMove));
-                            dealer = current[_random.Next(0, current.Count)];
-                        }
-                        _stepsInDirection = 0;
-                        enemy.NextMove = dealer;
+                        enemy.NextMove = Move.Down;
                     }
-                    RememberMove(enemy, enemy.NextMove);
+                }
+                else if (newOptions.Exists(x => x == Move.Up) || (newOptions.Exists(x => x == Move.Down)))
+                {
+                    if (newOptions.Exists(x => x == Move.Up))
+                    {
+                        enemy.NextMove = Move.Down;
+                    }
+                    else
+                    {
+                        enemy.NextMove = Move.Down;
+                    }
+                }
+            }
+
+            else if (enemy.CurrentMove == Move.Stop && enemy.CurrentMove == Move.Stop)
+            {
+                if (_stepsInDirection == 1)
+                {
+                    enemy.NextMove = GetOppositeMove(_lastMove);
+                    _stepsInDirection = 0;
                 }
                 else
                 {
-                    _stepsInDirection++;
+                    Move dealer = new Move();
+                    if (current.Count == 1)
+                    {
+                        dealer = current[_random.Next(0, current.Count)];
+                    }
+                    else
+                    {
+                        current.Remove(GetOppositeMove(_lastMove));
+                        dealer = current[_random.Next(0, current.Count)];
+                    }
+
+                    _stepsInDirection = 0;
+                    enemy.NextMove = dealer;
                 }
-                current = newOptions;
+
+                RememberMove(enemy, enemy.NextMove);
             }
+            else
+            {
+                _stepsInDirection++;
+            }
+
+            current = newOptions;
         }
 
         // in order to list the 'new' possible movement directions
         private List<Move> CompareList(List<Move> lastPossibleMoves, List<Move> currentPossibleMoves)
+        {
+            List<Move> nowPossible = new List<Move>();
+            if (currentPossibleMoves.Except(lastPossibleMoves).ToList()?.Any() != true)
             {
-                List<Move> nowPossible = new List<Move>();
-                if (currentPossibleMoves.Except(lastPossibleMoves).ToList()?.Any() != true)
-                {
-                    nowPossible = currentPossibleMoves.Except(lastPossibleMoves).ToList();
-                }
-                return nowPossible;
+                nowPossible = currentPossibleMoves.Except(lastPossibleMoves).ToList();
             }
+
+            return nowPossible;
+        }
 
         //determines all possible directions
         private List<Move> DeterminePossibleMoves(MovableObject enemy)
+        {
+            List<Move> possibleMoves = new List<Move>();
+            if (PossibleMove(enemy, Move.Up))
             {
-                List<Move> possibleMoves = new List<Move>();
-                if (PossibleMove(enemy, Move.Up))
-                {
-                    possibleMoves.Add(Move.Up);
-                }
-                if (PossibleMove(enemy, Move.Down))
-                {
-                    possibleMoves.Add(Move.Down);
-                }
-                if (PossibleMove(enemy, Move.Left))
-                {
-                    possibleMoves.Add(Move.Left);
-                }
-                if (PossibleMove(enemy, Move.Right))
-                {
-                    possibleMoves.Add(Move.Right);
-                }
-                return possibleMoves;
+                possibleMoves.Add(Move.Up);
             }
+
+            if (PossibleMove(enemy, Move.Down))
+            {
+                possibleMoves.Add(Move.Down);
+            }
+
+            if (PossibleMove(enemy, Move.Left))
+            {
+                possibleMoves.Add(Move.Left);
+            }
+
+            if (PossibleMove(enemy, Move.Right))
+            {
+                possibleMoves.Add(Move.Right);
+            }
+
+            return possibleMoves;
+        }
 
         //determines if direction is possible
         private bool PossibleMove(MovableObject enemy, Move move) =>
