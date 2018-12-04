@@ -44,5 +44,11 @@ namespace WpfGame.Sounds
             _soundPlayer.Stream = Resources.pacman_chomp;
             _soundPlayer.Play();
         }
+
+        public void OnEndpointCollision(object sender, EventArgs e)
+        {
+            _soundPlayer.Stream = Resources.pacman_extrapac;
+            _soundPlayer.Play();
+        }
     }
 }

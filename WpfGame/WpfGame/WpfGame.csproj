@@ -237,6 +237,8 @@
   <ItemGroup>
     <Resource Include="Assets\Backgrounds\desh-bg2.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Sounds\pacman_extrapac.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
