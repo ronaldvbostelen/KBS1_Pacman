@@ -156,9 +156,7 @@ namespace WpfGame.Controllers.Views
 
         private void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _obstacleTimer.Stop();
-            _pacmanAnimationTimer.Stop();
-            _refreshTimer.Stop();
+            StopTimers();
         }
 
         private void RefreshGameCanvas(object sender, ElapsedEventArgs e)
