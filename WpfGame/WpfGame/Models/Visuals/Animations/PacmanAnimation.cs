@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using WpfGame.Controllers;
 using WpfGame.Generals;
 
-namespace WpfGame.Models.Animations
+namespace WpfGame.Models.Visuals.Animations
 {
     public class PacmanAnimation
     {
         private Dictionary<PacmanFacing, BitmapImage> _pacmanFacingBitmapImages;
-        private PacmanFacing currentPacmanFacing;
+        private PacmanFacing _currentPacmanFacing;
         private Move _lastMove;
 
         public PacmanAnimation()
@@ -40,24 +39,24 @@ namespace WpfGame.Models.Animations
             switch (move)
             {
                 case Move.Down:
-                    currentPacmanFacing = currentPacmanFacing == PacmanFacing.Down ? PacmanFacing.DownOpen : PacmanFacing.Down;
+                    _currentPacmanFacing = _currentPacmanFacing == PacmanFacing.Down ? PacmanFacing.DownOpen : PacmanFacing.Down;
                     _lastMove = move;
                     break;
                 case Move.Up:
-                    currentPacmanFacing = currentPacmanFacing == PacmanFacing.UpOpen ? PacmanFacing.Up : PacmanFacing.UpOpen;
+                    _currentPacmanFacing = _currentPacmanFacing == PacmanFacing.UpOpen ? PacmanFacing.Up : PacmanFacing.UpOpen;
                     _lastMove = move;
                     break;
                 case Move.Left:
-                    currentPacmanFacing = currentPacmanFacing == PacmanFacing.Left ? PacmanFacing.LeftOpen : PacmanFacing.Left;
+                    _currentPacmanFacing = _currentPacmanFacing == PacmanFacing.Left ? PacmanFacing.LeftOpen : PacmanFacing.Left;
                     _lastMove = move;
                     break;
                 case Move.Right:
-                    currentPacmanFacing = currentPacmanFacing == PacmanFacing.Right ? PacmanFacing.RightOpen : PacmanFacing.Right;
+                    _currentPacmanFacing = _currentPacmanFacing == PacmanFacing.Right ? PacmanFacing.RightOpen : PacmanFacing.Right;
                     _lastMove = move;
                     break;
             }
 
-            return _pacmanFacingBitmapImages[currentPacmanFacing];
+            return _pacmanFacingBitmapImages[_currentPacmanFacing];
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace WpfGame.Models
+namespace WpfGame.Models.EditModels
 {
     public class TileEdit
     {
-        public Rectangle Rectangle { get; set; }
-        public double Y { get; set; }
-        public double X { get; set; }
+        public Rectangle Rectangle { get; }
+        public double Y { get; }
+        public double X { get; }
         public bool IsWall { get; set; }
         public bool HasCoin { get; set; }
         public bool HasObstacle { get; set; }
@@ -17,9 +17,7 @@ namespace WpfGame.Models
 
         public TileEdit(double width, double height, double y, double x)
         {
-            Rectangle = new Rectangle { Width = width, Height = height,Stroke = Brushes.Black};
-            
-            Rectangle.Fill = Brushes.Green;
+            Rectangle = new Rectangle {Width = width, Height = height, Stroke = Brushes.Black, Fill = Brushes.Green};
 
             Y = y;
             X = x;

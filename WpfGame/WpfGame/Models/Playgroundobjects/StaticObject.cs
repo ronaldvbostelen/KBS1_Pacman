@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using WpfGame.Generals;
 
-namespace WpfGame.Models
+namespace WpfGame.Models.Playgroundobjects
 {
     public class StaticObject : IPlaygroundObject
     {

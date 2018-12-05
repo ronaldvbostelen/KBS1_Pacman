@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
-using System.Windows.Controls;
 
-namespace WpfGame.Controllers.Renderer
+namespace WpfGame.Controllers.Renderers
 {
     public class PlaygroundFactory 
     {
         private GameValues _gameValues;
         private Dictionary<ObjectType, BitmapImage> _imageDictionary;
         private Dictionary<ObjectType, Size> _demensionDictionary;
-        private double coinCorrectionWidthPlacement, coinCorrectionHeightPlacement;
+        private double _coinCorrectionWidthPlacement, _coinCorrectionHeightPlacement;
 
 
         public PlaygroundFactory()
@@ -51,8 +52,8 @@ namespace WpfGame.Controllers.Renderer
             _demensionDictionary.Add(ObjectType.Wall, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
             _demensionDictionary.Add(ObjectType.StartPoint, new Size(_gameValues.TileWidth, _gameValues.TileHeight));
 
-            coinCorrectionHeightPlacement = _gameValues.TileHeight * 0.17;
-            coinCorrectionWidthPlacement = _gameValues.TileWidth * 0.17;
+            _coinCorrectionHeightPlacement = _gameValues.TileHeight * 0.17;
+            _coinCorrectionWidthPlacement = _gameValues.TileWidth * 0.17;
         }
 
         public List<IPlaygroundObject> LoadPlayground(List<TileMockup> mockups)
@@ -109,8 +110,8 @@ namespace WpfGame.Controllers.Renderer
                             type = ObjectType.Coin;
                             playground.Add(new ImmovableObject(type, new Image {Source = _imageDictionary[type]},
                                 _demensionDictionary[type].Width, _demensionDictionary[type].Height,
-                                _gameValues.TileWidth * j + coinCorrectionWidthPlacement,
-                                _gameValues.TileHeight * i + coinCorrectionHeightPlacement, true));
+                                _gameValues.TileWidth * j + _coinCorrectionWidthPlacement,
+                                _gameValues.TileHeight * i + _coinCorrectionHeightPlacement, true));
                             isCoin = false;
                         }
 
@@ -137,7 +138,7 @@ namespace WpfGame.Controllers.Renderer
             return playground;
         }
 
-        public void DrawPlayground(List<IPlaygroundObject> list, Canvas canvas)
+        public List<IPlaygroundObject> DrawPlayground(List<IPlaygroundObject> list, Canvas canvas)
         {
             list.ForEach(x =>
             {
@@ -145,6 +146,7 @@ namespace WpfGame.Controllers.Renderer
                 Canvas.SetLeft(x.Image, x.X);
                 canvas.Children.Add(x.Image);
             });
+            return list;
         }
     }
 }

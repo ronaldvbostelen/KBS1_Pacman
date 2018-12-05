@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using NUnit.Framework;
+using WpfGame;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
-using System.Windows.Controls;
-using NUnit.Framework;
 
-
-namespace WpfGame.UnitTests
+namespace WPF_Game.Unittests
 {
     [TestFixture(Description = "Score testclases")]
     public class ScoreTests
@@ -27,10 +28,8 @@ namespace WpfGame.UnitTests
             {
                 Application.ResourceAssembly = typeof(MainWindow).Assembly;
             }
-            
-            _gameValues = new GameValues();
-            _gameValues.PlayCanvasHeight = 600;
-            _gameValues.PlayCanvasWidth = 784;
+
+            _gameValues = new GameValues {PlayCanvasHeight = 600, PlayCanvasWidth = 784};
             _gameValues.HeigthWidthRatio = _gameValues.PlayCanvasHeight / _gameValues.PlayCanvasWidth;
             _gameValues.AmountOfXtiles = 20;
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
@@ -74,7 +73,7 @@ namespace WpfGame.UnitTests
             var startscore = 0;
 
             //subscribe to coinevent
-            _collisionDetecter.CoinCollision += _collisionDetecter_CoinCollision;
+            _collisionDetecter.CoinCollision += CollisionDetecterCoinCollision;
 
             //simulate player hitting a coint
             _player.NextMove = Move.Right;
@@ -82,7 +81,7 @@ namespace WpfGame.UnitTests
 
             Assert.True(startscore == 1);
 
-            void _collisionDetecter_CoinCollision(object sender, ImmovableEventArgs e)
+            void CollisionDetecterCoinCollision(object sender, ImmovableEventArgs e)
             {
                 startscore++;
             }
@@ -95,7 +94,7 @@ namespace WpfGame.UnitTests
             var startscore = 0;
 
             //subscribe to coinevent
-            _collisionDetecter.CoinCollision += _collisionDetecter_CoinCollision;
+            _collisionDetecter.CoinCollision += CollisionDetecterCoinCollision;
 
             //simulate player hitting a coint
             _enemy.NextMove = Move.Right;
@@ -103,7 +102,7 @@ namespace WpfGame.UnitTests
 
             Assert.False(startscore == 1);
 
-            void _collisionDetecter_CoinCollision(object sender, ImmovableEventArgs e)
+            void CollisionDetecterCoinCollision(object sender, ImmovableEventArgs e)
             {
                 startscore++;
             }

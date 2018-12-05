@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
-using WpfGame.Controllers;
 using WpfGame.Generals;
 
-namespace WpfGame.Models.Animations
+namespace WpfGame.Models.Visuals.Animations
 {
     public class EnemyAnimation
     {
         private Dictionary<EnemyFacing, BitmapImage> _enemyFacingBitmapImages;
-        private EnemyFacing currentEnemyFacing;
+        private EnemyFacing _currentEnemyFacing;
         private Move _lastMove;     
 
         public EnemyAnimation()
@@ -36,23 +35,23 @@ namespace WpfGame.Models.Animations
             switch (move)
             {
                 case Move.Down:
-                    currentEnemyFacing = EnemyFacing.Down;
+                    _currentEnemyFacing = EnemyFacing.Down;
                     _lastMove = move;
                     break;
                 case Move.Up:
-                    currentEnemyFacing = EnemyFacing.Up;
+                    _currentEnemyFacing = EnemyFacing.Up;
                     _lastMove = move;
                     break;
                 case Move.Left:
-                    currentEnemyFacing = EnemyFacing.Left;
+                    _currentEnemyFacing = EnemyFacing.Left;
                     _lastMove = move;
                     break;
                 case Move.Right:
-                    currentEnemyFacing = EnemyFacing.Right;
+                    _currentEnemyFacing = EnemyFacing.Right;
                     _lastMove = move;
                     break;
             }
-            return _enemyFacingBitmapImages[currentEnemyFacing];
+            return _enemyFacingBitmapImages[_currentEnemyFacing];
         }
     }
 }

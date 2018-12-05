@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using WpfGame.Controllers;
 using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Renderer;
 
 namespace WpfGame.Views
 {

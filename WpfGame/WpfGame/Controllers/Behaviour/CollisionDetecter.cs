@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
@@ -77,14 +77,14 @@ namespace WpfGame.Controllers.Behaviour
             }
 
             Rect moveObject = new Rect(new Point(movable.X + addToX, movable.Y + addToY),
-                new System.Windows.Size(movable.Image.Width, movable.Image.Height));
+                new Size(movable.Image.Width, movable.Image.Height));
 
             //this list contains all the playgroundobjects. we loop through it end every object (its position and demension) is passed to the Rect. we then use the .IntersectWith
             //function to check if the moveableobject (a player or a enemy) hits something on the playingfield.
             foreach (var obj in objectList)
             {
                 Rect tileRect = new Rect(new Point(obj.X, obj.Y),
-                    new System.Windows.Size(obj.Image.Width, obj.Image.Height));
+                    new Size(obj.Image.Width, obj.Image.Height));
 
                 //the collisiondector will fire an event when a gamebreaking collision took place, it will also return a collisionvalue to the caller.
                 if (moveObject.IntersectsWith(tileRect))
@@ -116,10 +116,6 @@ namespace WpfGame.Controllers.Behaviour
                                 {
                                     OnEndpointCollision();
                                 }
-                            }
-                            else
-                            {
-                                return Collision.Wall;
                             }
                             break;
                         case ObjectType.SpawnPoint:

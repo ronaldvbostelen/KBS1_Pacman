@@ -1,11 +1,9 @@
-﻿using System.Windows.Shapes;
-
-namespace WpfGame.Models
+﻿namespace WpfGame.Models.EditModels
 {
     public class TileObstacleEdit
     {
-        public TileEdit TileEdit { get; set; }
-        public ObstacleEdit ObstacleEdit { get; set; }
+        public TileEdit TileEdit { get; }
+        public ObstacleEdit ObstacleEdit { get; }
 
         public TileObstacleEdit(TileEdit tileEdit, ObstacleEdit obstacleEdit)
         {
