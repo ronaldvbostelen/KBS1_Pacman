@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using System.Xaml;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Controllers.Game;
 using WpfGame.Controllers.Renderers;
@@ -129,22 +130,11 @@ namespace WpfGame.Controllers.Views
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
-                foreach (var obj in _playgroundObjects)
-                {
-                    if (obj.ObjectType == ObjectType.Obstacle)
-                    {
-                        var obst = (ImmovableObject) obj;
-
-                        if (!obst.State && _random.NextDouble() > 0.4)
-                        {
-                            obst.Image.Source = _obstacleAnimation.SetObstacleImage(obst.State = true);
-                        }
-                        else
-                        {
-                            obst.Image.Source = _obstacleAnimation.SetObstacleImage(obst.State = false);
-                        }
-                    }
-                }
+                //set obstacle animation and state
+                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Obstacle).Cast<ImmovableObject>().ToList()
+                    .ForEach(x =>
+                        x.Image.Source =
+                            _obstacleAnimation.SetObstacleImage(x.State = _random.NextDouble() > 0.4 && !x.State));
             });
         }
 
@@ -153,13 +143,14 @@ namespace WpfGame.Controllers.Views
             //so we have to call the dispatcher to grab authority over the GUI
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
+                //set playeranimation
                 _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
-                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Enemy).ToList().ForEach(x =>
+
+                //set enemyanimation
+                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Enemy).Cast<MovableObject>().ToList().ForEach(x =>
                 {
-                    var enemy = (MovableObject) x;
-                    enemy.Image.Source = _enemyAnimation.SetAnimation(enemy.CurrentMove);
+                    x.Image.Source = _enemyAnimation.SetAnimation(x.CurrentMove);
                 });
-                
             });
         }
 
