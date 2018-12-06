@@ -54,14 +54,14 @@
             <StackPanel VerticalAlignment="Center" Visibility="Collapsed" Name="FinishGamePanel">
                 <Border Margin="5" Padding="3" BorderThickness="1" BorderBrush="DarkGreen" Background="DarkGreen"
                         CornerRadius="10">
-                    <TextBlock Name="LevelCompleted"
-                               FontSize="40"
-                               Foreground="DarkGreen"
-                               FontFamily="{StaticResource PacmanFont}"
-                               Background="Black"
-                               Padding="10"
-                               TextAlignment="Center"
-                               Text="Level completed!" />
+                    <TextBlock
+                        FontSize="40"
+                        Foreground="DarkGreen"
+                        FontFamily="{StaticResource PacmanFont}"
+                        Background="Black"
+                        Padding="10"
+                        TextAlignment="Center"
+                        Text="Level completed!" />
                 </Border>
             </StackPanel>
         </Grid>

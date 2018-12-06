@@ -21,10 +21,10 @@ namespace WpfGame.Controllers.Views
 
             SetContentOfMain(mainWindow, _startWindowView);
 
-            SetButtonEvents(_startWindowView.btnCloseGame, BtnCloseGame_Click);
-            SetButtonEvents(_startWindowView.btnDesignLevel, BtnDesignLevel_Click);
-            SetButtonEvents(_startWindowView.btnStartGame, BtnStartGameOnClick);
-            SetButtonEvents(_startWindowView.btnStartGame, _sound.BtnStartGameOnClick);
+            SetButtonEvents(_startWindowView.BtnCloseGame, BtnCloseGame_Click);
+            SetButtonEvents(_startWindowView.BtnDesignLevel, BtnDesignLevel_Click);
+            SetButtonEvents(_startWindowView.BtnStartGame, BtnStartGameOnClick);
+            SetButtonEvents(_startWindowView.BtnStartGame, _sound.BtnStartGameOnClick);
             SetButtonEvents(_startWindowView.CancelSelectPlgrnd, BtnCancelSelect_Click);
             SetButtonEvents(_startWindowView.SelectPlgrnd, BtnConfirmSelect_Click);
             SetButtonEvents(_startWindowView.BtnHighScoreTable, BtnHighScoreTable_Click);
@@ -47,7 +47,7 @@ namespace WpfGame.Controllers.Views
                     try
                     {
                         FileInfo[] files =
-                            new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath)
+                            new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + General.PlaygroundPath)
                                 .GetFiles();
                         _startWindowView.ListBoxForPlaygroundFiles.ItemsSource = files;
                         _startWindowView.SelectPlaygroundMenu.Visibility = Visibility.Visible;
@@ -119,17 +119,17 @@ namespace WpfGame.Controllers.Views
             //Call the UsernameViewController when the Username has not been set
             if (string.IsNullOrEmpty(Settings.Default.Username))
             {
-                new UsernameViewController(_mainWindow, Settings.Default.Level);
+                new UsernameViewController(MainWindow, Settings.Default.Level);
                 return;
             }
 
-            new GameViewController(_mainWindow, Settings.Default.Level);
+            new GameViewController(MainWindow, Settings.Default.Level);
 
         }
 
         private void BtnDesignLevel_Click(object sender, RoutedEventArgs e)
         {
-            new EditorViewController(_mainWindow);
+            new EditorViewController(MainWindow);
         }
 
         private void BtnCloseGame_Click(object sender, RoutedEventArgs e)
@@ -139,7 +139,7 @@ namespace WpfGame.Controllers.Views
 
         private void BtnHighScoreTable_Click (object sender, RoutedEventArgs e)
         {
-            new HighScoreViewController(_mainWindow);
+            new HighScoreViewController(MainWindow);
         }
     }
 }

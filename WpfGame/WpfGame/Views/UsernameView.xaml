@@ -15,7 +15,7 @@
             <Grid Height="200" Width="200" VerticalAlignment="Top">
                 <StackPanel>
                     <Label HorizontalContentAlignment="Center" Margin="0 10 0 0" Content="Your username:" Width="153" Foreground="White"/>
-                    <TextBox Margin="0 10 0 0" x:Name="tbxUsername" Width="133"/>
+                    <TextBox Margin="0 10 0 0" x:Name="TbxUsername" Width="133"/>
                     <Button Margin="0 10 0 0" x:Name="BtnOk" Content="OK" Width="75" BorderThickness="0" IsDefault="True">
                         <Button.Background>
                             <SolidColorBrush Color="#FF78DAF2" Opacity="0.715"/>

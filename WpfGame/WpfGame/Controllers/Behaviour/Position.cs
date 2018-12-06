@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfGame.Controllers.Creatures;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
 
 namespace WpfGame.Controllers.Behaviour
@@ -84,50 +84,22 @@ namespace WpfGame.Controllers.Behaviour
             {
                 if (newOptions.Exists(x => x == Move.Left) && (newOptions.Exists(x => x == Move.Right)))
                 {
-                    if (_random.NextDouble() > 0.5)
-                    {
-                        enemy.NextMove = Move.Left;
-                    }
-                    else
-                    {
-                        enemy.NextMove = Move.Right;
-                    }
+                    enemy.NextMove = _random.NextDouble() > 0.5 ? Move.Left : Move.Right;
                 }
                 else if (newOptions.Exists(x => x == Move.Left) || (newOptions.Exists(x => x == Move.Right)))
                 {
-                    if (newOptions.Exists(x => x == Move.Left))
-                    {
-                        enemy.NextMove = Move.Left;
-                    }
-                    else
-                    {
-                        enemy.NextMove = Move.Right;
-                    }
+                    enemy.NextMove = newOptions.Exists(x => x == Move.Left) ? Move.Left : Move.Right;
                 }
             }
             else if ((enemy.CurrentMove == Move.Left) || (enemy.CurrentMove == Move.Right))
             {
                 if (newOptions.Exists(x => x == Move.Up) && (newOptions.Exists(x => x == Move.Down)))
                 {
-                    if (_random.NextDouble() > 0.5)
-                    {
-                        enemy.NextMove = Move.Up;
-                    }
-                    else
-                    {
-                        enemy.NextMove = Move.Down;
-                    }
+                    enemy.NextMove = _random.NextDouble() > 0.5 ? Move.Up : Move.Down;
                 }
                 else if (newOptions.Exists(x => x == Move.Up) || (newOptions.Exists(x => x == Move.Down)))
                 {
-                    if (newOptions.Exists(x => x == Move.Up))
-                    {
-                        enemy.NextMove = Move.Down;
-                    }
-                    else
-                    {
-                        enemy.NextMove = Move.Down;
-                    }
+                    if(newOptions.Exists(x => x == Move.Up)) enemy.NextMove = Move.Down;
                 }
             }
 
@@ -140,7 +112,7 @@ namespace WpfGame.Controllers.Behaviour
                 }
                 else
                 {
-                    Move dealer = new Move();
+                    Move dealer;
                     if (current.Count == 1)
                     {
                         dealer = current[_random.Next(0, current.Count)];

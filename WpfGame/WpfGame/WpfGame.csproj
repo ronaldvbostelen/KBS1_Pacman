@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gamecontroller.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -102,10 +105,7 @@
     </Compile>
     <Compile Include="Controllers\Behaviour\Step.cs" />
     <Compile Include="Controllers\Behaviour\Position.cs" />
-    <Compile Include="Controllers\Behaviour\Size.cs" />
     <Compile Include="Controllers\Game\Clock.cs" />
-    <Compile Include="Models\Creatures\Player.cs" />
-    <Compile Include="Models\Creatures\Sprite.cs" />
     <Compile Include="Controllers\Game\Score.cs" />
     <Compile Include="Models\EditModels\CoinEdit.cs" />
     <Compile Include="Models\EditModels\ObstacleEdit.cs" />
@@ -113,7 +113,6 @@
     <Compile Include="Models\TileMockup.cs" />
     <Compile Include="Values\EditorValues.cs" />
     <Compile Include="Values\GameValues.cs" />
-    <Compile Include="Values\SystemValues.cs" />
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
@@ -239,6 +238,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sounds\pacman_extrapac.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamecontroller.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

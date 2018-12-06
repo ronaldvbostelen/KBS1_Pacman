@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
-namespace WpfGame.Models.Animations
+namespace WpfGame.Models.Visuals.Animations
 {
     public class ObstacleAnimation
     {

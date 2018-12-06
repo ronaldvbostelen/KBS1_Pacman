@@ -21,7 +21,7 @@ namespace WpfGame.Controllers.Views
             SetButtonEvents(_highScoreView.BtnBack, BtnBack_Click);
         }
 
-        public List<KeyValuePair<string, string>> GetListOfHighScoresDescending()
+        private List<KeyValuePair<string, string>> GetListOfHighScoresDescending()
         {
             string line;
             var highScoreList = new List<KeyValuePair<string, string>>();
@@ -37,16 +37,18 @@ namespace WpfGame.Controllers.Views
             return highScoreList.OrderByDescending(kvp => kvp.Value).ToList();
         }
 
-        public FlowDocument CreateFlowDocument()
+        private FlowDocument CreateFlowDocument()
         {
             // Create the parent FlowDocument...
             FlowDocument flowDoc = new FlowDocument {Foreground = Brushes.Yellow, Background = Brushes.Black};
 
             // Create the Table
-            Table table = new Table();
+            Table table = new Table
+            {
+                FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Assets/Fonts/#CrackMan")
+            };
 
             // set fontfamlily
-            table.FontFamily =  new FontFamily(new Uri("pack://application:,,,/"),"./Assets/Fonts/#CrackMan");
             // ...and add it to the FlowDocument Blocks collection.
             flowDoc.Blocks.Add(table);
 
@@ -158,7 +160,7 @@ namespace WpfGame.Controllers.Views
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            new StartWindowViewController(_mainWindow);
+            new StartWindowViewController(MainWindow);
         }
 
     }

@@ -11,9 +11,9 @@ namespace WpfGame.Controllers.Views
 
         public UsernameViewController(MainWindow mainWindow, string selectedGameName) : base(mainWindow)
         {
-            _usernameView = new UsernameView { tbxUsername = { Text = Settings.Default.Username } };
+            _usernameView = new UsernameView { TbxUsername = { Text = Settings.Default.Username } };
             _selectedGameName = selectedGameName;
-            _usernameView.tbxUsername.Focus();
+            _usernameView.TbxUsername.Focus();
 
             SetContentOfMain(mainWindow, _usernameView);
             SetButtonEvents(_usernameView.BtnOk, BtnOk);
@@ -25,16 +25,16 @@ namespace WpfGame.Controllers.Views
         {
             if (e.Key == Key.Escape)
             {
-                new StartWindowViewController(_mainWindow);
+                new StartWindowViewController(MainWindow);
             }
         }
 
         private void BtnOk(object sender, RoutedEventArgs e)
         {
-            if(_usernameView.tbxUsername.Text != string.Empty)
+            if(_usernameView.TbxUsername.Text != string.Empty)
             {
-                Settings.Default.Username = _usernameView.tbxUsername.Text;
-                new GameViewController(_mainWindow, _selectedGameName);
+                Settings.Default.Username = _usernameView.TbxUsername.Text;
+                new GameViewController(MainWindow, _selectedGameName);
             }
         }
     }

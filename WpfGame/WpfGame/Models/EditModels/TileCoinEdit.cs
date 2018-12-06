@@ -1,9 +1,9 @@
-﻿namespace WpfGame.Models
+﻿namespace WpfGame.Models.EditModels
 {
     public class TileCoinEdit
     {
-        public TileEdit TileEdit { get; set; }
-        public CoinEdit CoinEdit { get; set; }
+        public TileEdit TileEdit { get; }
+        public CoinEdit CoinEdit { get; }
 
         public TileCoinEdit(TileEdit tileEdit, CoinEdit coinEdit)
         {

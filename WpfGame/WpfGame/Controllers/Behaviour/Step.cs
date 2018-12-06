@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Creatures;
 using WpfGame.Controllers.Views;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
 using WpfGame.Views;
 

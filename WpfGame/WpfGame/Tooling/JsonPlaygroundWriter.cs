@@ -5,21 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using WpfGame.Models;
 using WpfGame.Generals;
+using WpfGame.Models.EditModels;
 
-namespace WpfGame.Editor
+namespace WpfGame.Tooling
 {
     public class JsonPlaygroundWriter
     {
-        private JsonTextWriter _jsonTextWriter;
         private List<TileEdit> _tileEdits;
         private int currentPlaygroundsAmount;
         private string writePath;
 
         public JsonPlaygroundWriter(List<TileEdit> list)
         {
-            writePath = AppDomain.CurrentDomain.BaseDirectory + General.playgroundPath;
+            writePath = AppDomain.CurrentDomain.BaseDirectory + General.PlaygroundPath;
 
             try
             {

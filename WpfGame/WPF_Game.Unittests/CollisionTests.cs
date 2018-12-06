@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using NUnit.Framework;
+using WpfGame;
 using WpfGame.Controllers.Behaviour;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
-using System.Windows.Controls;
-using NUnit.Framework;
 
-namespace WpfGame.UnitTests
+namespace WPF_Game.Unittests
 {
     [TestFixture(Description = "CollisionTests")]
     public class CollisionTests
@@ -48,11 +48,8 @@ namespace WpfGame.UnitTests
                 Application.ResourceAssembly = typeof(MainWindow).Assembly;
             }
 
-            _gameValues = new GameValues();
+            _gameValues = new GameValues {PlayCanvasHeight = 500, PlayCanvasWidth = 500, Movement = 2.5};
 
-            _gameValues.PlayCanvasHeight = 500;
-            _gameValues.PlayCanvasWidth = 500;
-            _gameValues.Movement = 2.5;
 
             _collisionDetector = new CollisionDetecter(_gameValues);
             
@@ -134,19 +131,19 @@ namespace WpfGame.UnitTests
             _player.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Coin).Y;
 
             //bool for cointeventcheck
-            bool CoinEventIsFired = false;
+            bool coinEventIsFired = false;
 
             //subscribe to coinevent
-            _collisionDetector.CoinCollision += _collisionDetector_CoinCollision;
+            _collisionDetector.CoinCollision += CollisionDetectorCoinCollision;
 
             //move the player around
             _collisionDetector.ObjectCollision(_playgroundObjects, _player, move);
 
-            Assert.True(CoinEventIsFired);
+            Assert.True(coinEventIsFired);
 
-            void _collisionDetector_CoinCollision(object sender, ImmovableEventArgs e)
+            void CollisionDetectorCoinCollision(object sender, ImmovableEventArgs e)
             {
-                CoinEventIsFired = true;
+                coinEventIsFired = true;
             }
             
         }
@@ -163,19 +160,19 @@ namespace WpfGame.UnitTests
             _player.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Obstacle).Y;
 
             //bool for obstacleeventcheck
-            bool ObstacleEventIsFired = false;
+            bool obstacleEventIsFired = false;
 
             //subscribe to obstacleevent
-            _collisionDetector.ObstacleCollision += _collisionDetector_ObstacleCollision;
+            _collisionDetector.ObstacleCollision += CollisionDetectorObstacleCollision;
 
             //move the player around
             _collisionDetector.ObjectCollision(_playgroundObjects, _player, move);
 
-            Assert.True(ObstacleEventIsFired);
+            Assert.True(obstacleEventIsFired);
 
-            void _collisionDetector_ObstacleCollision(object sender, EventArgs e)
+            void CollisionDetectorObstacleCollision(object sender, EventArgs e)
             {
-                ObstacleEventIsFired = true;
+                obstacleEventIsFired = true;
             }
         }
 
@@ -225,10 +222,10 @@ namespace WpfGame.UnitTests
             _player.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.EndPoint).Y;
 
             //bool for endgameeventcheck
-            bool EndGameEvent = false;
+            bool endGameEvent = false;
 
             //subscribe to endgameevent
-            _collisionDetector.EndpointCollision += (sender, args) => { EndGameEvent = true; };
+            _collisionDetector.EndpointCollision += (sender, args) => { endGameEvent = true; };
 
             //we tweak the movement cause a >99% hit is required
             _gameValues.Movement = 0.1;
@@ -236,7 +233,7 @@ namespace WpfGame.UnitTests
             //move the player around
             _collisionDetector.ObjectCollision(_playgroundObjects, _player, move);
 
-            Assert.True(EndGameEvent);
+            Assert.True(endGameEvent);
         }
 
         [TestCase(Move.Down)]
@@ -251,15 +248,15 @@ namespace WpfGame.UnitTests
             _player.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Enemy).Y;
 
             //bool for enemyeventcheck
-            bool EnemyEventIsFired = false;
+            bool enemyEventIsFired = false;
 
             //subscribe to enemyevent
-            _collisionDetector.EnemyCollision += (sender, args) => { EnemyEventIsFired = true; };
+            _collisionDetector.EnemyCollision += (sender, args) => { enemyEventIsFired = true; };
 
             //move the player around
             _collisionDetector.ObjectCollision(_playgroundObjects, _player, move);
 
-            Assert.True(EnemyEventIsFired);
+            Assert.True(enemyEventIsFired);
         }
 
         [TestCase(Move.Down)]
@@ -309,19 +306,19 @@ namespace WpfGame.UnitTests
             _enemy.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Coin).Y;
 
             //bool for cointeventcheck
-            bool CoinEventIsFired = false;
+            bool coinEventIsFired = false;
 
             //subscribe to coinevent
-            _collisionDetector.CoinCollision += _collisionDetector_CoinCollision;
+            _collisionDetector.CoinCollision += CollisionDetectorCoinCollision;
 
             //move the Enemy around
             _collisionDetector.ObjectCollision(_playgroundObjects, _enemy, move);
 
-            Assert.False(CoinEventIsFired);
+            Assert.False(coinEventIsFired);
 
-            void _collisionDetector_CoinCollision(object sender, ImmovableEventArgs e)
+            void CollisionDetectorCoinCollision(object sender, ImmovableEventArgs e)
             {
-                CoinEventIsFired = true;
+                coinEventIsFired = true;
             }
 
         }
@@ -338,19 +335,19 @@ namespace WpfGame.UnitTests
             _enemy.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Obstacle).Y;
 
             //bool for obstacleeventcheck
-            bool ObstacleEventIsFired = false;
+            bool obstacleEventIsFired = false;
 
             //subscribe to obstacleevent
-            _collisionDetector.ObstacleCollision += _collisionDetector_ObstacleCollision;
+            _collisionDetector.ObstacleCollision += CollisionDetectorObstacleCollision;
 
             //move the Enemy around
             _collisionDetector.ObjectCollision(_playgroundObjects, _enemy, move);
 
-            Assert.False(ObstacleEventIsFired);
+            Assert.False(obstacleEventIsFired);
 
-            void _collisionDetector_ObstacleCollision(object sender, EventArgs e)
+            void CollisionDetectorObstacleCollision(object sender, EventArgs e)
             {
-                ObstacleEventIsFired = true;
+                obstacleEventIsFired = true;
             }
         }
 
@@ -417,15 +414,15 @@ namespace WpfGame.UnitTests
             _enemy.Y = _playgroundObjects.Find(x => x.ObjectType == ObjectType.Player).Y;
 
             //bool for cointeventcheck
-            bool EnemyEventIsFired = false;
+            bool enemyEventIsFired = false;
 
             //subscribe to coinevent
-            _collisionDetector.EnemyCollision += (sender, args) => { EnemyEventIsFired = true; };
+            _collisionDetector.EnemyCollision += (sender, args) => { enemyEventIsFired = true; };
 
             //move the Enemy around
             _collisionDetector.ObjectCollision(_playgroundObjects, _enemy, move);
 
-            Assert.True(EnemyEventIsFired);
+            Assert.True(enemyEventIsFired);
         }
 
         [TestCase(Move.Down)]

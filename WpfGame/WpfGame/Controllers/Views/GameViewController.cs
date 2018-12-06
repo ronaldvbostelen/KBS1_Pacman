@@ -6,13 +6,16 @@ using Newtonsoft.Json;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
+using System.Xaml;
 using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Renderer;
-using WpfGame.Editor;
+using WpfGame.Controllers.Game;
+using WpfGame.Controllers.Renderers;
 using WpfGame.Generals;
 using WpfGame.Models;
-using WpfGame.Models.Animations;
+using WpfGame.Models.Playgroundobjects;
+using WpfGame.Models.Visuals.Animations;
 using WpfGame.Sounds;
+using WpfGame.Tooling;
 using WpfGame.Values;
 using WpfGame.Views;
 
@@ -28,6 +31,7 @@ namespace WpfGame.Controllers.Views
         private Timer _refreshTimer;
         private Timer _pacmanAnimationTimer;
         private Timer _obstacleTimer;
+        private Timer _spawnTimer;
         private Step _step;
         private Position _position;
         private PacmanAnimation _pacmanAnimation;
@@ -40,15 +44,15 @@ namespace WpfGame.Controllers.Views
         private EnemyFactory _enemyFactory;
         private List<IPlaygroundObject> _playgroundObjects;
         private MovableObject _player;
-        private MovableObject _enemy;
         private Sound _sound;
 
         public GameViewController(MainWindow mainWindow, string selectedGame)
             : base(mainWindow)
         {
-            _refreshTimer = new Timer { Interval = 1000 / 60 };
-            _pacmanAnimationTimer = new Timer { Interval = 150 };
-            _obstacleTimer = new Timer { Interval = 3000 };
+            _refreshTimer = new Timer {Interval = 1000 / 60};
+            _pacmanAnimationTimer = new Timer {Interval = 150};
+            _obstacleTimer = new Timer {Interval = 3000};
+            _spawnTimer = new Timer {Interval = 2500};
             _clock = new Clock();
             _score = new Score();
             _gameView = new GameView();
@@ -63,7 +67,7 @@ namespace WpfGame.Controllers.Views
             _position = new Position(_gameValues);
             _random = new Random();
             _sound = new Sound();
-            
+
             SetContentOfMain(mainWindow, _gameView);
 
             _selectedGame = selectedGame;
@@ -72,10 +76,11 @@ namespace WpfGame.Controllers.Views
             SetKeyDownEvents(_gameView.GameCanvas, OnButtonKeyDown);
             SetKeyUpEvents(_gameView.GameCanvas, OnButtonKeyUp);
             _gameView.GameCanvas.Loaded += OnGameCanvasLoaded;
+            MainWindow.Closing += OnMainWindowClosing;
             _refreshTimer.Elapsed += RefreshGameCanvas;
             _pacmanAnimationTimer.Elapsed += OnPacmanAnimationTimerElapsed;
             _obstacleTimer.Elapsed += OnObstacleTimerElapsed;
-            _mainWindow.Closing += OnMainWindowClosing;
+            _spawnTimer.Elapsed += OnspawnTimerElapsed;
             _clock.PlaytimeIsOver += OnPlaytimeIsOver;
             _clock.PlaytimeIsOver += _sound.OnPlaytimeIsOver;
 
@@ -92,7 +97,20 @@ namespace WpfGame.Controllers.Views
             _enemyAnimation.LoadPacmanImages();
             _obstacleAnimation.LoadObstacleImages();
         }
-                
+
+        private void OnspawnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_random.NextDouble() > .45 && _playgroundObjects.Count(x => x.ObjectType == ObjectType.Enemy) < 5)
+            {
+                //because we add a new enemy to the canvas we have to call the canvas dispatcher
+                _gameView.GameCanvas.Dispatcher.Invoke(() =>
+                {
+                    _playgroundObjects.Add(_enemyFactory.DrawEnemy(_enemyFactory.LoadEnemy(_playgroundObjects),
+                        _gameView.GameCanvas));
+                });
+            }
+        }
+
         private void OnObstacleCollision(object sender, EventArgs e)
         {
             _gameState = GameState.Lost;
@@ -112,22 +130,11 @@ namespace WpfGame.Controllers.Views
         {
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
-                foreach (var obj in _playgroundObjects)
-                {
-                    if (obj.ObjectType == ObjectType.Obstacle)
-                    {
-                        var obst = (ImmovableObject) obj;
-
-                        if (!obst.State && _random.NextDouble() > 0.4)
-                        {
-                            obst.Image.Source = _obstacleAnimation.SetObstacleImage(obst.State = true);
-                        }
-                        else
-                        {
-                            obst.Image.Source = _obstacleAnimation.SetObstacleImage(obst.State = false);
-                        }
-                    }
-                }
+                //set obstacle animation and state
+                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Obstacle).Cast<ImmovableObject>().ToList()
+                    .ForEach(x =>
+                        x.Image.Source =
+                            _obstacleAnimation.SetObstacleImage(x.State = _random.NextDouble() > 0.4 && !x.State));
             });
         }
 
@@ -136,16 +143,20 @@ namespace WpfGame.Controllers.Views
             //so we have to call the dispatcher to grab authority over the GUI
             _gameView.GameCanvas.Dispatcher.Invoke(() =>
             {
+                //set playeranimation
                 _player.Image.Source = _pacmanAnimation.SetAnimation(_player.CurrentMove);
-                _enemy.Image.Source = _enemyAnimation.SetAnimation(_enemy.CurrentMove);
+
+                //set enemyanimation
+                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Enemy).Cast<MovableObject>().ToList().ForEach(x =>
+                {
+                    x.Image.Source = _enemyAnimation.SetAnimation(x.CurrentMove);
+                });
             });
         }
 
         private void OnMainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _obstacleTimer.Stop();
-            _pacmanAnimationTimer.Stop();
-            _refreshTimer.Stop();
+            StopTimers();
         }
 
         private void RefreshGameCanvas(object sender, ElapsedEventArgs e)
@@ -157,15 +168,18 @@ namespace WpfGame.Controllers.Views
                 _gameView.GameClockHolder.Text = _clock.Display;
                 //Update score
                 _gameView.GameScoreHolder.Text = $"Score: {_score.ScoreValue.ToString()}";
-                
+
                 //Update playerposition based on userinput
                 _position.ProcessMove(_player);
                 _step.SetStep(_player);
 
                 //set and update enemyposition
-                _position.EnemyProcessMove(_enemy);
-                _position.ProcessMove(_enemy);                
-                _step.SetStep(_enemy);
+                _playgroundObjects.Where(x => x.ObjectType == ObjectType.Enemy).ToList().ForEach(x =>
+                {
+                    _position.EnemyProcessMove((MovableObject) x);
+                    _position.ProcessMove((MovableObject) x);
+                    _step.SetStep((MovableObject) x);
+                });
 
                 //Validate gamestate
                 ValidateGamestate();
@@ -192,7 +206,7 @@ namespace WpfGame.Controllers.Views
         {
             _gameView.GameClockHolder.Text =
                 _clock.Display; //This is a little hack that prevents the clock from standing still on 00:01 instead of 00:00
-            _gameView.TimeIsUpTextBlock.Text = $"Time is up!";
+            _gameView.TimeIsUpTextBlock.Text = "Time is up!";
             _gameView.GameTimeIsOverPanel.Visibility = Visibility.Visible;
             EndGame();
         }
@@ -220,6 +234,7 @@ namespace WpfGame.Controllers.Views
             _obstacleTimer.Stop();
             _pacmanAnimationTimer.Stop();
             _refreshTimer.Stop();
+            _spawnTimer.Stop();
             _clock.StopClock();
         }
 
@@ -247,7 +262,7 @@ namespace WpfGame.Controllers.Views
                     _player.NextMove = Move.Right;
                     break;
                 case Key.Escape:
-                    new StartWindowViewController(_mainWindow);
+                    new StartWindowViewController(MainWindow);
                     break;
             }
         }
@@ -267,29 +282,29 @@ namespace WpfGame.Controllers.Views
             try
             {
                 _playgroundFactory.LoadFactory(_gameValues);
-                //load the playground off the selected jsonfile
-                _playgroundObjects = new List<IPlaygroundObject>(
-                    _playgroundFactory.LoadPlayground(new JsonPlaygroundParser(_selectedGame).GetOutputList()));
-                _playgroundFactory.DrawPlayground(_playgroundObjects, _gameView.GameCanvas);
-
-                _enemyFactory.LoadFactory(_gameValues);
-                _enemy = _enemyFactory.LoadEnemy(_playgroundObjects);
-                _enemyFactory.DrawEnemy(_enemy, _gameView.GameCanvas);
-                
                 _playerFactory.LoadFactory(_gameValues);
-                _player = _playerFactory.LoadPlayer(_playgroundObjects);
-                _playerFactory.DrawPlayer(_player, _gameView.GameCanvas);
+                _enemyFactory.LoadFactory(_gameValues);
 
-                //add enemy and player to playgroundobjectsList
-                _playgroundObjects.Add(_enemy);
+                //load the playground off the selected jsonfile and set reference to _playgroundsobjects
+                _playgroundObjects = _playgroundFactory.DrawPlayground(new List<IPlaygroundObject>(
+                        _playgroundFactory.LoadPlayground(new JsonPlaygroundParser(_selectedGame).GetOutputList())),
+                    _gameView.GameCanvas);
+
+                _player = _playerFactory.DrawPlayer(_playerFactory.LoadPlayer(_playgroundObjects),
+                    _gameView.GameCanvas);
+
+                //add player to playgroundobjectsList   
                 _playgroundObjects.Add(_player);
 
+                //set the playgroundsobject lets for the positionclass
                 _position.PlaygroundObjects = _playgroundObjects;
 
+                //start clocks
                 _clock.InitializeTimer();
                 _refreshTimer.Start();
                 _pacmanAnimationTimer.Start();
                 _obstacleTimer.Start();
+                _spawnTimer.Start();
 
                 somethingWentWrongWhenLoadingTheGame = false;
             }
@@ -331,7 +346,7 @@ namespace WpfGame.Controllers.Views
             if (somethingWentWrongWhenLoadingTheGame)
             {
                 //go back to mainscreen
-                new StartWindowViewController(_mainWindow);
+                new StartWindowViewController(MainWindow);
             }
         }
 
@@ -352,7 +367,7 @@ namespace WpfGame.Controllers.Views
             _gameValues.PlayCanvasHeight = _gameView.GameCanvas.ActualHeight;
             _gameValues.PlayCanvasWidth = _gameView.GameCanvas.ActualWidth;
             _gameValues.HeigthWidthRatio = _gameValues.PlayCanvasHeight / _gameValues.PlayCanvasWidth;
-            _gameValues.AmountOfXtiles = 20;    
+            _gameValues.AmountOfXtiles = 20;
             _gameValues.AmountofYtiles = Math.Round(_gameValues.AmountOfXtiles * _gameValues.HeigthWidthRatio);
             _gameValues.TileWidth = _gameValues.PlayCanvasWidth / _gameValues.AmountOfXtiles;
             _gameValues.TileHeight = _gameValues.PlayCanvasHeight / _gameValues.AmountofYtiles;

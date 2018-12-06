@@ -6,11 +6,11 @@ namespace WpfGame.Controllers.Views
 {
     public abstract class ViewController
     {
-        protected MainWindow _mainWindow;
+        protected MainWindow MainWindow;
 
         protected ViewController(MainWindow mainWindow)
         {
-            _mainWindow = mainWindow;
+            MainWindow = mainWindow;
         }
 
         protected void SetKeyEvents(UIElement element, KeyEventHandler e)

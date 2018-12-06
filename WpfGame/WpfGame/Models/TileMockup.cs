@@ -7,7 +7,7 @@
         public bool HasObstacle { get; }
         public bool IsStart { get; }
         public bool IsEnd { get; }
-        public bool IsSpawn { get; set; }
+        public bool IsSpawn { get; }
 
 
         public TileMockup(bool isWall, bool hasCoin, bool hasObstacle, bool isStart, bool isEnd, bool isSpawn)

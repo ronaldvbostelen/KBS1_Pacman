@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using WpfGame.Generals;
 using WpfGame.Models;
 
-namespace WpfGame.Editor
+namespace WpfGame.Tooling
 {
     public class JsonPlaygroundParser
     {
@@ -13,12 +13,10 @@ namespace WpfGame.Editor
         private StreamReader _streamReader;
         private List<TileMockup> _tileMockups;
         private string playgroundJsonPath;
-        private string _filename;
 
 
         public JsonPlaygroundParser(string fileName)
         {
-            _filename = fileName;
             _tileMockups = new List<TileMockup>();
 
             try
@@ -129,7 +127,7 @@ namespace WpfGame.Editor
 
             try
             {
-                dirInfo = new DirectoryInfo(baseDir + General.playgroundPath);
+                dirInfo = new DirectoryInfo(baseDir + General.PlaygroundPath);
             }
             catch (Exception e)
             {
@@ -144,7 +142,7 @@ namespace WpfGame.Editor
                 throw new InvalidOperationException();
             }
 
-            return baseDir + General.playgroundPath + fileName;
+            return baseDir + General.PlaygroundPath + fileName;
         }
 
         public List<TileMockup> GetOutputList() => _tileMockups;

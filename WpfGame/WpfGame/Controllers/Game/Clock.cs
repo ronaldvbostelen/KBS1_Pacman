@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Threading;
-using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Renderer;
-using WpfGame.Controllers.Views;
-using WpfGame.Generals;
 
-namespace WpfGame.Controllers
+namespace WpfGame.Controllers.Game
 {
     class Clock 
     {   
-        public string Display { get; set; }
+        public string Display { get; private set; }
         private DispatcherTimer _timer;
         private TimeSpan _time;
         public event EventHandler PlaytimeIsOver;

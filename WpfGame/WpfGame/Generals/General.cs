@@ -79,6 +79,6 @@ namespace WpfGame.Generals
 
     public static class General
     {
-        public const string playgroundPath = @"\Playgrounds\";
+        public const string PlaygroundPath = @"\Playgrounds\";
     }
 }

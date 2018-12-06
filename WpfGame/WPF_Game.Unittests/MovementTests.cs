@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using WpfGame;
 using WpfGame.Controllers.Behaviour;
-using WpfGame.Controllers.Creatures;
-using WpfGame.Controllers.Views;
 using WpfGame.Generals;
 using WpfGame.Models;
+using WpfGame.Models.Playgroundobjects;
 using WpfGame.Values;
-using WpfGame.Views;
 using Assert = NUnit.Framework.Assert;
 
-namespace WpfGame.UnitTests
+namespace WPF_Game.Unittests
 {
     [TestFixture(Description = "WPF_PACMAN_UNIT_TESTS")]
     public class MovementTests
@@ -34,11 +28,8 @@ namespace WpfGame.UnitTests
             {
                 Application.ResourceAssembly = typeof(MainWindow).Assembly;
             }
-            
-            _gameValues = new GameValues();
-            _gameValues.PlayCanvasHeight = 600;
-            _gameValues.PlayCanvasWidth = 784;
-            _gameValues.Movement = 2.5;
+
+            _gameValues = new GameValues {PlayCanvasHeight = 600, PlayCanvasWidth = 784, Movement = 2.5};
             _gameValues.Movement = 2.5;
             _position = new Position(_gameValues);
             _position.PlaygroundObjects = new List<IPlaygroundObject>{new StaticObject(ObjectType.Player,

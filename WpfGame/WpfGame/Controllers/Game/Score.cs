@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace WpfGame.Controllers
+namespace WpfGame.Controllers.Game
 {
     class Score
     {

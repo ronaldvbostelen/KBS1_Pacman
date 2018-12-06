@@ -1,13 +1,13 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace WpfGame.Models
+namespace WpfGame.Models.EditModels
 {
     public class CoinEdit
     {
-        public Ellipse Ellipse { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
+        public Ellipse Ellipse { get; }
+        public double X { get; }
+        public double Y { get; }
 
 
         public CoinEdit(double width, double height, double x, double y)
