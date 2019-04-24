@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:WpfGame"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+        <FontFamily x:Key="PacmanFont">pack://application:,,,/Assets/Fonts/#CrackMan</FontFamily>
+</Application.Resources>
 </Application>

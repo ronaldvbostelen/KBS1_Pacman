@@ -10,21 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfGame.Controllers.Views;
-using WpfGame.Views;
+using System.Windows.Threading;
+using WpfGame.Controllers;
+using WpfGame.Controllers.Behaviour;
 
-namespace WpfGame
+namespace WpfGame.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GameView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GameView : UserControl
     {
-        public MainWindow()
+        public GameView()
         {
             InitializeComponent();
-            new StartWindowViewController(this);
         }
     }
 }

@@ -34,9 +34,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>gamecontroller.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,18 +65,93 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="Controllers\Behaviour\CollisionDetecter.cs" />
+    <Compile Include="Controllers\Renderers\EnemyFactory.cs" />
+    <Compile Include="Controllers\Renderers\PlayerFactory.cs" />
+    <Compile Include="Controllers\Renderers\PlaygroundFactory.cs" />
+    <Compile Include="Controllers\Views\EditorViewController.cs" />
+    <Compile Include="Controllers\Views\GameViewController.cs" />
+    <Compile Include="Controllers\Views\HighScoreViewController.cs" />
+    <Compile Include="Controllers\Views\StartWindowViewController.cs" />
+    <Compile Include="Controllers\Views\UsernameViewController.cs" />
+    <Compile Include="Controllers\Views\ViewController.cs" />
+    <Compile Include="Generals\ImmovableEventArgs.cs" />
+    <Compile Include="Generals\IMovable.cs" />
+    <Compile Include="Generals\IPlaygroundObject.cs" />
+    <Compile Include="Generals\IState.cs" />
+    <Compile Include="Models\Visuals\Animations\EnemyAnimation.cs" />
+    <Compile Include="Models\Visuals\Animations\ObstacleAnimation.cs" />
+    <Compile Include="Models\Visuals\Animations\PacmanAnimation.cs" />
+    <Compile Include="Models\EditModels\TileCoinEdit.cs" />
+    <Compile Include="Models\EditModels\TileObstacleEdit.cs" />
+    <Compile Include="Models\Playgroundobjects\ImmovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\MovableObject.cs" />
+    <Compile Include="Models\Playgroundobjects\StaticObject.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Sounds\Sound.cs" />
+    <Compile Include="Tooling\JsonPlaygroundParser.cs" />
+    <Compile Include="Tooling\JsonPlaygroundWriter.cs" />
+    <Compile Include="Generals\General.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="Controllers\Behaviour\Step.cs" />
+    <Compile Include="Controllers\Behaviour\Position.cs" />
+    <Compile Include="Controllers\Game\Clock.cs" />
+    <Compile Include="Controllers\Game\Score.cs" />
+    <Compile Include="Models\EditModels\CoinEdit.cs" />
+    <Compile Include="Models\EditModels\ObstacleEdit.cs" />
+    <Compile Include="Models\EditModels\TileEdit.cs" />
+    <Compile Include="Models\TileMockup.cs" />
+    <Compile Include="Values\EditorValues.cs" />
+    <Compile Include="Values\GameValues.cs" />
+    <Compile Include="Views\EditorView.xaml.cs">
+      <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HighScoreView.xaml.cs">
+      <DependentUpon>HighScoreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartWindowView.xaml.cs">
+      <DependentUpon>StartWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UsernameView.xaml.cs">
+      <DependentUpon>UsernameView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HighScoreView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UsernameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -86,13 +171,76 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-down-2.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-down.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-left-2.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-left.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-right-2.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-right.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-up-2.png" />
+    <Resource Include="Assets\Sprites\Enemy\blinky-up.png" />
+    <Resource Include="Assets\Fonts\CrackMan.TTF" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\game-over.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\spritesheet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Pacman\pacman-down-halfopenjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-down-openjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-downup-closedjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-left-halfopenjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-left-openjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-right-halfopenjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-right-openjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-rightleft-closedjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-up-halfopenjaw.png" />
+    <Resource Include="Assets\Sprites\Pacman\pacman-up-openjaw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Backgrounds\startwindow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\coin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\end.png" />
+    <Resource Include="Assets\Sprites\Objects\floor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\wall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\spawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Sprites\Objects\obstacle-off.png" />
+    <Resource Include="Assets\Sprites\Objects\obstacle-on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Backgrounds\desh-bg2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sounds\pacman_extrapac.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="gamecontroller.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
